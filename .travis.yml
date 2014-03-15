@@ -9,6 +9,8 @@ before_script:
   - mkdir ../build
   - cd ../build
 script:
-  - cmake ../itlab-vision
+  - cmake ../itlab-vision/photoeffects
+  - make -j5
+  - ./photoeffects_test
 notifications:
   email: false
