@@ -1,9 +1,9 @@
 # set(project_name "gtest")
 # project(${project_name})
 
-if((CXX_GCC OR CXX_CLANG) AND (${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
+# if((CXX_GCC OR CXX_CLANG) AND (${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
     set(Pthread "-pthread")
-endif()
+# endif()
 
 # # The idea is that we silence all warnings here, that's why we
 # # don't reuse the old value of the CMAKE_CXX_FLAGS variable
