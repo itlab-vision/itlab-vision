@@ -8,34 +8,28 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin/")
+# FIXME: make it work (Kirill Kornyakov)
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin/")
 
 set( PHOTOEFFECTS_LIBRARY ${PROJECT_NAME} )
 set( PHOTOEFFECTS_SAMPLE "${PROJECT_NAME}_sample" )
 set( PHOTOEFFECTS_TESTS "${PROJECT_NAME}_test" )
 
-# SET(OPENCV_SEARCH_PATHS
-#     #add your local path below this line if the defaults do not work for you
-#     "/home/ivan/work/openCVs/build_opencv")
-# find_package(OpenCV REQUIRED core imgproc video highgui ts features2d nonfree calib3d HINTS ${OPENCV_SEARCH_PATHS})
 find_package(OpenCV REQUIRED)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/3rdparty")
 
-# include_directories("${PROJECT_BINARY_DIR}")
-# include_directories("${PROJECT_SOURCE_DIR}/${VS_LIBRARY}")
-
 set(LIBRARY_DEPS ${OpenCV_LIBS})
 
-####### BUILD #########################
+# BUILD
 add_subdirectory(3rdparty)
 
 add_subdirectory(src)
 add_subdirectory(test)
 add_subdirectory(samples)
 
-####### REPORT #########################
+# REPORT
 message( STATUS "")
 message( STATUS "General configuration for ${PROJECT_NAME} =====================================")
 message( STATUS "")
