@@ -2,10 +2,14 @@
 
 #include "photoeffects.hpp"
 
+using namespace cv;
+
 TEST(photoeffects, PassingTest) {
     EXPECT_TRUE(true);
 }
 
 TEST(photoeffects, SepiaTest) {
-    EXPECT_EQ(2, sepia(2));
+    Mat image(10, 10, CV_8UC1);
+
+    EXPECT_EQ(10, sepia(image));
 }

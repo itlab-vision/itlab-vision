@@ -1,6 +1,8 @@
 #include "photoeffects.hpp"
 
-int sepia(int a)
+using namespace cv;
+
+int sepia(Mat& image)
 {
-    return a;
+    return image.cols;
 }
