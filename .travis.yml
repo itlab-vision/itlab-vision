@@ -2,6 +2,13 @@ language: cpp
 compiler:
   - gcc
   - clang
-script: echo "Hey there!!!!!"
+before_install: sudo apt-get update -qq
+install:
+  - sudo apt-get install -qq libopencv-dev
+before_script:
+  - mkdir ../build
+  - cd ../build
+script:
+  - cmake ../itlab-vision
 notifications:
   email: false
