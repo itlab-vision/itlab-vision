@@ -1,0 +1,4 @@
+/home/kustikova/Documents/itlab-vision/photoeffects/3rdparty/CMakeFiles/gtest.dir
+/home/kustikova/Documents/itlab-vision/photoeffects/src/CMakeFiles/photoeffects.dir
+/home/kustikova/Documents/itlab-vision/photoeffects/samples/CMakeFiles/photoeffects_sample.dir
+/home/kustikova/Documents/itlab-vision/photoeffects/test/CMakeFiles/photoeffects_test.dir

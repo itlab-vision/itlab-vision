@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles//home/kustikova/Documents/itlab-vision/photoeffects/test/photoeffects_test.cpp.dir/test_main.o  -o home/kustikova/Documents/itlab-vision/photoeffects/test/photoeffects_test.cpp -rdynamic 

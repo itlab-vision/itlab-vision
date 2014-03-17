@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/kustikova/Documents/itlab-vision/photoeffects/samples/photoeffects_sample.cpp
+photoeffects.hpp
+/home/kustikova/Documents/itlab-vision/photoeffects/samples/photoeffects.hpp
+iostream
+-
+
+include/photoeffects.hpp
+opencv2/core/core.hpp
+-
+

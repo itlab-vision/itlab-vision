@@ -1,0 +1,1 @@
+/home/kustikova/Documents/itlab-vision/photoeffects/test/CMakeFiles//home/kustikova/Documents/itlab-vision/photoeffects/test/photoeffects_test.cpp.dir
