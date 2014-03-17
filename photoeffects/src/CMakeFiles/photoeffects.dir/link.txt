@@ -1,2 +1,0 @@
-/usr/bin/ar cr libphotoeffects.a  CMakeFiles/photoeffects.dir/photoeffects.cpp.o
-/usr/bin/ranlib libphotoeffects.a
