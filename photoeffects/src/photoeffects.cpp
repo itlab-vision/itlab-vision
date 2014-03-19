@@ -8,5 +8,5 @@ int sepia(Mat& image)
 }
 Mat fadeColor(Mat& image)
 {
-
+    return image;
 }
