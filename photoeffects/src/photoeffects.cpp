@@ -6,3 +6,7 @@ int sepia(Mat& image)
 {
     return image.cols;
 }
+Mat fadeColor(Mat& image)
+{
+
+}
