@@ -13,8 +13,8 @@ TEST(photoeffects, SepiaTest) {
 
     EXPECT_EQ(10, sepia(image));
 }
-TEST(photoeffects, FabiaColorTest) {
+TEST(photoeffects, FadeColorTest) {
     Mat image(10, 10, CV_8UC1);
 
-    EXPECT_EQ(image, fabiaColor(image));
+    EXPECT_EQ(image, fadeColor(image));
 }
