@@ -16,5 +16,5 @@ TEST(photoeffects, SepiaTest) {
 TEST(photoeffects, FilmGrainTest) {
     Mat image(10, 10, CV_8UC1);
 
-    EXPECT_EQ(image, filmGrain(image));
+    EXPECT_EQ(10, filmGrain(image,image));
 }

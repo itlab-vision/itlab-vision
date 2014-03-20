@@ -6,7 +6,7 @@ int sepia(Mat& image)
 {
     return image.cols;
 }
-Mat filmGrain(Mat& image);
+int filmGrain(Mat& image,Mat& result)
 {
-    return image;
+    return image.rows;
 }
