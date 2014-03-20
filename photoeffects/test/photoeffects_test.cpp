@@ -14,7 +14,7 @@ TEST(photoeffects, SepiaTest) {
     EXPECT_EQ(10, sepia(image));
 }
 TEST(photoeffects, FadeColorTest) {
-    Mat image(10, 10, CV_8UC1);
+    Mat image(10, 20, CV_8UC1);
 
-    EXPECT_EQ(image, fadeColor(image));
+    EXPECT_EQ(200, fadeColor(image,image));
 }
