@@ -4,7 +4,8 @@
 
 using namespace cv;
 
-TEST(photoeffects, BoostColorTest {
+TEST(photoeffects, BoostColorTest)
+{
     Mat image(10, 10, CV_8UC1);
 
     EXPECT_EQ(10, boost_color(image));
