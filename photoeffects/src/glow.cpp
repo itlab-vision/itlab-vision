@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-Mat sepia(Mat& image)
+int glow(Mat& image)
 {
-    return image;
+    return image.cols;
 }
