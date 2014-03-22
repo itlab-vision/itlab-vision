@@ -1,6 +1,6 @@
 #include "photoeffects.h"
 
-using namespace cd;
+using namespace cv;
 
 Mat antique(Mat& image)
 {
