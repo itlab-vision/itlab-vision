@@ -1,4 +1,4 @@
-#include "photoeffects"
+#include "photoeffects.h"
 
 using namespace cd;
 
