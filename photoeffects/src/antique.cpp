@@ -1,4 +1,4 @@
-#include "photoeffects.h"
+#include "photoeffects.hpp"
 
 using namespace cv;
 
