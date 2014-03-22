@@ -17,3 +17,5 @@ int glow(cv::InputArray src, cv::OutputArray dst, float sigma = 1.0f, float inte
 int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity = 0.0f);
 
 cv::Mat antique(cv::Mat& image);
+
+cv::Mat vignette(cv::Mat& image, float radius = 1);
