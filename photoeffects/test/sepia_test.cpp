@@ -5,7 +5,7 @@
 using namespace cv;
 
 TEST(photoeffects, SepiaTest) {
-    Mat image(10, 10, CV_8UC1);
+    Mat src(10, 10, CV_8UC1), dst;
 
-    EXPECT_EQ(10, sepia(image).cols);
+    EXPECT_EQ(0, sepia(src, dst));
 }

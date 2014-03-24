@@ -2,7 +2,7 @@
 
 #include <opencv2/core/core.hpp>
 
-cv::Mat sepia(cv::Mat& image);
+int sepia(cv::InputArray src, cv::OutputArray dst);
 
 cv::Mat tint(cv::Mat& image, int hue, float sat);
 
