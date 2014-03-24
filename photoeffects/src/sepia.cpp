@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-Mat sepia(Mat& image)
+int sepia(InputArray src, OutputArray dst)
 {
-    return image;
+    return 0;
 }
