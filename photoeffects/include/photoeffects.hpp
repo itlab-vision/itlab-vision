@@ -12,7 +12,7 @@ int fadeColor(cv::InputArray src, cv::OutputArray dst);
 
 cv::Mat tint(cv::Mat& image, int hue, float sat);
 
-int glow(cv::Mat& image);
+int glow(cv::InputArray image, unsigned int radius, float intensity, cv::OutputArray dst);
 
 int boost_color(cv::Mat& image);
 
