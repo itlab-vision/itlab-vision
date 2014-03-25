@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-int fadeColor(Mat& image,Mat& result)
+int fadeColor(cv::InputArray src, cv::OutputArray dst)
 {
     return image.rows*image.cols;
 }

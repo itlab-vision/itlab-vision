@@ -2,7 +2,7 @@
 
 #include <opencv2/core/core.hpp>
 
-int fadeColor(cv::Mat& image,cv::Mat& result);
+int fadeColor(cv::InputArray src, cv::OutputArray dst);
 
 cv::Mat sepia(cv::Mat& image);
 
