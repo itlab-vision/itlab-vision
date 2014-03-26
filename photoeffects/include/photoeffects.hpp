@@ -6,7 +6,7 @@ int sepia(cv::InputArray src, cv::OutputArray dst);
 
 int filmGrain(cv::InputArray src, cv::OutputArray dst);
 
-int fadeColor(cv::Mat& image,cv::Mat& result);
+int fadeColor(cv::InputArray src, cv::OutputArray dst);
 
 cv::Mat tint(cv::Mat& image, int hue, float sat);
 

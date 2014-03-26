@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-int filmGrain(Mat& image,Mat& result)
+int filmGrain(cv::InputArray src, cv::OutputArray dst)
 {
-    return image.rows;
+    return 0;
 }
