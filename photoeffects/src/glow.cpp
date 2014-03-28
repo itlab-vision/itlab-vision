@@ -55,6 +55,7 @@ int glow(InputArray src, unsigned int radius, float intensity, OutputArray dst)
 	Size size;
 	size.width = radius;
 	size.height = radius;
+	std::cout << radius;
 	GaussianBlur(srcImg, blurImg, size, 0.0, 0.0);
 	
 	Mat overlayImg;
@@ -66,6 +67,5 @@ int glow(InputArray src, unsigned int radius, float intensity, OutputArray dst)
 	dstImg = dst.getMat();
 	apply_blend_modes(overlayImg, srcImg, 0, intensity, dstImg);
 
-	imwrite( "dst.jpg", dstImg );
     return 0;
 }
