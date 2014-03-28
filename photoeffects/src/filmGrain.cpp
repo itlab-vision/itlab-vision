@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-int fadeColor(cv::InputArray src, cv::OutputArray dst)
+int filmGrain(cv::InputArray src, cv::OutputArray dst)
 {
     return 0;
 }

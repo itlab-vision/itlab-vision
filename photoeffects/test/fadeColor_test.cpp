@@ -7,5 +7,5 @@ using namespace cv;
 TEST(photoeffects, FadeColorTest) {
     Mat image(10, 20, CV_8UC1);
 
-    EXPECT_EQ(200, fadeColor(image,image));
+    EXPECT_EQ(0, fadeColor(image,image));
 }
