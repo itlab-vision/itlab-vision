@@ -13,6 +13,6 @@ int main(int argc, char** argv)
     imwrite( "img.jpg", image );
     Mat data(image);
     image.convertTo(data, CV_32F);
-    glow(data, 9, 0.9, dst);
+    glow(data, 7, 0.5, dst);
     return 0;
 }
