@@ -14,6 +14,7 @@ endif()
 set( PHOTOEFFECTS_LIBRARY ${PROJECT_NAME} )
 set( PHOTOEFFECTS_SAMPLE "${PROJECT_NAME}_sample" )
 set( PHOTOEFFECTS_TESTS "${PROJECT_NAME}_test" )
+set( FADECOLOR_SAMPLE "fadeColor_sample" )
 
 find_package(OpenCV REQUIRED)
 
