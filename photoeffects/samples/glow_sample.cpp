@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 
     unsigned int radius = atoi(argv[3]);
     float intensity = atof(argv[4]);
-    std::cout << radius << " " << intensity << " " << argv[0] << std::endl;
+    
     glow(data, radius, intensity, dst);
 
     imwrite(argv[2], dst);

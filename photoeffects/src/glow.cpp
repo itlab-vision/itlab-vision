@@ -6,17 +6,16 @@
 
 using namespace cv;
 
-
-
-void apply_blend_modes(InputArray foreground, InputArray background, int blend_modes, float intensity, OutputArray result)
+void overlay(InputArray foreground, InputArray background, OutputArray result)
 {
 	Mat foreImg = foreground.getMat();
 	Mat backImg = background.getMat();
+
+	result.create(backImg.size(), backImg.type());
 	Mat resultImg = result.getMat();
 
 	int width = foreImg.cols;
 	int height = foreImg.rows;
-
 	for(int i = 0; i < height; i++)
 	{
 		for(int j = 0; j < width; j++)
@@ -27,23 +26,40 @@ void apply_blend_modes(InputArray foreground, InputArray background, int blend_m
 				float intensBack = backImg.at<Vec3f>(i, j)[k] / 255.0;
 				float intensResult = 0.0;
 				
-				switch(blend_modes)
-				{
-					case 0: 
-						intensResult = intensity * intensFore + (1 - intensity) * intensBack;
-						break;
-					case 1: 
-						if(intensBack <= 0.5)
-							intensResult = 2 * intensFore * intensBack;
-						else
-							intensResult = 1 - 2 * (1 - intensFore) * (1 - intensBack);
-						break;
-				}
+				if(intensBack <= 0.5)
+					intensResult = 2 * intensFore * intensBack;
+				else
+					intensResult = 1 - 2 * (1 - intensFore) * (1 - intensBack);
+
 				resultImg.at<Vec3f>(i,j)[k] = intensResult * 255.0;
 			}
 		}
 	}
+}
 
+void opacity(InputArray foreground, InputArray background, float intensity, OutputArray result)
+{
+	Mat foreImg = foreground.getMat();
+	Mat backImg = background.getMat();
+
+	result.create(backImg.size(), backImg.type());
+	Mat resultImg = result.getMat();
+
+	int width = foreImg.cols;
+	int height = foreImg.rows;
+	for(int i = 0; i < height; i++)
+	{
+		for(int j = 0; j < width; j++)
+		{
+			for(int k = 0; k < 3; k++)
+			{
+				float intensFore = foreImg.at<Vec3f>(i, j)[k] / 255.0;
+				float intensBack = backImg.at<Vec3f>(i, j)[k] / 255.0;
+				float intensResult = intensity * intensFore + (1 - intensity) * intensBack;
+				resultImg.at<Vec3f>(i,j)[k] = intensResult * 255.0;
+			}
+		}
+	}
 }
 
 int glow(InputArray src, unsigned int radius, float intensity, OutputArray dst)
@@ -55,17 +71,15 @@ int glow(InputArray src, unsigned int radius, float intensity, OutputArray dst)
 	Size size;
 	size.width = radius;
 	size.height = radius;
-	std::cout << radius;
 	GaussianBlur(srcImg, blurImg, size, 0.0, 0.0);
 	
 	Mat overlayImg;
-	overlayImg.create(srcImg.size(), srcImg.type());
-	apply_blend_modes(blurImg, srcImg, 1, 0.0, overlayImg);
+	overlay(blurImg, srcImg, overlayImg);
 
 	dst.create(srcImg.size(), srcImg.type());
 	Mat dstImg;
 	dstImg = dst.getMat();
-	apply_blend_modes(overlayImg, srcImg, 0, intensity, dstImg);
+	opacity(overlayImg, srcImg, intensity, dstImg);
 
     return 0;
 }
