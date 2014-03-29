@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-Mat antique(Mat& image)
+int antique(InputArray src, InputArray texture, OutputArray dst)
 {
-    return image;
+    return 0;
 }
