@@ -1,4 +1,5 @@
 #include "photoeffects.hpp"
+
 #include <iostream>
 using namespace cv;
 using namespace std;
@@ -25,8 +26,9 @@ int main(int argc, char** argv)
     Mat dst(src.rows, src.cols, CV_8UC3);
     namedWindow(ORIGINAL_IMAGE, CV_WINDOW_AUTOSIZE);
     imshow(ORIGINAL_IMAGE,srcCopy);
-    antique(src, texute, dst);
-    namedWindow(ANTIQUE_IMAGE,dst);
+    antique(src, texture, dst);
+    namedWindow(ANTIQUE_IMAGE,CV_WINDOW_AUTOSIZE);
+    imshow(ANTIQUE_IMAGE,dst);
     cout<<"Press any key"<<endl;
     waitKey(0);
     imwrite(argv[3],dst);
