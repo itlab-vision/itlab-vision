@@ -22,16 +22,16 @@ void overlay(InputArray foreground, InputArray background, OutputArray result)
 		{
 			for(int k = 0; k < 3; k++)
 			{
-				float intensFore = foreImg.at<Vec3f>(i, j)[k] / 255.0;
-				float intensBack = backImg.at<Vec3f>(i, j)[k] / 255.0;
-				float intensResult = 0.0;
+				float intensFore = foreImg.at<Vec3f>(i, j)[k] / 255.0f;
+				float intensBack = backImg.at<Vec3f>(i, j)[k] / 255.0f;
+				float intensResult = 0.0f;
 				
-				if(intensBack <= 0.5)
+				if(intensBack <= 0.5f)
 					intensResult = 2 * intensFore * intensBack;
 				else
 					intensResult = 1 - 2 * (1 - intensFore) * (1 - intensBack);
 
-				resultImg.at<Vec3f>(i,j)[k] = intensResult * 255.0;
+				resultImg.at<Vec3f>(i,j)[k] = intensResult * 255.0f;
 			}
 		}
 	}
@@ -47,16 +47,17 @@ void opacity(InputArray foreground, InputArray background, float intensity, Outp
 
 	int width = foreImg.cols;
 	int height = foreImg.rows;
+	float intensityReverse = 1 - intensity;
 	for(int i = 0; i < height; i++)
 	{
 		for(int j = 0; j < width; j++)
 		{
 			for(int k = 0; k < 3; k++)
 			{
-				float intensFore = foreImg.at<Vec3f>(i, j)[k] / 255.0;
-				float intensBack = backImg.at<Vec3f>(i, j)[k] / 255.0;
-				float intensResult = intensity * intensFore + (1 - intensity) * intensBack;
-				resultImg.at<Vec3f>(i,j)[k] = intensResult * 255.0;
+				float intensFore = foreImg.at<Vec3f>(i, j)[k] / 255.0f;
+				float intensBack = backImg.at<Vec3f>(i, j)[k] / 255.0f;
+				float intensResult = intensity * intensFore + intensityReverse * intensBack;
+				resultImg.at<Vec3f>(i,j)[k] = intensResult * 255.0f;
 			}
 		}
 	}
