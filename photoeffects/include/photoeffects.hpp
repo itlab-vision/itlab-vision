@@ -14,6 +14,6 @@ cv::Mat tint(cv::Mat& image, int hue, float sat);
 
 int glow(cv::InputArray src, unsigned int radius, float intensity, cv::OutputArray dst);
 
-int boost_color(cv::Mat& image);
+int boost_color(cv::InputArray src, float intensity, cv::OutputArray dst);
 
 cv::Mat antique(cv::Mat& image);

@@ -74,12 +74,12 @@ int glow(InputArray src, unsigned int radius, float intensity, OutputArray dst)
 	GaussianBlur(srcImg, blurImg, size, 0.0, 0.0);
 	
 	Mat overlayImg;
-	overlay(blurImg, srcImg, overlayImg);
+	//overlay(blurImg, srcImg, overlayImg);
 
 	dst.create(srcImg.size(), srcImg.type());
 	Mat dstImg;
 	dstImg = dst.getMat();
-	opacity(overlayImg, srcImg, intensity, dstImg);
+	opacity(blurImg, srcImg, intensity, dstImg);
 
     return 0;
 }
