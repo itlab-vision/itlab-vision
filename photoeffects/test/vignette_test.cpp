@@ -1,5 +1,7 @@
+#include <gtest/gtest.h>
 #include "photoeffects.hpp"
-#include <stdio.h>
+
+using namespace cv;
 
 TEST(photoeffects, VignetteTest)
 {
