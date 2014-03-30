@@ -1,8 +1,4 @@
 #include "photoeffects.hpp"
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
-
-#include <iostream>
 
 using namespace cv;
 
@@ -27,9 +23,9 @@ void overlay(InputArray foreground, InputArray background, OutputArray result)
 				float intensResult = 0.0f;
 				
 				if(intensBack <= 0.5f)
-					intensResult = 2 * intensFore * intensBack;
+					intensResult = 2.0f * intensFore * intensBack;
 				else
-					intensResult = 1 - 2 * (1 - intensFore) * (1 - intensBack);
+					intensResult = 1.0f - 2.0f * (1.0f - intensFore) * (1.0f - intensBack);
 
 				resultImg.at<Vec3f>(i,j)[k] = intensResult * 255.0f;
 			}

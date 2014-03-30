@@ -5,7 +5,7 @@
 using namespace cv;
 
 TEST(photoeffects, GlowTest) {
-    Mat image(10, 10, CV_8UC1);
+    Mat image;
 
-    EXPECT_EQ(0, glow(image, 0, 0.0, image));
+    EXPECT_EQ(0, glow(image, 1.0, 0.0, image));
 }
