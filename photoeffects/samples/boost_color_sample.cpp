@@ -1,7 +1,5 @@
 #include "photoeffects.hpp"
-#include <opencv2/highgui/highgui.hpp>
 #include <stdlib.h>
-#include <iostream>
 
 using namespace cv;
 
