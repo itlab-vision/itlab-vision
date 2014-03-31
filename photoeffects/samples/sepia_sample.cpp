@@ -10,8 +10,7 @@ const char *helper =
 \t<img> - file name contained the processed image\n\
 \t<hue> - hue value in the range from 0 to 179\n\
 \t<saturation> - saturation value in the range from 0 to 255\n\
-\t<value> - shift to increase/decrease the brightness,\n\
-\t          changes in the range from 0 to 255\n\
+\t<value> - shift to increase/decrease the brightness\n\
 ";
 
 int processArguments(int argc, char **argv, 
@@ -22,15 +21,21 @@ int main(int argc, char **argv)
     const char *srcImgWinName = "Initial image", *dstImgWinName = "Processed image";
     Mat img, sepiaImg;
     Scalar hue = Scalar(18), saturation = Scalar(78), value = Scalar(20);
+
     if (processArguments(argc, argv, img, hue, saturation, value) != 0)
     {
 	cout << helper << endl;
 	return 1;
     }
     int opRes = sepia(img, sepiaImg, hue, saturation);
-    if (opRes != 0)
+    if (opRes == 1)
     {
-	cout << "Applying sepia effect failed." << endl;
+	cout << "Incorrect image type." << endl;
+	return 2;
+    }
+    else if (opRes == 2)
+    {
+	cout << "Incorrect value of <hue> or <saturation>." << endl;
 	return 2;
     }
 
