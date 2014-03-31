@@ -18,14 +18,14 @@ int main(int argc, char **argv)
 
     if (processArguments(argc, argv, img) != 0)
     {
-	cout << helper << endl;
-	return 1;
+        cout << helper << endl;
+        return 1;
     }
     int opRes = sepia(img, sepiaImg);
     if (opRes == 1)
     {
-	cout << "Incorrect image type." << endl;
-	return 2;
+        cout << "Incorrect image type." << endl;
+        return 2;
     }
 
     namedWindow(srcImgWinName);
@@ -41,7 +41,7 @@ int processArguments(int argc, char **argv, Mat &img)
 {
     if (argc < 2)
     {
-	return 1;
+        return 1;
     }
     img = imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);
     return 0;

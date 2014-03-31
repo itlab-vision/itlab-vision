@@ -9,7 +9,7 @@ int sepia(InputArray src, OutputArray dst)
     Scalar hue(19), saturation(78), value(20);
     if (src.type() != CV_8UC1)
     {
-	return 1;
+        return 1;
     }
 
     vector<Mat> sepiaPlanes;
