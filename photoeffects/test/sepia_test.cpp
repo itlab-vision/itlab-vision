@@ -16,6 +16,7 @@ TEST(photoeffects, SepiaFailTest) {
     EXPECT_EQ(1, sepia(src, dst));
 }
 
+/*
 TEST(photoeffects, SepiaTest) {
     Mat src(10, 10, CV_8UC1), dst, hsvDst;
     vector<Mat> channels(3);
@@ -25,3 +26,4 @@ TEST(photoeffects, SepiaTest) {
     split(hsvDst, channels);
     EXPECT_EQ(src.at<uchar>(0, 0) + 20, channels[2].at<uchar>(0, 0));
 }
+*/
