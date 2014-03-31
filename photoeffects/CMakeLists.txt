@@ -14,8 +14,6 @@ endif()
 set( PHOTOEFFECTS_LIBRARY ${PROJECT_NAME} )
 set( PHOTOEFFECTS_TESTS "${PROJECT_NAME}_test" )
 
-#set( GLOW_SAMPLE "glow_sample" )
-
 find_package(OpenCV REQUIRED)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
