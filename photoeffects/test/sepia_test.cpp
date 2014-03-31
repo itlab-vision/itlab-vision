@@ -23,6 +23,5 @@ TEST(photoeffects, SepiaTest) {
     EXPECT_EQ(0, sepia(src, dst));
     cvtColor(dst, hsvDst, CV_BGR2HSV);
     split(hsvDst, channels);
-    EXPECT_EQ(78, channels[1].at<uchar>(0, 0));
     EXPECT_EQ(src.at<uchar>(0, 0) + 20, channels[2].at<uchar>(0, 0));
 }
