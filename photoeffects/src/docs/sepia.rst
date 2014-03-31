@@ -3,8 +3,21 @@ sepia
 =======================================
 Applies sepia effect to the initial image.
 
-.. cpp:function:: int sepia(InputArray src, OutputArray dst)
+.. cpp:function:: int sepia(cv::InputArray src, cv::OutputArray dst, cv::Scalar hue, cv::Scalar saturation, cv::Scalar value)
 
     :param src: Source 8-bit single-channel image.
     :param dst: Destination image of the same size and the same type as **src**.
+    :param hue: New hue value, changes in the range from 0 to 179.
+    :param saturation: New saturation value, changes in the range from 0 to 255.
+    :param value: Shift to increase/decrease brightness.
     :return: Error code.
+
+The algorithm:
+
+#. Create 3-channel image, which is interpreted as HSV image
+
+    #. 1st channel is the matrix, each element equals **hue**.
+    #. 2d channel is the matrix, each element equals **saturation**.
+    #. 3d channel is the matrix of brightness (**src** + **value**).
+
+#. Save this matrix as BGR image
