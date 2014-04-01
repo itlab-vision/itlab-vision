@@ -3,7 +3,7 @@ sepia
 =======================================
 Applies sepia effect to the initial image.
 
-.. cpp:function:: int sepia(cv::InputArray src, cv::OutputArray dst, cv::Scalar hue, cv::Scalar saturation, cv::Scalar value)
+.. cpp:function:: int sepia(cv::InputArray src, cv::OutputArray dst)
 
     :param src: Source 8-bit single-channel image.
     :param dst: Destination image of the same size and the same type as **src**.
