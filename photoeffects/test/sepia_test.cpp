@@ -17,7 +17,7 @@ TEST(photoeffects, SepiaFailTest) {
 }
 
 TEST(photoeffects, SepiaTest) {
-    Mat src(10, 10, CV_8UC1), dst, hsvDst;
+    Mat src(10, 10, CV_8UC1, Scalar(0)), dst, hsvDst;
     vector<Mat> channels(3);
 
     EXPECT_EQ(0, sepia(src, dst));
