@@ -59,16 +59,34 @@ void opacity(InputArray foreground, InputArray background, float intensity, Outp
 	}
 }
 
-int glow(InputArray src, unsigned int radius, float intensity, OutputArray dst)
+// 1 - not 3-channel image
+// 2 - bad radius
+// 3 - bad intensity
+
+int glow(InputArray src, float radius, float intensity, OutputArray dst)
 {
 	Mat srcImg = src.getMat();
+
+	if(srcImg.channels() != 3)
+	{
+		return 1;
+	}
+	if(radius < 0.0f)
+	{
+		return 2;
+	}
+	if(intensity < 0.0f || intensity > 1.0f)
+	{
+		return 3;
+	}
+
 	Mat blurImg;
 	blurImg.create(srcImg.size(), srcImg.type());
 
 	Size size;
-	size.width = radius;
-	size.height = radius;
-	GaussianBlur(srcImg, blurImg, size, 0.0, 0.0);
+	size.width = 0.0f;
+	size.height = 0.0f;
+	GaussianBlur(srcImg, blurImg, size, radius, radius);
 	
 	Mat overlayImg;
 	overlay(blurImg, srcImg, overlayImg);
