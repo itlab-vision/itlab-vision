@@ -16,7 +16,6 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
     src.copyTo(srcCopy);
     if  ( event == EVENT_LBUTTONDOWN )
     {
-        cout<<"x:"<<x<<endl<<"y:"<<y<<endl;
         switch(numberChoosenPoint)
         {
         case 0:
