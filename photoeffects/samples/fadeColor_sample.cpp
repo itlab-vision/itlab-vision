@@ -11,23 +11,29 @@ int numberChoosenPoint=0;
 
 void CallBackFunc(int event, int x, int y, int flags, void* userdata)
 {
-    Mat* image=(Mat*)userdata;
+    Mat src=*((Mat*)userdata);
+    Mat srcCopy;
+    src.copyTo(srcCopy);
     if  ( event == EVENT_LBUTTONDOWN )
     {
-        numberChoosenPoint++;
+        cout<<"x:"<<x<<endl<<"y:"<<y<<endl;
         switch(numberChoosenPoint)
         {
-        case 1:
+        case 0:
             startPoint=Point(x,y);
+            numberChoosenPoint++;
+            circle(srcCopy,Point(x,y),5,CV_RGB(255,50,255),4);
+            imshow(ORIGINAL_IMAGE,srcCopy);
             break;
-        case 2:
+        case 1:
             endPoint=Point(x,y);
+            numberChoosenPoint++;
+            Mat dst;
+            fadeColor(src,dst,startPoint,endPoint);
+            namedWindow(FADED_IMAGE,CV_WINDOW_AUTOSIZE);
+            imshow(FADED_IMAGE,dst);
             break;
         }
-        circle(*image,Point(x,y),5,CV_RGB(255,50,255),4);
-        cout << "Left button of the mouse is clicked - position (" << x << ", " << y << ")" << endl;
-        imshow(ORIGINAL_IMAGE,*image);
-
     }
 }
 
@@ -39,24 +45,12 @@ int main(int argc, char** argv)
         cout<<"Not found file"<<endl;
         return 0;
     }
-    Mat dst(src.rows,src.cols,CV_8UC3);
-    Mat srcCopy;
-    src.copyTo(srcCopy);
     namedWindow(ORIGINAL_IMAGE,CV_WINDOW_AUTOSIZE);
-    imshow(ORIGINAL_IMAGE,srcCopy);
-    setMouseCallback(ORIGINAL_IMAGE, CallBackFunc,&srcCopy);
-    do
-    {
-        cout<<"Choose two point and press any key"<<endl;
-        waitKey(0);
-    }
-    while(numberChoosenPoint!=2);
-    fadeColor(src,dst,startPoint,endPoint);
-    namedWindow(FADED_IMAGE,CV_WINDOW_AUTOSIZE);
-    imshow(FADED_IMAGE,dst);
+    imshow(ORIGINAL_IMAGE,src);
+    setMouseCallback(ORIGINAL_IMAGE, CallBackFunc,&src);
+    cout << "Choose two picture on image"<<endl;
     cout << "Press any key to EXIT"<<endl;
     waitKey(0);
-    imwrite( argv[2], dst );
     destroyAllWindows();
     return 0;
 }

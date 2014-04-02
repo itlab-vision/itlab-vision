@@ -3,6 +3,11 @@
 #include <vector>
 using namespace cv;
 using namespace std;
+
+#define sign(x) (( x > 0 ) - ( x < 0 ))
+
+using namespace cv;
+using namespace std;
 Point findFarthestPoint(Point vector,Mat& image)
 {
     if(vector.x<=0 && vector.y<=0)
@@ -29,17 +34,15 @@ Point findFarthestPoint(Point vector,Mat& image)
 int fadeColor(InputArray src, OutputArray dst,Point startPoint,Point endPoint)
 {
     Mat image=src.getMat();
-    Point perpendicular,newPoint ;
+    Point perpendicular;
     // perpendicular to the line
+
     perpendicular.x=-(startPoint.x-endPoint.x);
     perpendicular.y=-(startPoint.y-endPoint.y);
-    //second point of the line
-    newPoint.x=startPoint.x+perpendicular.y;
-    newPoint.y=startPoint.y-perpendicular.x;
     //line equation: A*x+By+C=0
 
-    int A=(startPoint.x-newPoint.x);
-    int B=-(startPoint.y-newPoint.y);
+    int A=-perpendicular.y;
+    int B=-perpendicular.x;
     int C=-startPoint.y*A-B*startPoint.x;
 
     //find the most distant point from the line
@@ -52,7 +55,7 @@ int fadeColor(InputArray src, OutputArray dst,Point startPoint,Point endPoint)
     for(int i=0;i<image.rows;i++)
         for(int j=0;j<image.cols;j++)
         {
-            double distance=abs(A*i+B*j+C);
+            int distance=abs(A*i+B*j+C);
             //change pixels only in the direction of the perpendicular
             if((perpendicular.x*(j-startPoint.x)+perpendicular.y*(i-startPoint.y))>=0)
             {
