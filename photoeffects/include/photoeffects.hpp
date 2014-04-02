@@ -17,3 +17,5 @@ int glow(cv::InputArray src, cv::OutputArray dst, float sigma = 1.0f, float inte
 int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity = 0.0f);
 
 int antique(cv::InputArray src, cv::InputArray texture, cv::OutputArray dst);
+
+int matte(cv::InputArray src, float shading, cv::OutputArray dst);
