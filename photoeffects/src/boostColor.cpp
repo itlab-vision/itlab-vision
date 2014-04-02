@@ -5,7 +5,7 @@ using namespace cv;
 //1 - bad image
 //2 - bad intensity
 
-int boost_color(cv::InputArray _src, float intensity, cv::OutputArray _dst)
+int boost_color(cv::InputArray _src, cv::OutputArray _dst, float intensity)
 {
 	Mat src = _src.getMat();
 
@@ -14,6 +14,8 @@ int boost_color(cv::InputArray _src, float intensity, cv::OutputArray _dst)
 	if(intensity < 0.0f || intensity > 1.0f)
 		return 2;
 	
+	src.convertTo(src, CV_32FC3);
+
 	int height = src.rows;
 	int width = src.cols;
 
@@ -33,12 +35,6 @@ int boost_color(cv::InputArray _src, float intensity, cv::OutputArray _dst)
 		for(int j = 0; j < width; j++)
 		{
 			//increase channel - 3(saturation)
-			if(i == 0 && j == 0)
-			{
-				for(int k = 0; k < 3; k++)
-					std::cout << srcHls.at<Vec3f>(i,j)[k] << " ";
-				std::cout << std::endl;
-			}
 			float saturation = srcHls.at<Vec3f>(i,j)[2];
 			saturation += intensity;
 			if(saturation > 1.0f)
@@ -47,10 +43,8 @@ int boost_color(cv::InputArray _src, float intensity, cv::OutputArray _dst)
 		}
 	}
 
-	_dst.create(src.size(), src.type());
-	Mat dst = _dst.getMat();
+	Mat dst;
 	cvtColor(srcHls, dst, CV_HLS2BGR);
-	
 	for(int i = 0; i < height; i++)
 	{
 		for(int j = 0; j < width; j++)
@@ -59,6 +53,7 @@ int boost_color(cv::InputArray _src, float intensity, cv::OutputArray _dst)
 				dst.at<Vec3f>(i,j)[k] *= 255.0f;
 		}
 	}
+	dst.convertTo(_dst, CV_8UC3);
 	
     return 0;
 }
