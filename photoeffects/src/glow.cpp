@@ -21,19 +21,24 @@ void overlay(InputArray foreground, InputArray background, OutputArray result)
 				float intensFore = foreImg.at<Vec3f>(i, j)[k] / 255.0f;
 				float intensBack = backImg.at<Vec3f>(i, j)[k] / 255.0f;
 				float intensResult = 0.0f;
-				
+				/*
 				if(intensBack <= 0.5f)
 					intensResult = 2.0f * intensFore * intensBack;
 				else
 					intensResult = 1.0f - 2.0f * (1.0f - intensFore) * (1.0f - intensBack);
-
+				*/
+				
+				intensResult = 2.0f * intensFore * intensBack;
+				if(intensBack > 0.5f)
+					intensResult = -intensResult - 1.0f + 2.0f * (intensFore + intensBack);
+				
 				resultImg.at<Vec3f>(i,j)[k] = intensResult * 255.0f;
 			}
 		}
 	}
 }
 
-void opacity(InputArray foreground, InputArray background, float intensity, OutputArray result)
+void opacity(InputArray foreground, InputArray background, OutputArray result, float intensity)
 {
 	Mat foreImg = foreground.getMat();
 	Mat backImg = background.getMat();
@@ -43,7 +48,7 @@ void opacity(InputArray foreground, InputArray background, float intensity, Outp
 
 	int width = foreImg.cols;
 	int height = foreImg.rows;
-	float intensityReverse = 1 - intensity;
+	float intensityReverse = 1.0f - intensity;
 	for(int i = 0; i < height; i++)
 	{
 		for(int j = 0; j < width; j++)
@@ -63,7 +68,7 @@ void opacity(InputArray foreground, InputArray background, float intensity, Outp
 // 2 - bad radius
 // 3 - bad intensity
 
-int glow(InputArray src, float radius, float intensity, OutputArray dst)
+int glow(InputArray src, OutputArray dst, float radius, float intensity)
 {
 	Mat srcImg = src.getMat();
 
@@ -80,6 +85,8 @@ int glow(InputArray src, float radius, float intensity, OutputArray dst)
 		return 3;
 	}
 
+	srcImg.convertTo(srcImg, CV_32FC3);
+
 	Mat blurImg;
 	blurImg.create(srcImg.size(), srcImg.type());
 
@@ -91,10 +98,8 @@ int glow(InputArray src, float radius, float intensity, OutputArray dst)
 	Mat overlayImg;
 	overlay(blurImg, srcImg, overlayImg);
 
-	dst.create(srcImg.size(), srcImg.type());
-	Mat dstImg;
-	dstImg = dst.getMat();
-	opacity(overlayImg, srcImg, intensity, dstImg);
-
-    return 0;
+	opacity(overlayImg, srcImg, dst, intensity);
+	Mat dstImg = dst.getMat();
+	dstImg.convertTo(dst, CV_8UC3);
+	return 0;
 }
