@@ -10,25 +10,27 @@ using namespace cv;
 using namespace std;
 Point findFarthestPoint(Point vector,Mat& image)
 {
+    Point farthestPoint;
     if(vector.x<=0 && vector.y<=0)
     {
-        return Point(0,0);
+        farthestPoint=Point(0,0);
     }
 
     if(vector.x<=0 && vector.y>0)
     {
-        return Point(image.rows,0);
+        farthestPoint=Point(image.rows,0);
     }
 
     if(vector.x>0 && vector.y<=0)
     {
-        return Point(0,image.cols);
+        farthestPoint=Point(0,image.cols);
     }
 
     if(vector.x>0 && vector.y>0)
     {
-        return Point(image.rows,image.cols);
+        farthestPoint=Point(image.rows,image.cols);
     }
+    return farthestPoint;
 }
 
 int fadeColor(InputArray src, OutputArray dst,Point startPoint,Point endPoint)
