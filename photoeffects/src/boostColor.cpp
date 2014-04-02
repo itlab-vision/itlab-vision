@@ -2,9 +2,17 @@
 #include <iostream>
 using namespace cv;
 
+//1 - bad image
+//2 - bad intensity
+
 int boost_color(cv::InputArray _src, float intensity, cv::OutputArray _dst)
 {
 	Mat src = _src.getMat();
+
+	if(src.channels() != 3)
+		return 1;
+	if(intensity < 0.0f || intensity > 1.0f)
+		return 2;
 	
 	int height = src.rows;
 	int width = src.cols;
@@ -51,5 +59,6 @@ int boost_color(cv::InputArray _src, float intensity, cv::OutputArray _dst)
 				dst.at<Vec3f>(i,j)[k] *= 255.0f;
 		}
 	}
+	
     return 0;
 }
