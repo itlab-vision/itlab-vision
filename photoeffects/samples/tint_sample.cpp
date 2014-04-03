@@ -1,5 +1,4 @@
 #include "photoeffects.hpp"
-#include <opencv2/highgui/highgui.hpp>
 #include <stdio.h>
 
 using namespace cv;
@@ -23,38 +22,31 @@ void trackbarTint(int pos, void*)
     ColorTint = BaseColor.at<Vec3b>(0, pos);
 }
 
-void trackbarDensity(int pos, void*)
-{
-    valueDen = pos;
-}
-
 int main(int argc, char* argv[])
 {
-	char* filename;
+    char* filename;
     Mat img, filterImg;
 
-	if (argc >= 2)
-	{
-		filename = argv[1];
-	}
-	else
-	{
-		printf("Couldn't open image\n");
-        waitKey();
-		return 0;
-	}
-    BaseColor = imread("/home/dmitry/Images/hue.jpg", 1);
+    if (argc >= 2)
+    {
+        filename = argv[1];
+    }
+    else
+    {
+        printf("Couldn't open image\n");
+        return 0;
+    }
     img = imread(filename);
 
-	namedWindow("Tint");
+    namedWindow("Tint");
     createTrackbar("Hue", "Tint", &valueHue, 360, trackbarTint);
-    createTrackbar("Density(%)", "Tint", &valueDen, 100, trackbarDensity);
+    createTrackbar("Density(%)", "Tint", &valueDen, 100);
 
-	namedWindow("Image");
+    namedWindow("Image");
     namedWindow("Filter");
 
     imshow("Tint", BaseColor);
-	imshow("Image", img);
+    imshow("Image", img);
     imshow("Filter", img);
 
     char c;
@@ -68,10 +60,9 @@ int main(int argc, char* argv[])
         else if (c == ' ')
         {
             float den = (float)valueDen / 100.0;
-            img.copyTo(filterImg);
-            tint(img, ColorTint, den, filterImg);
+            tint(img, &ColorTint, den, filterImg);
             imshow("Filter", filterImg);
         }
     }
-	return 0;
+    return 0;
 }
