@@ -18,5 +18,4 @@ int tint(InputArray src, Vec3b* colorTint, float density, OutputArray dst)
     }
     outputImage.convertTo(dst, CV_8UC3);
     return 0;
-
 }
