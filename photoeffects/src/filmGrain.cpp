@@ -1,6 +1,5 @@
 #include "photoeffects.hpp"
-#include <stdlib.h>
-#include <opencv2/opencv.hpp>
+
 using namespace cv;
 #define MAX_VALUE 20
 int filmGrain(cv::InputArray src, cv::OutputArray dst)
@@ -12,8 +11,6 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst)
     Mat imageRGB=src.getMat();
     Mat imageYUV;
     cvtColor(imageRGB,imageYUV,CV_RGB2YUV);
-    vector<Mat> planes;
-    split(imageYUV,planes);
     if(src.type()==CV_8UC1)
     {
         for(int i=0;i<imageYUV.rows;i++)
@@ -48,8 +45,6 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst)
                 imageYUV.at<Vec3b>(i,j)[0]= k;
             }
     }
-    Mat dstYUV;
-    imageYUV.copyTo(dstYUV);
-    cvtColor(dstYUV,dst,CV_YUV2RGB);
+    cvtColor(imageYUV,dst,CV_YUV2RGB);
     return 0;
 }
