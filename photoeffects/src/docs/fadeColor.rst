@@ -16,23 +16,20 @@ The algorithm:
 
 1. Determine the coordinates of the vector by two points **(startPoint, endPoint)** . 
 2. Determine the line which is perpendicular to vector and is passing through **startPoint**. 
-
-.. image:: line.jpg
-    :align: center
-    :width: 30%  
-
 3. Find the most distant point from the line. 
 4. For each pixel located at one side from the line defined by the direction of the vector, change the value of each channel by the following formula:
-          **newValue = (1-a) * oldValue + a * 255**, a = distance / maxDistance.
+          
+        **newValue = (1-a) * oldValue + a * 255**, a = distance / maxDistance.
+
 5. Save this matrix as image in same format.
 
 
 Example:
 
-.. image:: originalImage.jpg
-    :align: left
-    :width: 40%  
+|srcImage| |dstImage|
 
-.. image:: fadeImage.jpg
-    :align: right
+.. |srcImage| image:: originalImage.jpg
+    :width: 40%
+
+.. |dstImage| image:: fadeImage.jpg
     :width: 40%
