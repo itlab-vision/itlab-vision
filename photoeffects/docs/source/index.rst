@@ -14,7 +14,6 @@ Contents:
    code/docs/sepia.rst
 
 
-
 Indices and tables
 ==================
 
