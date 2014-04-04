@@ -44,6 +44,26 @@ int fadeColor(InputArray src, OutputArray dst,
         return 1;
     }
     Mat image=src.getMat();
+    if(startPoint.x<0 || startPoint.x>image.rows)
+    {
+        return 2;
+    }
+    if(endPoint.x<0 || endPoint.x>image.rows)
+    {
+        return 2;
+    }
+    if(startPoint.y<0 || startPoint.y>image.cols)
+    {
+        return 2;
+    }
+    if(endPoint.y<0 || endPoint.y>image.cols)
+    {
+        return 2;
+    }
+    if(startPoint==endPoint)
+    {
+        return 3;
+    }
     Point perpendicular;
     // perpendicular to the line
 
