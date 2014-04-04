@@ -18,8 +18,8 @@ The algorithm:
 2. Determine the line which is perpendicular to vector and is passing through **startPoint**. 
 
 .. image:: line.jpg
-  :align: center
-  :width: 30%  
+    :align: center
+    :width: 30%  
 
 3. Find the most distant point from the line. 
 4. For each pixel located at one side from the line defined by the direction of the vector, change the value of each channel by the following formula:
@@ -30,9 +30,9 @@ The algorithm:
 Example:
 
 .. image:: originalImage.jpg
-  :align: left
-  :width: 40%  
+    :align: left
+    :width: 40%  
 
 .. image:: fadeImage.jpg
-  :align: right
-  :width: 40%
+    :align: right
+    :width: 40%
