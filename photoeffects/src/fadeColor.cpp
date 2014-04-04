@@ -80,8 +80,6 @@ int fadeColor(InputArray src, OutputArray dst,
 
 
     int maxDistance=abs(A*farthestPoint.x+B*farthestPoint.y+C);
-    vector<Mat> planes;
-    split(image,planes);
     if(src.type() == CV_8UC1)
     {
         for(int i=0;i<image.rows;i++)
