@@ -82,25 +82,46 @@ int fadeColor(InputArray src, OutputArray dst,
     int maxDistance=abs(A*farthestPoint.x+B*farthestPoint.y+C);
     vector<Mat> planes;
     split(image,planes);
-    for(int i=0;i<image.rows;i++)
-        for(int j=0;j<image.cols;j++)
-        {
-            int distance=abs(A*i+B*j+C);
-            //change pixels only in the direction of the perpendicular
-            Point directionVector(j-startPoint.x, i-startPoint.y);
-            if(scalarProduct(perpendicular, directionVector)>=0)
+    if(src.type() == CV_8UC1)
+    {
+        for(int i=0;i<image.rows;i++)
+            for(int j=0;j<image.cols;j++)
             {
-                for(int n=0;n<image.channels();n++)
+                int distance=abs(A*i+B*j+C);
+                //change pixels only in the direction of the perpendicular
+                Point directionVector(j-startPoint.x, i-startPoint.y);
+                if(scalarProduct(perpendicular, directionVector)>=0)
                 {
-                    int channelValue=planes[n].at<uchar>(i,j);
+                    int channelValue=image.at<uchar>(i,j);
                     channelValue*=(maxDistance-distance);
                     channelValue+=255*distance;
                     channelValue/=maxDistance;
-                    planes[n].at<uchar>(i,j)=channelValue;
+                    image.at<uchar>(i,j)=channelValue;
                 }
             }
-        }
+    }
+    if(src.type() == CV_8UC3)
+    {
+        for(int i=0;i<image.rows;i++)
+            for(int j=0;j<image.cols;j++)
+            {
+                int distance=abs(A*i+B*j+C);
+                //change pixels only in the direction of the perpendicular
+                Point directionVector(j-startPoint.x, i-startPoint.y);
+                if(scalarProduct(perpendicular, directionVector)>=0)
+                {
+                    for(int n=0;n<3;n++)
+                    {
+                        int channelValue=image.at<Vec3b>(i,j)[n];
+                        channelValue*=(maxDistance-distance);
+                        channelValue+=255*distance;
+                        channelValue/=maxDistance;
+                        image.at<Vec3b>(i,j)[n]=channelValue;
+                    }
+                }
+            }
+    }
 
-    merge(planes, dst);
+    image.copyTo(dst);
     return 0;
 }
