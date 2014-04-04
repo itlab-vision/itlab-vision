@@ -18,4 +18,4 @@ int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity = 0.0f);
 
 cv::Mat antique(cv::Mat& image);
 
-int vignette(cv::InputArray src, cv::OutputArray dst, int diff_height = 0, int diff_width = 0, int opacity = 100);
+int vignette(cv::InputArray src, cv::OutputArray dst, cv::Size rect);
