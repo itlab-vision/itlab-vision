@@ -16,8 +16,8 @@ Example:
 
 .. image:: originalImage.jpg
   :align: left
-  :width: 48%  
+  :width: 40%  
 
 .. image:: fadeImage.jpg
   :align: right
-  :width: 48%
+  :width: 40%
