@@ -5,7 +5,7 @@ using namespace cv;
 using namespace std;
 
 const char *helper = 
-"sepia_sample.exe <img>\n\
+"./sepia_sample <img>\n\
 \t<img> - file name contained the processed image\n\
 ";
 
@@ -13,7 +13,8 @@ int processArguments(int argc, char **argv, Mat &img);
 
 int main(int argc, char **argv)
 {
-    const char *srcImgWinName = "Initial image", *dstImgWinName = "Processed image";
+    const char *srcImgWinName = "Initial image", 
+               *dstImgWinName = "Processed image";
     Mat img, sepiaImg;
 
     if (processArguments(argc, argv, img) != 0)
