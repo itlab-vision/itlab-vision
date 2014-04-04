@@ -10,7 +10,7 @@ TEST(photoeffects, GlowTest) {
     EXPECT_EQ(0, glow(image, dst, 1.0f, 0.5f));
 }
 
-TEST(photoeffects, GlowTestBadRadius) {
+TEST(photoeffects, GlowTestBadSigma) {
     Mat image(10, 10, CV_32FC3), dst;
 
     EXPECT_EQ(2, glow(image, dst, -1.0f, 0.5f));
