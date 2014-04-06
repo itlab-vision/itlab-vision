@@ -3,6 +3,8 @@
 
 using namespace cv;
 
+#define MAX_KERNELSIZE 15
+
 void prepareForFilter(Mat& input, Mat& outputImage, int size)
 {
     for (int i = 0; i < outputImage.rows; i++)
@@ -21,36 +23,36 @@ void prepareForFilter(Mat& input, Mat& outputImage, int size)
     }
 }
 
-int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentRight)
+int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
 {
-    //Mat image = src.getMat(), outputImage(image.size(), CV_8UC3);
-    Mat image, outputImage;
-    image = imread("/home/dmitry/Images/lena.jpg", CV_LOAD_IMAGE_COLOR);
-    outputImage.create(image.size(), CV_8UC3);
+    Mat image = src.getMat(), outputImage(image.size(), CV_8UC3);
 
-
-    int max_KernelSize = (int)(((image.rows / 2.0f)
+    int kSizeOnEdges = (int)(((image.rows / 2.0f)
                             * (image.rows / 2.0f)
                             / (image.rows / 2.0f - indentTop)
                             / (image.rows / 2.0f - indentTop)
 
                             + (image.cols / 2.0f)
                             * (image.cols / 2.0f)
-                            / (image.cols / 2.0f - indentRight)
-                            / (image.cols / 2.0f - indentRight)) * 5.0f + 0.5f);
+                            / (image.cols / 2.0f - indentLeft)
+                            / (image.cols / 2.0f - indentLeft)) * 4.0f + 0.5f);
+    if (kSizeOnEdges > MAX_KERNELSIZE)
+    {
+        kSizeOnEdges = MAX_KERNELSIZE;
+    }
 
-    Mat bearingImage(image.rows + 2 * max_KernelSize, 
-                    image.cols + 2 * max_KernelSize, 
+    Mat bearingImage(image.rows + 2 * kSizeOnEdges,
+                    image.cols + 2 * kSizeOnEdges,
                     CV_8UC3);
-    prepareForFilter(image, bearingImage, max_KernelSize);
+    prepareForFilter(image, bearingImage, kSizeOnEdges);
 
     float radius;
     int size;
     int sumB, sumG, sumR;
     Vec3b Color;
-    for (int i = max_KernelSize; i < (bearingImage.rows - max_KernelSize); i++)
+    for (int i = kSizeOnEdges; i < (bearingImage.rows - kSizeOnEdges); i++)
     {
-        for (int j = max_KernelSize; j < (bearingImage.cols - max_KernelSize); j++)
+        for (int j = kSizeOnEdges; j < (bearingImage.cols - kSizeOnEdges); j++)
         {
             radius = (bearingImage.rows / 2.0f - i)
                     * (bearingImage.rows / 2.0f - i)
@@ -59,18 +61,22 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentRight)
 
                     + (bearingImage.cols / 2.0f - j)
                     * (bearingImage.cols / 2.0f - j)
-                    / (image.cols / 2.0f - indentRight)
-                    / (image.cols / 2.0f - indentRight);
+                    / (image.cols / 2.0f - indentLeft)
+                    / (image.cols / 2.0f - indentLeft);
             if (radius < 1.0f)
             {
-                outputImage.at<Vec3b>(i - max_KernelSize, j - max_KernelSize) =
+                outputImage.at<Vec3b>(i - kSizeOnEdges, j - kSizeOnEdges) =
                     bearingImage.at<Vec3b>(i, j);
                 continue;
             }
             else
             {
                 sumB = sumG = sumR = 0;
-                size = (int)(5.0f * radius + 0.5f);
+                size = (int)(4.0f * radius + 0.5f);
+                if (size > MAX_KERNELSIZE)
+                {
+                    size = MAX_KERNELSIZE;
+                }
                 for (int x = i - size; x < i + size; x++)
                 {
                     for (int y = j - size; y < j + size; y++)
@@ -85,14 +91,10 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentRight)
                 sumG = (int)((float)sumG / (4.0f * size * size) + 0.5f);
                 sumR = (int)((float)sumR / (4.0f * size * size) + 0.5f);
                 Color = Vec3b(sumB, sumG, sumR);
-                outputImage.at<Vec3b>(i - max_KernelSize, j - max_KernelSize) = Color;
+                outputImage.at<Vec3b>(i - kSizeOnEdges, j - kSizeOnEdges) = Color;
             }
         }
     }
-
-    vector<int> compression_params;
-    compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
-    imwrite("/home/dmitry/Images/lena0.jpeg", outputImage, compression_params);
 
 	outputImage.convertTo(dst, CV_8UC3);
 	return 0;
