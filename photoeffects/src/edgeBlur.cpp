@@ -96,6 +96,6 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
         }
     }
 
-	outputImage.convertTo(dst, CV_8UC3);
-	return 0;
+    outputImage.convertTo(dst, CV_8UC3);
+    return 0;
 }
