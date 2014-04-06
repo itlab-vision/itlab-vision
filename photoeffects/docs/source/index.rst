@@ -13,6 +13,7 @@ Contents:
 
    code/docs/sepia.rst
    code/docs/fadeColor.rst
+   code/docs/boost_color.rst
 
 
 
