@@ -35,7 +35,7 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
                             + (image.cols / 2.0f)
                             * (image.cols / 2.0f)
                             / (image.cols / 2.0f - indentLeft)
-                            / (image.cols / 2.0f - indentLeft)) * 4.0f + 0.5f);
+                            / (image.cols / 2.0f - indentLeft)) * 2.0f + 0.5f);
     if (kSizeOnEdges > MAX_KERNELSIZE)
     {
         kSizeOnEdges = MAX_KERNELSIZE;
