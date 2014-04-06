@@ -72,7 +72,7 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
             else
             {
                 sumB = sumG = sumR = 0;
-                size = (int)(4.0f * radius + 0.5f);
+                size = (int)(2.0f * radius + 0.5f);
                 if (size > MAX_KERNELSIZE)
                 {
                     size = MAX_KERNELSIZE;
