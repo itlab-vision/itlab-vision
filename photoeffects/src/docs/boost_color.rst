@@ -17,3 +17,13 @@ The algorithm:
     #. 3d channel is the matrix, each element increases by **intensity**
 
 #. Save this matrix as RGB image
+
+Example:
+
+|src| |dst|
+
+.. |src| image:: lowSat.jpg
+    :width: 40%
+
+.. |dst| image:: boost_color.jpg
+    :width: 40%
