@@ -1,7 +1,6 @@
 =========================================
 Vignette
 =========================================
-
 Makes the edges of the photo less bright, creating an oval frame around its central part.
 
 .. cpp:function:: int vignette(cv::InputArray src, cv::OutputArray dst, cv::Size rect)
