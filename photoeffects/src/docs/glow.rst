@@ -3,7 +3,7 @@ glow
 =======================================
 Applies glow effect to the initial image
 
-.. cpp:function:: int glow(cv::InputArray src, cv::OutputArray dst, float sigma, float intensity)
+.. cpp:function:: int glow(cv::InputArray src, cv::OutputArray dst, float sigma, float intensity = 0.0f)
 
     :param src: RGB image.
     :param dst: Destination image of the same size and the same type as **src**.
@@ -13,9 +13,9 @@ Applies glow effect to the initial image
 
 The algorithm:
 
-#. Create copy of source image
+#. Create the copy of the source image
 #. Apply Gaussian blur for this copy with deviation equal **sigma**
-#. Create new 3-channel image, each channel calculate by the following formula:
+#. Create new 3-channel image, each channel of the matrix calculates by the following formula:
 
     .. math::
 
@@ -28,7 +28,7 @@ The algorithm:
     
 where :math:`A` is the pixel's tonal value that lies in the blurred image, :math:`B` is the pixel's tonal value that lies in the source image, :math:`C` is the tonal value of the blended pixel.
 
-4. Create new 3-channel image, each channel calculate by the following formula:
+4. Create new 3-channel image, each channel of the matrix calculates by the following formula:
 
     .. math::
 
@@ -36,6 +36,16 @@ where :math:`A` is the pixel's tonal value that lies in the blurred image, :math
             C = intensity * A + (1 - intensity) * B 
         \end{equation} 
 
-where :math:`A` is the pixel's tonal value that lies in the previous image, :math:`B` is the pixel's tonal value that lies in the source image, :math:`C` is the tonal value of the blended pixel.
+where :math:`A` is the pixel's tonal value that lies in the previous blended image, :math:`B` is the pixel's tonal value that lies in the source image, :math:`C` is the tonal value of the blended pixel.
 
 5. Save previous image as RGB image
+
+Example:
+
+|src| |dst|
+
+.. |src| image:: rose.jpg
+    :width: 40%
+
+.. |dst| image:: glow.jpg
+    :width: 40%
