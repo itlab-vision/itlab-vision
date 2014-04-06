@@ -2,6 +2,8 @@
 
 using namespace cv;
 
+const int COUNT_CHANNEL = 3;
+
 void overlay(InputArray foreground, InputArray background, OutputArray result)
 {
     Mat foreImg = foreground.getMat();
@@ -16,7 +18,7 @@ void overlay(InputArray foreground, InputArray background, OutputArray result)
     {
         for(int j = 0; j < width; j++)
         {
-            for(int k = 0; k < 3; k++)
+            for(int k = 0; k < COUNT_CHANNEL; k++)
             {
                 float intensFore = foreImg.at<Vec3f>(i, j)[k] / 255.0f;
                 float intensBack = backImg.at<Vec3f>(i, j)[k] / 255.0f;
@@ -49,7 +51,7 @@ void opacity(InputArray foreground, InputArray background, OutputArray result, f
     {
         for(int j = 0; j < width; j++)
         {
-            for(int k = 0; k < 3; k++)
+            for(int k = 0; k < COUNT_CHANNEL; k++)
             {
                 float intensFore = foreImg.at<Vec3f>(i, j)[k] / 255.0f;
                 float intensBack = backImg.at<Vec3f>(i, j)[k] / 255.0f;
@@ -68,7 +70,7 @@ int glow(InputArray src, OutputArray dst, float sigma, float intensity)
 {
     Mat srcImg = src.getMat();
 
-    if (srcImg.channels() != 3)
+    if (srcImg.channels() != COUNT_CHANNEL)
     {
         return 1;
     }
