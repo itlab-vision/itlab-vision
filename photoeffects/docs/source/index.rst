@@ -13,6 +13,7 @@ Contents:
 
    code/docs/sepia.rst
    code/docs/fadeColor.rst
+   code/docs/glow.rst
 
 
 
