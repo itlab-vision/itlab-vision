@@ -21,3 +21,6 @@ int antique(cv::InputArray src, cv::OutputArray dst, cv::InputArray texture, flo
 int vignette(cv::InputArray src, cv::OutputArray dst, cv::Size rect);
 
 int warmify(cv::InputArray src, cv::OutputArray dst, uchar delta = 30);
+
+int matte(cv::InputArray src, cv::Point topleftCornerPoint, cv::Point bottomRightCornerPoint, cv::OutputArray dst);
+
