@@ -28,7 +28,7 @@ int vignette(InputArray src, OutputArray dst, Size rect)
         for (int j = 0; j < img_src.cols; j++)
         {
             intensity = img_src.at<Vec3b>(i, j);
-            img_dst.at<Vec3b>(i, j) = intensity;
+            intensity_new = intensity;
             if ((i - center_row) * (i - center_row) / a_2 +
                     (j - center_col) * (j - center_col) / b_2 > 1)
             {
@@ -40,8 +40,8 @@ int vignette(InputArray src, OutputArray dst, Size rect)
                 intensity_new.val[0] = (uchar)(intensity.val[0] * coefficient);
                 intensity_new.val[1] = (uchar)(intensity.val[1] * coefficient);
                 intensity_new.val[2] = (uchar)(intensity.val[2] * coefficient);
-                img_dst.at<Vec3b>(i, j) = intensity_new;
             }
+            img_dst.at<Vec3b>(i, j) = intensity_new;
         }
     }
     img_dst.convertTo(dst, img_src.type());
