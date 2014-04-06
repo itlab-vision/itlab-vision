@@ -41,5 +41,7 @@ int main(int argc, char* argv[])
 
     imshow("Image", img);
     imshow("Edge blur", img);
+
+    waitKey();
     return 0;
 }
