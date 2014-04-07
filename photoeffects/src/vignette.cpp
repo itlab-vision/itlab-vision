@@ -35,7 +35,7 @@ int vignette(InputArray src, OutputArray dst, Size rect)
                 dist = sqrtf((i - center_row) * (i - center_row) + (j - center_col) * (j - center_col));
                 sin_fi = (i - center_row) / dist;
                 radius_ellipse = ab / sqrt(a_2 * (1 - sin_fi * sin_fi) + b_2 * sin_fi * sin_fi);
-                coefficient = 1 - ((dist - radius_ellipse) / (max_radius - radius_ellipse));
+                coefficient = 1.0f - ((dist - radius_ellipse) / (max_radius - radius_ellipse));
 
                 intensity_new.val[0] = (uchar)(intensity.val[0] * coefficient);
                 intensity_new.val[1] = (uchar)(intensity.val[1] * coefficient);
