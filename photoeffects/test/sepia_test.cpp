@@ -10,11 +10,6 @@ TEST(photoeffects, SepiaFakeTest) {
     EXPECT_EQ(0, sepia(src, dst));
 }
 
-TEST(photoeffects, SepiaFailTest) {
-    Mat src(10, 10, CV_8UC3), dst;
-
-    EXPECT_EQ(1, sepia(src, dst));
-}
 
 TEST(photoeffects, SepiaTest) {
     Mat src(10, 10, CV_8UC1, Scalar(0)), dst, hsvDst;
