@@ -4,12 +4,6 @@
 
 using namespace cv;
 
-TEST(photoeffects, SepiaFakeTest) {
-    Mat src(10, 10, CV_8UC1), dst;
-
-    EXPECT_EQ(0, sepia(src, dst));
-}
-
 
 TEST(photoeffects, SepiaTest) {
     Mat src(10, 10, CV_8UC1, Scalar(0)), dst, hsvDst;
