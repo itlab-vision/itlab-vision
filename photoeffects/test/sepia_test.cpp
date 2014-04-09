@@ -1,39 +1,16 @@
-#include <gtest/gtest.h>
-
 #include "photoeffects.hpp"
+#include "test_utils.hpp"
+#include <gtest/gtest.h>
 
 using namespace cv;
 
-namespace
-{
-    int suppressAssertionMessage(int, const char *, const char *,
-                                const char *, int, void *)
-    {
-        return 0;
-    }
-}
 
 TEST(photoeffects, SepiaInvalidImageFormat)
 {
     Mat src(10, 10, CV_8UC3);
     Mat dst;
 
-    // program should not stop if assertion fails
-    setBreakOnError(false);
-    // don't show message on assertion failure
-    redirectError(suppressAssertionMessage);
-    int errorCode = 0;
-    // try to catch an exception thrown by CV_Assert
-    try
-    {
-        sepia(src, dst);
-    }
-    catch (Exception & e)
-    {
-        errorCode = e.code;
-    }
-    // check if assertion has been failed
-    EXPECT_EQ((int)CV_StsAssert, errorCode);
+    EXPECT_ERROR(CV_StsAssert, sepia(src, dst));
 }
 
 
@@ -52,4 +29,3 @@ TEST(photoeffects, SepiaTest)
     EXPECT_LE(src.at<uchar>(0, 0) + 20 - 1, channels[2].at<uchar>(0, 0));
     EXPECT_GE(src.at<uchar>(0, 0) + 20 + 1, channels[2].at<uchar>(0, 0));
 }
-
