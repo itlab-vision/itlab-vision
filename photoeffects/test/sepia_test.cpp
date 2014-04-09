@@ -4,6 +4,36 @@
 
 using namespace cv;
 
+namespace
+{
+    int suppressAssertionMessage(int, const char *, const char *,
+                                const char *, int, void *)
+    {}
+}
+
+TEST(photoeffects, SepiaInvalidImageFormat)
+{
+    Mat src(10, 10, CV_8UC3);
+    Mat dst;
+
+    // program should not stop if assertion fails
+    setBreakOnError(false);
+    // don't show message on assertion failure
+    redirectError(suppressAssertionMessage);
+    int errorCode = 0;
+    // try to catch an exception thrown by CV_Assert
+    try
+    {
+        sepia(src, dst);
+    }
+    catch (Exception & e)
+    {
+        errorCode = e.code;
+    }
+    // check if assertion has been failed
+    EXPECT_EQ(CV_StsAssert, errorCode);
+}
+
 
 TEST(photoeffects, SepiaTest) {
     Mat src(10, 10, CV_8UC1, Scalar(0)), dst, hsvDst;
