@@ -8,7 +8,9 @@ namespace
 {
     int suppressAssertionMessage(int, const char *, const char *,
                                 const char *, int, void *)
-    {}
+    {
+        return 0;
+    }
 }
 
 TEST(photoeffects, SepiaInvalidImageFormat)
@@ -31,7 +33,7 @@ TEST(photoeffects, SepiaInvalidImageFormat)
         errorCode = e.code;
     }
     // check if assertion has been failed
-    EXPECT_EQ(CV_StsAssert, errorCode);
+    EXPECT_EQ((int)CV_StsAssert, errorCode);
 }
 
 
