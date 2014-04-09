@@ -22,5 +22,6 @@ int vignette(cv::InputArray src, cv::OutputArray dst, cv::Size rect);
 
 int warmify(cv::InputArray src, cv::OutputArray dst, uchar delta = 30);
 
-int matte(cv::InputArray src, cv::Point topleftCornerPoint, cv::Point bottomRightCornerPoint, cv::OutputArray dst);
+int matte(cv::InputArray src, cv::OutputArray dst, 
+    cv::Point firstPoint, cv::Point secondPoint, float sigma);
 
