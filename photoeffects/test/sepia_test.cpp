@@ -35,7 +35,8 @@ TEST(photoeffects, SepiaInvalidImageFormat)
 }
 
 
-TEST(photoeffects, SepiaTest) {
+TEST(photoeffects, SepiaTest)
+{
     Mat src(10, 10, CV_8UC1, Scalar(0)), dst, hsvDst;
     vector<Mat> channels(3);
 
