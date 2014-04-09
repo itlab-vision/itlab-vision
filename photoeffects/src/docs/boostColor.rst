@@ -3,7 +3,7 @@ boost color
 =======================================
 Applies boost color effect to the initial image.
 
-.. cpp:function:: int boost_color(cv::InputArray src, cv::OutputArray dst, float intensity = 0.0f)
+.. cpp:function:: int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity = 0.0f)
 
     :param src: RGB image.
     :param dst: Destination image of the same size and the same type as **src**.
@@ -14,7 +14,7 @@ The algorithm:
 
 #. Create 3-channel image, which is interpreted as HLS image
 
-    #. 3d channel is the matrix, each element increases by **intensity**
+#. Each element of the 3rd (Saturation) channel increases by **intensity**
 
 #. Save this matrix as RGB image
 
@@ -25,5 +25,5 @@ Example:
 .. |src| image:: lowSat.jpg
     :width: 40%
 
-.. |dst| image:: boost_color.jpg
+.. |dst| image:: boostColor.jpg
     :width: 40%
