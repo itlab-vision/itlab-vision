@@ -25,7 +25,7 @@ int main(int argc, char **argv)
         cout << helper << endl;
         return 1;
     }
-    int opRes = boost_color(img, dstImg, intensity);
+    int opRes = boostColor(img, dstImg, intensity);
     switch (opRes)
     {
         case 1:
