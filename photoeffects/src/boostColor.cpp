@@ -29,7 +29,9 @@ int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity)
             float saturation = srcHls.at<Vec3f>(i,j)[2];
             saturation += intensity;
             if (saturation > 1.0f)
+            {
                 saturation = 1.0f;
+            }
             srcHls.at<Vec3f>(i,j)[2] = saturation;
         }
     }

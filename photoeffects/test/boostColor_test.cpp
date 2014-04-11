@@ -14,11 +14,11 @@ TEST(photoeffects, BoostColorTest)
 TEST(photoeffects, BoostColorRegressionTest)
 {
     Mat image, dst, rightDst;
-    image = imread("boostColor_test.png",  CV_LOAD_IMAGE_COLOR);
-    rightDst = imread("boostColor_test_result.png",  CV_LOAD_IMAGE_COLOR);
+    image = imread("../itlab-vision/photoeffects/test/images/boostColor_test.png",  CV_LOAD_IMAGE_COLOR);
+    rightDst = imread("../itlab-vision/photoeffects/test/images/boostColor_test_result.png",  CV_LOAD_IMAGE_COLOR);
 
     EXPECT_EQ(0, boostColor(image, dst, 0.5f));
-    
+
     for (int i = 0; i < dst.rows; i++)
     {
         for (int j = 0; j < dst.cols; j++)
