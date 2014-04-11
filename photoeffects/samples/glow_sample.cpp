@@ -56,5 +56,6 @@ int processArguments(int argc, char **argv, Mat &img, float &sigma, float &inten
     img = imread(argv[1], CV_LOAD_IMAGE_COLOR);
     sigma = atof(argv[2]);
     intensity = atof(argv[3]);
+    cout << sigma << " " << intensity << endl;
     return 0;
 }
