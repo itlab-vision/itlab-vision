@@ -13,8 +13,8 @@ TEST(photoeffects, GlowTest) {
 TEST(photoeffects, GlowTestRegression) {
     Mat image, dst, rightDst;
 
-    image = imread("glow_test.png", CV_LOAD_IMAGE_COLOR);
-    rightDst = imread("glow_test_result.png", CV_LOAD_IMAGE_COLOR);
+    image = imread("../itlab-vision/photoeffects/test/images/glow_test.png", CV_LOAD_IMAGE_COLOR);
+    rightDst = imread("../itlab-vision/photoeffects/test/images/glow_test_result.png", CV_LOAD_IMAGE_COLOR);
 
     EXPECT_EQ(0, glow(image, dst, 7.0f, 0.9f));
 
