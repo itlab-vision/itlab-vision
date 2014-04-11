@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-int tint(InputArray src, Vec3b* colorTint, float density, OutputArray dst)
+int tint(InputArray src, OutputArray dst, Vec3b* colorTint, float density)
 {
     Mat image = src.getMat(), outputImage(image.size(), CV_8UC3);
     for (int i = 0; i < image.rows; i++)
@@ -16,6 +16,6 @@ int tint(InputArray src, Vec3b* colorTint, float density, OutputArray dst)
             outputImage.at<Vec3b>(i, j) = colorDest;
         }
     }
-    outputImage.convertTo(dst, CV_8UC3);
+    outputImage.convertTo(dst, image.type());
     return 0;
 }
