@@ -5,28 +5,17 @@ using namespace cv;
 
 #define MAX_KERNELSIZE 15
 
-void prepareForFilter(Mat& input, Mat& outputImage, int size)
-{
-    for (int i = 0; i < outputImage.rows; i++)
-    {
-        for (int j = 0; j < outputImage.cols; j++)
-        {
-            outputImage.at<Vec3b>(i, j) = Vec3b(255, 255, 255);
-        }
-    }
-    for (int i = 0; i < input.rows; i++)
-    {
-        for (int j = 0; j < input.cols; j++)
-        {
-            outputImage.at<Vec3b>(i + size, j + size) = input.at<Vec3b>(i, j);
-        }
-    }
-}
-
 int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
 {
     Mat image = src.getMat(), outputImage(image.size(), CV_8UC3);
 
+    /*
+    Calculate relative length between center image and it's corner
+    by formula: (x^2 / a^2 + y^2 / b^2),
+    this length takes like a maximal kernel size of the filter blur,
+    then it multiply on 2,
+    number 2 is taken to increase the effect of blur.
+    */
     int kSizeOnEdges = (int)(((image.rows / 2.0f)
                             * (image.rows / 2.0f)
                             / (image.rows / 2.0f - indentTop)
@@ -35,16 +24,15 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
                             + (image.cols / 2.0f)
                             * (image.cols / 2.0f)
                             / (image.cols / 2.0f - indentLeft)
-                            / (image.cols / 2.0f - indentLeft)) * 2.0f + 0.5f);
-    if (kSizeOnEdges > MAX_KERNELSIZE)
-    {
-        kSizeOnEdges = MAX_KERNELSIZE;
-    }
+                            / (image.cols / 2.0f - indentLeft)) + 0.5f);
+
+    kSizeOnEdges = MAX_KERNELSIZE;
 
     Mat bearingImage(image.rows + 2 * kSizeOnEdges,
                     image.cols + 2 * kSizeOnEdges,
                     CV_8UC3);
-    prepareForFilter(image, bearingImage, kSizeOnEdges);
+    copyMakeBorder(image, bearingImage, kSizeOnEdges, kSizeOnEdges,
+        kSizeOnEdges, kSizeOnEdges, BORDER_REPLICATE);
 
     float radius;
     int size;
@@ -72,14 +60,21 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
             else
             {
                 sumB = sumG = sumR = 0;
-                size = (int)(2.0f * radius + 0.5f);
-                if (size > MAX_KERNELSIZE)
+                size = (int)(radius + 0.5f);
+                size = size - rand() % 3 + 1;
+                if (size == 0)
+                {
+                    outputImage.at<Vec3b>(i - kSizeOnEdges, j - kSizeOnEdges) =
+                        bearingImage.at<Vec3b>(i, j);
+                    continue;
+                }
+                else if (size > MAX_KERNELSIZE)
                 {
                     size = MAX_KERNELSIZE;
                 }
-                for (int x = i - size; x < i + size; x++)
+                for (int x = i - size; x <= i + size; x++)
                 {
-                    for (int y = j - size; y < j + size; y++)
+                    for (int y = j - size; y <= j + size; y++)
                     {
                         Color = bearingImage.at<Vec3b>(x, y);
                         sumB = sumB + Color[0];
@@ -87,11 +82,12 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
                         sumR = sumR + Color[2];
                     }
                 }
-                sumB = (int)((float)sumB / (4.0f * size * size) + 0.5f);
-                sumG = (int)((float)sumG / (4.0f * size * size) + 0.5f);
-                sumR = (int)((float)sumR / (4.0f * size * size) + 0.5f);
+                sumB = (int)(((float)sumB) / ((2.0f * size + 1.0f) * (2.0f * size + 1.0f)) + 0.5f);
+                sumG = (int)(((float)sumG) / ((2.0f * size + 1.0f) * (2.0f * size + 1.0f)) + 0.5f);
+                sumR = (int)(((float)sumR) / ((2.0f * size + 1.0f) * (2.0f * size + 1.0f)) + 0.5f);
                 Color = Vec3b(sumB, sumG, sumR);
-                outputImage.at<Vec3b>(i - kSizeOnEdges, j - kSizeOnEdges) = Color;
+                outputImage.at<Vec3b>(i - kSizeOnEdges, 
+                                    j - kSizeOnEdges) = Color;
             }
         }
     }
