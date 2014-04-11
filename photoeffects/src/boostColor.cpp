@@ -6,14 +6,8 @@ int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity)
 {
     Mat srcImg = src.getMat();
 
-    if (srcImg.channels() != 3)
-    {
-        return 1;
-    }
-    if (intensity < 0.0f || intensity > 1.0f)
-    {
-        return 2;
-    }
+    CV_Assert(srcImg.channels() == 3);
+    CV_Assert(intensity >= 0.0f && intensity <= 1.0f);
 
     if (srcImg.type() != CV_32FC3)
     {
