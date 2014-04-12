@@ -1,6 +1,5 @@
 #include "photoeffects.hpp"
 #include <vector>
-#include <iostream>
 using namespace cv;
 using namespace std;
 
