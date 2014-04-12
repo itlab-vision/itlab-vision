@@ -4,24 +4,39 @@
 using namespace cv;
 
 #define MAX_KERNELSIZE 15
+#define PI 3.14159265359
 
 int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
 {
+    CV_Assert(src.type() != CV_8UC3);
     Mat image = src.getMat(), outputImage(image.size(), CV_8UC3);
+    float kSizeEdges = (image.rows / 2.0f)
+                    * (image.rows / 2.0f)
+                    / (image.rows / 2.0f - indentTop)
+                    / (image.rows / 2.0f - indentTop)
 
-    Mat bearingImage(image.rows + 2 * MAX_KERNELSIZE,
-                    image.cols + 2 * MAX_KERNELSIZE,
+                    + (image.cols / 2.0f)
+                    * (image.cols / 2.0f)
+                    / (image.cols / 2.0f - indentLeft)
+                    / (image.cols / 2.0f - indentLeft);
+    if (kSizeEdges > MAX_KERNELSIZE)
+    {
+        kSizeEdges = MAX_KERNELSIZE;
+    }
+    Mat bearingImage(image.rows + 2 * kSizeEdges,
+                    image.cols + 2 * kSizeEdges,
                     CV_8UC3);
-    copyMakeBorder(image, bearingImage, MAX_KERNELSIZE, MAX_KERNELSIZE,
-        MAX_KERNELSIZE, MAX_KERNELSIZE, BORDER_REPLICATE);
+    copyMakeBorder(image, bearingImage, kSizeEdges, kSizeEdges,
+        kSizeEdges, kSizeEdges, BORDER_REPLICATE);
 
     float radius;
     int size;
-    int sumB, sumG, sumR;
+    float B, G, R, sumC;
     Vec3b Color;
-    for (int i = MAX_KERNELSIZE; i < (bearingImage.rows - MAX_KERNELSIZE); i++)
+    float coeff;
+    for (int i = kSizeEdges; i < (bearingImage.rows - kSizeEdges); i++)
     {
-        for (int j = MAX_KERNELSIZE; j < (bearingImage.cols - MAX_KERNELSIZE); j++)
+        for (int j = kSizeEdges; j < (bearingImage.cols - kSizeEdges); j++)
         {
             radius = (bearingImage.rows / 2.0f - i)
                     * (bearingImage.rows / 2.0f - i)
@@ -34,40 +49,40 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
                     / (image.cols / 2.0f - indentLeft);
             if (radius < 1.0f)
             {
-                outputImage.at<Vec3b>(i - MAX_KERNELSIZE, j - MAX_KERNELSIZE) =
+                outputImage.at<Vec3b>(i - kSizeEdges, j - kSizeEdges) =
                     bearingImage.at<Vec3b>(i, j);
                 continue;
             }
             else
             {
-                sumB = sumG = sumR = 0;
-                size = (int)(radius + 0.5f) /*- rand() % 2*/;
-                if (size == 0)
+                R = G = B = sumC = 0.0f;
+                size = radius;
+                radius -= 0.5f;
+                radius *= radius;
+                if (size > kSizeEdges)
                 {
-                    outputImage.at<Vec3b>(i - MAX_KERNELSIZE, j - MAX_KERNELSIZE) =
-                        bearingImage.at<Vec3b>(i, j);
-                    continue;
-                }
-                else if (size > MAX_KERNELSIZE)
-                {
-                    size = MAX_KERNELSIZE;
+                    size = kSizeEdges;
                 }
                 for (int x = i - size; x <= i + size; x++)
                 {
                     for (int y = j - size; y <= j + size; y++)
                     {
+                        coeff = 1.0f / (2.0f * PI * radius)
+                                * exp(- ((x - i)*(x - i) + (y - j)*(y - j))
+                                      / (2.0f * radius);
+
                         Color = bearingImage.at<Vec3b>(x, y);
-                        sumB = sumB + Color[0];
-                        sumG = sumG + Color[1];
-                        sumR = sumR + Color[2];
+                        B = B + coeff * Color[0];
+                        G = G + coeff * Color[1];
+                        R = R + coeff * Color[2];
+                        sumC += coeff;
                     }
                 }
-                sumB = (int)(sumB / ((2.0f * size + 1.0f) * (2.0f * size + 1.0f)) + 0.5f);
-                sumG = (int)(sumG / ((2.0f * size + 1.0f) * (2.0f * size + 1.0f)) + 0.5f);
-                sumR = (int)(sumR / ((2.0f * size + 1.0f) * (2.0f * size + 1.0f)) + 0.5f);
-                Color = Vec3b(sumB, sumG, sumR);
-                outputImage.at<Vec3b>(i - MAX_KERNELSIZE, 
-                                    j - MAX_KERNELSIZE) = Color;
+                B /= sumC;
+                G /= sumC;
+                R /= sumC;
+                Color = Vec3b(B, G, R);
+                outputImage.at<Vec3b>(i - kSizeEdges, j - kSizeEdges) = Color;
             }
         }
     }
