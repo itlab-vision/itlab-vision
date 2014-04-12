@@ -9,7 +9,8 @@ int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity)
     CV_Assert(srcImg.channels() == 3);
     CV_Assert(intensity >= 0.0f && intensity <= 1.0f);
 
-    if (srcImg.type() != CV_32FC3)
+    int srcImgType = srcImg.type();
+    if (srcImgType!= CV_32FC3)
     {
         srcImg.convertTo(srcImg, CV_32FC3);
     }
@@ -38,6 +39,6 @@ int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity)
 
     cvtColor(srcHls, dst, CV_HLS2BGR);
     dst.getMat() *= 255.0f;
-    dst.getMat().convertTo(dst, CV_8UC3);
+    dst.getMat().convertTo(dst, srcImgType);
     return 0;
 }
