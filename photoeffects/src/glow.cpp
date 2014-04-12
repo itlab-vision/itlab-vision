@@ -73,7 +73,11 @@ int glow(InputArray src, OutputArray dst, float sigma, float intensity)
     CV_Assert(sigma > 0.0f);
     CV_Assert(intensity >= 0.0f && intensity <= 1.0f);
 
-    srcImg.convertTo(srcImg, CV_32FC3);
+    int srcImgType = srcImg.type();
+    if (srcImgType != CV_32FC3)
+    {
+        srcImg.convertTo(srcImg, CV_32FC3);
+    }
 
     Mat blurImg;
     Size size;
@@ -86,7 +90,8 @@ int glow(InputArray src, OutputArray dst, float sigma, float intensity)
 
     opacity(overlayImg, srcImg, dst, intensity);
     Mat dstImg = dst.getMat();
-    dstImg.convertTo(dst, CV_8UC3);
+    
+    dstImg.convertTo(dst, srcImgType);
     
     return 0;
 }
