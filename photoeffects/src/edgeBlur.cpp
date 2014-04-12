@@ -8,7 +8,7 @@ using namespace cv;
 
 int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
 {
-    CV_Assert(src.type() != CV_8UC3);
+    CV_Assert(src.type() == CV_8UC3);
     Mat image = src.getMat(), outputImage(image.size(), CV_8UC3);
     float kSizeEdges = (image.rows / 2.0f)
                     * (image.rows / 2.0f)
