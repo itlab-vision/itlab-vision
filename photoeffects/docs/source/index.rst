@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
 
    code/docs/sepia.rst
+   code/docs/fadeColor.rst
 
 
 
