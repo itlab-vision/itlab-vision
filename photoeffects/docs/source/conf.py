@@ -178,21 +178,13 @@ latex_elements = {
 
 # Additional stuff for the LaTeX preamble.
 #'preamble': '',
-
-# Remove redundant blank pages
-'classoptions': u',openany,oneside',
-
-# Specifies english as the document's language (needed to make classoptions active)
-'babel': u'\\usepackage[english]{babel}'
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'itlab-vision.tex', u'Photoeffects Documentation',
-   u'Valentina~Kustikova \\and Pavel~Druzhkov \\and Kirill~Kornyakov\
-   \\and Evgeniy~Dolotov \\and Artem~Screbkov \\and Dmitriy~Kruchinin\
-   \\and Vadim~Levin \\and Vlad~Vinogradov', 'manual', True),
+  ('index', 'itlab-vision.tex', u'itlab-vision Documentation',
+   u'Valentina Kustikova, Pavel Druzhkov, Kirill Kornyakov, Evgeniy Dolotov, Artem Screbkov, Dmitriy Kruchinin, Vadim Levin, Vlad Vinogradov', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
