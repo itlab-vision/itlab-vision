@@ -30,6 +30,6 @@ int main(int argc, char** argv)
     filmGrain(src, dst, atoi(argv[2]));
     imshow(FILM_GRAIN_IMAGE, dst);
     cout << "Press any key to EXIT"<<endl;
-    waitKey(0);
+    waitKey(0);z
     return 0;
 }
