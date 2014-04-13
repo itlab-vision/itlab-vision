@@ -2,49 +2,53 @@
 
 using namespace cv;
 #define MAX_VALUE 20
-int filmGrain(cv::InputArray src, cv::OutputArray dst)
+int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue)
 {
     if (src.type() != CV_8UC1 && src.type() != CV_8UC3)
     {
         return 1;
     }
-    Mat imageRGB=src.getMat();
-    Mat imageYUV;
-    cvtColor(imageRGB,imageYUV,CV_RGB2YUV);
+    Mat image=src.getMat();
     if(src.type()==CV_8UC1)
     {
-        for(int i=0;i<imageYUV.rows;i++)
-            for(int j=0;j<imageYUV.cols;j++)
+        RNG rng(getTickCount());
+        for(int i=0;i<image.rows;i++)
+            for(int j=0;j<image.cols;j++)
             {
-                int k=(imageYUV.at<uchar>(i,j)+(rand()%MAX_VALUE-rand()%MAX_VALUE));
-                if(k<0)
+                int newValue=(image.at<uchar>(i,j)+rng.gaussian(grainValue));
+                if(newValue<0)
                 {
-                    k=0;
+                    newValue=0;
                 }
-                if(k>=256)
+                if(newValue>=256)
                 {
-                    k=255;
+                    newValue=255;
                 }
-                imageYUV.at<uchar>(i,j)= k;
+                image.at<uchar>(i,j)= newValue;
             }
+        image.copyTo(dst);
     }
     if(src.type()==CV_8UC3)
     {
+        RNG rng(getTickCount());
+        Mat imageYUV;
+        cvtColor(image,imageYUV,CV_RGB2YUV);
         for(int i=0;i<imageYUV.rows;i++)
             for(int j=0;j<imageYUV.cols;j++)
             {
-                int k=(imageYUV.at<Vec3b>(i,j)[0]+(rand()%MAX_VALUE-rand()%MAX_VALUE));
-                if(k<0)
+                int newValue=(imageYUV.at<Vec3b>(i,j)[0]+rng.gaussian(grainValue));
+                if(newValue<0)
                 {
-                    k=0;
+                    newValue=0;
                 }
-                if(k>=256)
+                if(newValue>=256)
                 {
-                    k=255;
+                    newValue=255;
                 }
-                imageYUV.at<Vec3b>(i,j)[0]= k;
+                imageYUV.at<Vec3b>(i,j)[0]= newValue;
             }
+        cvtColor(imageYUV,dst,CV_YUV2RGB);
     }
-    cvtColor(imageYUV,dst,CV_YUV2RGB);
+
     return 0;
 }
