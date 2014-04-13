@@ -4,8 +4,8 @@
 
 using namespace cv;
 
-const char *ORIGINAL_IMAGE_TEST="fadeColor_test.png";
-const char *FADE_IMAGE_TEST="fadeColor_result.png";
+const char *ORIGINAL_IMAGE_TEST="../itlab-vision/photoeffects/test/images/fadeColor_test.png";
+const char *FADE_IMAGE_TEST="../itlab-vision/photoeffects/test/images/fadeColor_result.png";
 TEST(photoeffects, FadeColorInvalidImageFormat)
 {
     Mat src(10, 20, CV_8UC2);
