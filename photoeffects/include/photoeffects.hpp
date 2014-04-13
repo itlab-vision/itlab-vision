@@ -12,6 +12,8 @@ int fadeColor(cv::InputArray src, cv::OutputArray dst);
 
 cv::Mat tint(cv::Mat& image, int hue, float sat);
 
+int edgeBlur(cv::InputArray src, cv::OutputArray dst, int indentTop, int indentLeft);
+
 int glow(cv::Mat& image);
 
 int boostColor(cv::Mat& image);
