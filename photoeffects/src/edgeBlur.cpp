@@ -10,6 +10,10 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
 {
     CV_Assert(src.type() == CV_8UC3);
     Mat image = src.getMat(), outputImage(image.size(), CV_8UC3);
+    
+    CV_Assert(indentTop >= 0 && indentTop <= (image.rows / 2.0f - 10));
+    CV_Assert(indentLeft >= 0 && indentLeft <= (image.cols / 2.0f - 10));
+
     float kSizeEdges = (image.rows / 2.0f)
                     * (image.rows / 2.0f)
                     / (image.rows / 2.0f - indentTop)
