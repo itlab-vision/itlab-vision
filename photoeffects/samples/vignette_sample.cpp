@@ -21,8 +21,8 @@ int main(int argc, char** argv)
     namedWindow(argv[1], WINDOW_AUTOSIZE);
     Mat img_dst;
     Size rectangle;
-    rectangle.height = -image.rows;
-    rectangle.width = -image.cols;
+    rectangle.height = image.rows - 200;
+    rectangle.width = image.cols - 300;
     imshow(argv[1], image);
     if (vignette(image, img_dst, rectangle) == 0)
     {
