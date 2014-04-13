@@ -2,48 +2,66 @@
 
 using namespace cv;
 
+/*
+// Function for applying a vignette effect to iamge
+//
+// API
+// int vignette(InputArray src, OutputArray dst, Size rect);
+// INPUT
+// src - source image
+// rect - rectangle describe an ellipse,
+// which is outside the dark effect is applied
+// OUTPUT
+// dst - the image with vignette effect
+// RESULT
+// Error status
+*/
+
 int vignette(InputArray src, OutputArray dst, Size rect)
 {
-    if (src.type() != CV_8UC3 || rect.height == 0 || rect.width == 0)
-    {
-        return 1;
-    }
-    Mat img_src(src.size(), CV_8UC3);
-    img_src = src.getMat();
-    Mat img_dst(img_src.size(), CV_8UC3);
-    Vec3b intensity, intensity_new;
-    int center_row = img_src.rows / 2;
-    int center_col = img_src.cols / 2;
-    float a_2 = (rect.height / 2.0f) * (rect.height / 2.0f);
-    float b_2 = (rect.width / 2.0f) * (rect.width / 2.0f);
+    CV_Assert(src.type() == CV_8UC3 && rect.height != 0 && rect.width != 0);
+    Mat imgSrc(src.size(), CV_8UC3);
+    imgSrc = src.getMat();
+    Mat imgDst(imgSrc.size(), CV_8UC3);
+    Vec3b intensity, intensityNew;
+
+    int centerRow = imgSrc.rows / 2;
+    int centerCol = imgSrc.cols / 2;
+    float aSquare = (rect.height / 2.0f) * (rect.height / 2.0f);
+    float bSquare = (rect.width / 2.0f) * (rect.width / 2.0f);
     float ab = (rect.height / 2.0f) * (rect.width / 2.0f);
-    float radius_ellipse = 0.0f;
-    float max_radius = sqrt((img_src.rows / 2) * (img_src.rows / 2) + (img_src.cols / 2) * (img_src.cols / 2));
+    float radiusEllipse = 0.0f;
+    float radiusMax = sqrt((imgSrc.rows / 2) * (imgSrc.rows / 2) +
+                           (imgSrc.cols / 2) * (imgSrc.cols / 2));
     float dist = 0.0f;
-    float sin_fi = 0.0f;
+    float sinFi = 0.0f;
     float coefficient = 0.0f;
 
-    for (int i = 0; i < img_src.rows; i++)
+    for (int i = 0; i < imgSrc.rows; i++)
     {
-        for (int j = 0; j < img_src.cols; j++)
+        for (int j = 0; j < imgSrc.cols; j++)
         {
-            intensity = img_src.at<Vec3b>(i, j);
-            intensity_new = intensity;
-            if ((i - center_row) * (i - center_row) / a_2 +
-                    (j - center_col) * (j - center_col) / b_2 > 1)
-            {
-                dist = sqrtf((i - center_row) * (i - center_row) + (j - center_col) * (j - center_col));
-                sin_fi = (i - center_row) / dist;
-                radius_ellipse = ab / sqrt(a_2 * (1 - sin_fi * sin_fi) + b_2 * sin_fi * sin_fi);
-                coefficient = 1.0f - ((dist - radius_ellipse) / (max_radius - radius_ellipse));
+            intensity = imgSrc.at<Vec3b>(i, j);
 
-                intensity_new.val[0] = (uchar)(intensity.val[0] * coefficient);
-                intensity_new.val[1] = (uchar)(intensity.val[1] * coefficient);
-                intensity_new.val[2] = (uchar)(intensity.val[2] * coefficient);
+            intensityNew = intensity;
+            if ((i - centerRow) * (i - centerRow) / aSquare +
+                    (j - centerCol) * (j - centerCol) / bSquare > 1)
+            {
+                dist = sqrtf((i - centerRow) * (i - centerRow) +
+                             (j - centerCol) * (j - centerCol));
+                sinFi = (i - centerRow) / dist;
+                radiusEllipse = ab / sqrt(aSquare * (1 - sinFi * sinFi) +
+                                          bSquare * sinFi * sinFi);
+                coefficient = 1.0f - ((dist - radiusEllipse) /
+                                      (radiusMax - radiusEllipse));
+
+                intensityNew.val[0] = (uchar)(intensity.val[0] * coefficient);
+                intensityNew.val[1] = (uchar)(intensity.val[1] * coefficient);
+                intensityNew.val[2] = (uchar)(intensity.val[2] * coefficient);
             }
-            img_dst.at<Vec3b>(i, j) = intensity_new;
+            imgDst.at<Vec3b>(i, j) = intensityNew;
         }
     }
-    img_dst.convertTo(dst, img_src.type());
+    imgDst.convertTo(dst, CV_8UC3);
     return 0;
 }
