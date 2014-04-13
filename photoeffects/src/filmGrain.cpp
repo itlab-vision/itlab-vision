@@ -1,13 +1,9 @@
 #include "photoeffects.hpp"
 
 using namespace cv;
-#define MAX_VALUE 20
 int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue)
 {
-    if (src.type() != CV_8UC1 && src.type() != CV_8UC3)
-    {
-        return 1;
-    }
+    CV_Assert(src.type() == CV_8UC1 || src.type() == CV_8UC3);
     Mat image=src.getMat();
     if(src.type()==CV_8UC1)
     {
@@ -49,6 +45,5 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue)
             }
         cvtColor(imageYUV,dst,CV_YUV2RGB);
     }
-
     return 0;
 }
