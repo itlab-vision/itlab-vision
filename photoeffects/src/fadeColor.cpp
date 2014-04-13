@@ -1,5 +1,6 @@
 #include "photoeffects.hpp"
-
+#include <stdio.h>
+#include <omp.h>
 using namespace cv;
 using namespace std;
 
@@ -36,6 +37,7 @@ Point findFarthestPoint(Point vector, Mat& image)
 int fadeColor(InputArray src, OutputArray dst,
               Point startPoint, Point endPoint)
 {
+
     Mat image=src.getMat();
     CV_Assert(image.type() == CV_8UC1 || image.type() == CV_8UC3);
     CV_Assert(startPoint.x>=0 && startPoint.x<image.rows);
@@ -43,7 +45,7 @@ int fadeColor(InputArray src, OutputArray dst,
     CV_Assert(startPoint.y>=0 && startPoint.y<image.cols);
     CV_Assert(endPoint.y>=0 && endPoint.y<image.cols);
     CV_Assert(startPoint!=endPoint);
-      // perpendicular to the line
+    // perpendicular to the line
     Point perpendicular;
     perpendicular.x=endPoint.x-startPoint.x;
     perpendicular.y=endPoint.y-startPoint.y;
@@ -52,10 +54,8 @@ int fadeColor(InputArray src, OutputArray dst,
     int A=-perpendicular.y;
     int B=-perpendicular.x;
     int C=-startPoint.y*A-B*startPoint.x;
-
     //find the most distant point from the line
     Point farthestPoint=findFarthestPoint(perpendicular, image);
-
 
     int maxDistance=abs(A*farthestPoint.x+B*farthestPoint.y+C);
     //one channel
@@ -99,7 +99,6 @@ int fadeColor(InputArray src, OutputArray dst,
                 }
             }
         }
-
     image.copyTo(dst);
     return 0;
 }
