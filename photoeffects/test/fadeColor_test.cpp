@@ -11,8 +11,8 @@ TEST(photoeffects, FadeColorTest) {
 
     EXPECT_EQ(0, fadeColor(imageWithOneChannel,dst,Point(5,5),Point(5,10)));
     EXPECT_EQ(0, fadeColor(imageWithThreeChannel,dst,Point(5,5),Point(5,10)));
-    EXPECT_EQ(1, fadeColor(imageWithTwoChannel,dst,Point(5,5),Point(5,10)));
-    EXPECT_EQ(2, fadeColor(imageWithOneChannel,dst,Point(50,5),Point(5,10)));
-    EXPECT_EQ(2, fadeColor(imageWithOneChannel,dst,Point(5,5),Point(5,-10)));
-    EXPECT_EQ(3, fadeColor(imageWithOneChannel,dst,Point(5,5),Point(5,5)));
+    EXPECT_ERROR(CV_StsAssert, fadeColor(imageWithTwoChannel,dst,Point(5,5),Point(5,10)));
+    EXPECT_ERROR(CV_StsAssert, fadeColor(imageWithOneChannel,dst,Point(50,5),Point(5,10)));
+    EXPECT_ERROR(CV_StsAssert, fadeColor(imageWithOneChannel,dst,Point(5,5),Point(5,-10)));
+    EXPECT_ERROR(CV_StsAssert, fadeColor(imageWithOneChannel,dst,Point(5,5),Point(5,5)));
 }
