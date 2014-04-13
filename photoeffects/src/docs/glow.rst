@@ -18,6 +18,7 @@ The algorithm:
 #. Create new 3-channel image, each channel of the matrix calculates by the following formula:
 
     .. math::
+       :nowrap:
 
         \begin{equation}
             C = \begin{cases}
@@ -31,7 +32,8 @@ The algorithm:
 #. Create new 3-channel image, each channel of the matrix calculates by the following formula:
 
     .. math::
-
+       :nowrap:
+       
         \begin{equation}
             C = intensity * A + (1 - intensity) * B
         \end{equation} 
