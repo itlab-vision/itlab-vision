@@ -33,41 +33,17 @@ Point findFarthestPoint(Point vector, Mat& image)
 
     return farthestPoint;
 }
-int checkArgument(Mat& image, Point startPoint, Point endPoint)
-{
-    if (image.type() != CV_8UC1 && image.type() != CV_8UC3)
-    {
-        return 1;
-    }
-    if(startPoint.x<0 || startPoint.x>image.rows)
-    {
-        return 2;
-    }
-    if(endPoint.x<0 || endPoint.x>image.rows)
-    {
-        return 2;
-    }
-    if(startPoint.y<0 || startPoint.y>image.cols)
-    {
-        return 2;
-    }
-    if(endPoint.y<0 || endPoint.y>image.cols)
-    {
-        return 2;
-    }
-    if(startPoint==endPoint)
-    {
-        return 3;
-    }
-    return 0;
-}
-
 int fadeColor(InputArray src, OutputArray dst,
               Point startPoint, Point endPoint)
 {
     Mat image=src.getMat();
-    CV_Assert(checkArgument(image, startPoint, endPoint)==0);
-    // perpendicular to the line
+    CV_Assert(image.type() == CV_8UC1 || image.type() == CV_8UC3);
+    CV_Assert(startPoint.x>=0 && startPoint.x<image.rows);
+    CV_Assert(endPoint.x>=0 && endPoint.x<image.rows);
+    CV_Assert(startPoint.y>=0 && startPoint.y<image.cols);
+    CV_Assert(endPoint.y>=0 && endPoint.y<image.cols);
+    CV_Assert(startPoint!=endPoint);
+      // perpendicular to the line
     Point perpendicular;
     perpendicular.x=endPoint.x-startPoint.x;
     perpendicular.y=endPoint.y-startPoint.y;

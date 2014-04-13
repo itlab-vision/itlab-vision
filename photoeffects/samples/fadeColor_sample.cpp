@@ -30,16 +30,6 @@ int main(int argc, char** argv)
     setMouseCallback(ORIGINAL_IMAGE, CallBackFunc,&src);
     cout << "Choose two point on image and press any key."<<endl;
     waitKey(0);
-    if(codeError==1)
-    {
-        cout << "Incorrect type of image."<<endl;
-        return 2;
-    }
-    if(codeError==4)
-    {
-        cout << "File is not found or empty."<<endl;
-        return 3;
-    }
     destroyAllWindows();
     return 0;
 }
@@ -73,7 +63,7 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
             circle(srcCopy,startPoint,5,CV_RGB(255,50,255),4);
             circle(srcCopy,endPoint,5,CV_RGB(255,50,255),4);
             Mat dst;
-            codeError=fadeColor(src,dst,startPoint,endPoint);
+            fadeColor(src,dst,startPoint,endPoint);
             imshow(ORIGINAL_IMAGE,srcCopy);
             namedWindow(FADED_IMAGE,CV_WINDOW_AUTOSIZE);
             imshow(FADED_IMAGE,dst);
