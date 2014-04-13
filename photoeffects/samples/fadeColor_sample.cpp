@@ -5,10 +5,7 @@ using namespace std;
 
 const char *ORIGINAL_IMAGE="Original image";
 const char *FADED_IMAGE="Faded image";
-const char *helper =
-        "./fadeColor <img>\n\
-        \t<img> - file name contained the processed image\n\
-        ";
+const char *helper ="./fadeColor <img>\n\t<img> - file name contained the processed image\n";
 
 Point startPoint,endPoint;
 int numberChoosenPoint=0;
@@ -28,7 +25,7 @@ int main(int argc, char** argv)
     namedWindow(ORIGINAL_IMAGE,CV_WINDOW_AUTOSIZE);
     imshow(ORIGINAL_IMAGE,src);
     setMouseCallback(ORIGINAL_IMAGE, CallBackFunc,&src);
-    cout << "Choose two point on image and press any key."<<endl;
+    cout << "Choose two points on image and press any key."<<endl;
     waitKey(0);
     destroyAllWindows();
     return 0;
