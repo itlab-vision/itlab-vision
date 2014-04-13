@@ -1,35 +1,29 @@
 =======================================
-fadeColor
+filmGrain
 =======================================
-Applies color fade effect to the initial image.
+Applies film grain effect to the initial image.
 
-.. cpp:function:: int fadeColor(InputArray src, OutputArray dst, Point startPoint, Point endPoint)
+.. cpp:function:: int filmGrain(InputArray src, OutputArray dst, int grainValue)
 
     :param src: Grayscale or RGB image.
     :param dst: Destination image of the same size and the same type as **src**.
-    :param startPoint: Initial point of direction vector for color fading.
-    :param endPoint: Terminal point of direction vector for color fading.
+    :param grainValue: Degree of graininess. 
     
     :return: Error code.
 
 The algorithm:
 
-1. Determine the coordinates of the vector by two points **(startPoint, endPoint)** . 
-2. Determine the line which is perpendicular to vector and is passing through **startPoint**. 
-3. Find the most distant point from the line. 
-4. For each pixel located at one side from the line defined by the direction of the vector, change the value of each channel by the following formula:
-          
-        **newValue = (1-a) * oldValue + a * 255**, a = distance / maxDistance.
-
-5. Save this matrix as image in same format.
+1. Convert image to **YUV** format. 
+2. Add noise to first component. 
+3. Convert image to **RGB** format.
 
 
 Example:
 
 |srcImage| |dstImage|
 
-.. |srcImage| image:: originalImage.jpg
+.. |srcImage| image:: originalFilmGrainImage.png
     :width: 40%
 
-.. |dstImage| image:: fadeImage.jpg
+.. |dstImage| image:: resultFilmGrainImage.png
     :width: 40%

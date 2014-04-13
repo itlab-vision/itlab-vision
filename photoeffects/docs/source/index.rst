@@ -14,6 +14,7 @@ Contents:
    code/docs/sepia.rst
    code/docs/fadeColor.rst
    code/docs/boostColor.rst
+   code/docs/filmGrain.rst
 
 
 
