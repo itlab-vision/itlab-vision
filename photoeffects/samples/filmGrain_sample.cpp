@@ -24,11 +24,11 @@ int main(int argc, char** argv)
         cout<<"Not found file"<<endl;
         return 1;
     }
-    namedWindow(ORIGINAL_IMAGE,CV_WINDOW_AUTOSIZE);
-    imshow(ORIGINAL_IMAGE,src);
+    namedWindow(ORIGINAL_IMAGE, CV_WINDOW_AUTOSIZE);
+    imshow(ORIGINAL_IMAGE, src);
     Mat dst;
-    filmGrain(src,dst,atoi(argv[2]));
-    imshow(FILM_GRAIN_IMAGE,dst);
+    filmGrain(src, dst, atoi(argv[2]));
+    imshow(FILM_GRAIN_IMAGE, dst);
     cout << "Press any key to EXIT"<<endl;
     waitKey(0);
     return 0;

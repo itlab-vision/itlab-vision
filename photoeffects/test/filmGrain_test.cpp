@@ -13,8 +13,8 @@ TEST(photoeffects, FilmGrainInvalidImageFormat)
 }
 TEST(photoeffects, FilmGrainTest) {
     Mat imageWithOneChannel(10, 20, CV_8UC1);
-    Mat imageWithThreeChannel(10,20,CV_8UC3);
+    Mat imageWithThreeChannel(10, 20, CV_8UC3);
     Mat dst;
-    EXPECT_EQ(0, filmGrain(imageWithOneChannel,dst,5));
-    EXPECT_EQ(0, filmGrain(imageWithThreeChannel,dst,5));
+    EXPECT_EQ(0, filmGrain(imageWithOneChannel, dst, 5));
+    EXPECT_EQ(0, filmGrain(imageWithThreeChannel, dst, 5));
 }

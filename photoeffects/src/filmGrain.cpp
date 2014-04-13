@@ -8,10 +8,10 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue)
     if(src.type()==CV_8UC1)
     {
         RNG rng(getTickCount());
-        for(int i=0;i<image.rows;i++)
-            for(int j=0;j<image.cols;j++)
+        for(int i=0; i<image.rows; i++)
+            for(int j=0; j<image.cols; j++)
             {
-                int newValue=(image.at<uchar>(i,j)+rng.gaussian(grainValue));
+                int newValue=(image.at<uchar>(i, j)+rng.gaussian(grainValue));
                 if(newValue<0)
                 {
                     newValue=0;
@@ -20,7 +20,7 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue)
                 {
                     newValue=255;
                 }
-                image.at<uchar>(i,j)= newValue;
+                image.at<uchar>(i, j)= newValue;
             }
         image.copyTo(dst);
     }
@@ -28,11 +28,11 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue)
     {
         RNG rng(getTickCount());
         Mat imageYUV;
-        cvtColor(image,imageYUV,CV_RGB2YUV);
-        for(int i=0;i<imageYUV.rows;i++)
-            for(int j=0;j<imageYUV.cols;j++)
+        cvtColor(image, imageYUV, CV_RGB2YUV);
+        for(int i=0; i<imageYUV.rows; i++)
+            for(int j=0; j<imageYUV.cols; j++)
             {
-                int newValue=(imageYUV.at<Vec3b>(i,j)[0]+rng.gaussian(grainValue));
+                int newValue=(imageYUV.at<Vec3b>(i, j)[0]+rng.gaussian(grainValue));
                 if(newValue<0)
                 {
                     newValue=0;
@@ -41,9 +41,9 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue)
                 {
                     newValue=255;
                 }
-                imageYUV.at<Vec3b>(i,j)[0]= newValue;
+                imageYUV.at<Vec3b>(i, j)[0]= newValue;
             }
-        cvtColor(imageYUV,dst,CV_YUV2RGB);
+        cvtColor(imageYUV, dst, CV_YUV2RGB);
     }
     return 0;
 }
