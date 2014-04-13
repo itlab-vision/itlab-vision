@@ -5,12 +5,9 @@ using namespace cv;
 
 int sepia(InputArray src, OutputArray dst)
 {
+    CV_Assert(src.type() == CV_8UC1);
     Mat img = src.getMat(), hsvImg, sepiaH, sepiaS;
     Scalar hue(19), saturation(78), value(20);
-    if (src.type() != CV_8UC1)
-    {
-        return 1;
-    }
 
     vector<Mat> sepiaPlanes;
     sepiaPlanes.resize(3);
