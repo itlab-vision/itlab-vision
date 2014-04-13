@@ -10,7 +10,9 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst);
 
 int fadeColor(cv::InputArray src, cv::OutputArray dst);
 
-cv::Mat tint(cv::Mat& image, int hue, float sat);
+int tint(cv::InputArray src, cv::OutputArray dst, const cv::Vec3b &colorTint, float density);
+
+int edgeBlur(cv::InputArray src, cv::OutputArray dst, int indentTop, int indentLeft);
 
 int glow(cv::Mat& image);
 
