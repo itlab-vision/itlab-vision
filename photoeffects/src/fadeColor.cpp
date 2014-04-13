@@ -1,6 +1,5 @@
 #include "photoeffects.hpp"
 #include <stdio.h>
-#include <omp.h>
 using namespace cv;
 using namespace std;
 
