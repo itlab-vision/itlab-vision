@@ -27,7 +27,7 @@ The algorithm:
             \end{cases}
         \end{equation}
 
-    where :math:`A` is the pixel's tonal value that lies in the blurred image, :math:`B` is the pixel's tonal value that lies in the source image, :math:`C` is the tonal value of the blended pixel.
+   where :math:`A` is the pixel's tonal value that lies in the blurred image, :math:`B` is the pixel's tonal value that lies in the source image, :math:`C` is the tonal value of the blended pixel.
 
 #. Create new 3-channel image, each channel of the matrix calculates by the following formula:
 
@@ -38,7 +38,7 @@ The algorithm:
             C = intensity * A + (1 - intensity) * B
         \end{equation} 
 
-    where :math:`A` is the pixel's tonal value that lies in the previous blended image, :math:`B` is the pixel's tonal value that lies in the source image, :math:`C` is the tonal value of the blended pixel.
+   where :math:`A` is the pixel's tonal value that lies in the previous blended image, :math:`B` is the pixel's tonal value that lies in the source image, :math:`C` is the tonal value of the blended pixel.
 
 #. Save previous image as RGB image
 
