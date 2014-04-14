@@ -5,7 +5,7 @@ using namespace cv;
 using namespace std;
 
 const char *helper =
-"./sepia_sample <img>\n\
+"./warmify_sample <img>\n\
 \t<img> - file name contained the processed image\n\
 ";
 
