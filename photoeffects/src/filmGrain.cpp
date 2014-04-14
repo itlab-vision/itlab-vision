@@ -5,9 +5,9 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue)
 {
     CV_Assert(src.type() == CV_8UC1 || src.type() == CV_8UC3);
     Mat image=src.getMat();
+    RNG& rng=theRNG();
     if(src.type()==CV_8UC1)
     {
-        RNG rng(getTickCount());
         for(int i=0; i<image.rows; i++)
             for(int j=0; j<image.cols; j++)
             {
@@ -26,7 +26,6 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue)
     }
     if(src.type()==CV_8UC3)
     {
-        RNG rng(getTickCount());
         Mat imageYUV;
         cvtColor(image, imageYUV, CV_RGB2YUV);
         for(int i=0; i<imageYUV.rows; i++)
