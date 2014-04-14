@@ -20,13 +20,14 @@ TEST(photoeffects, GlowTestRegression) {
 
     for (int i = 0; i < dst.rows; i++)
     {
-    	for (int j = 0; j < dst.cols; j++)
-    	{
-    		for (int k = 0; k < 3; k++)
-    		{
-    			ASSERT_EQ(rightDst.at<Vec3b>(i, j)[k], dst.at<Vec3b>(i, j)[k]);
-    		}
-    	}
+        for (int j = 0; j < dst.cols; j++)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                ASSERT_LE(rightDst.at<Vec3b>(i, j)[k] - 1, dst.at<Vec3b>(i, j)[k]);
+                ASSERT_GE(rightDst.at<Vec3b>(i, j)[k] + 1, dst.at<Vec3b>(i, j)[k]);
+            }
+        }
     }
 }
 

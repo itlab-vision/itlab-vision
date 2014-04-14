@@ -25,19 +25,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    int opRes = glow(img, dstImg, sigma, intensity);
-    switch (opRes)
-    {
-        case 1:
-            cout << "Incorrect image type." << endl;
-            return 2;
-        case 2:
-            cout << "Incorrect value of sigma." << endl;
-            return 2;
-        case 3:
-            cout << "Incorrect value of intensity." << endl;
-            return 2;
-    }
+    glow(img, dstImg, sigma, intensity);
+
     namedWindow(srcImgWinName);
     namedWindow(dstImgWinName);
     imshow(srcImgWinName, img);
