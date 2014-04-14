@@ -15,7 +15,8 @@ Contents:
    code/docs/fadeColor.rst
    code/docs/boostColor.rst
    code/docs/filmGrain.rst
-
+   code/docs/glow.rst
+   code/docs/tint.rst
 
 
 Indices and tables

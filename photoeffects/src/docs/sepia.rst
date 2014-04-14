@@ -18,3 +18,14 @@ The algorithm:
     #. 3d channel is the matrix of brightness (**src** + **value** = **src** + 20).
 
 #. Save this matrix as BGR image
+
+Example:
+
+|srcImage| |dstImage|
+
+.. |srcImage| image:: sepiaImage.jpeg
+     :width: 40%
+
+.. |dstImage| image:: sepiaOut.jpg
+     :width: 40%
+
