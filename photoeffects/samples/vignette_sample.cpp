@@ -5,9 +5,11 @@ using namespace cv;
 using namespace std;
 
 const char *helper =
-"./sepia_sample <img>\n\
+"./vignette_sample <img>\n\
 \t<img> - file name contained the processed image\n\
 ";
+
+int processArguments(int argc, char **argv, Mat &img);
 
 int main(int argc, char** argv)
 {
@@ -16,21 +18,19 @@ int main(int argc, char** argv)
     Mat image, vignetteImg;
     Size rectangle;
 
-    if (argc < 2)
+    if (processArguments(argc, argv, image) != 0)
     {
         cout << helper << endl;
         return 1;
     }
-
-    image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-    rectangle.height = image.rows / 1.5f;
-    rectangle.width = image.cols / 2.0f;
 
     if (image.data == NULL)
     {
         cout << "Error. Image wasn't found." << endl;
         return 2;
     }
+    rectangle.height = image.rows / 1.5f;
+    rectangle.width = image.cols / 2.0f;
 
     int codeError = vignette(image, vignetteImg, rectangle);
     if (codeError == 1)
@@ -45,5 +45,15 @@ int main(int argc, char** argv)
     imshow(dstImgWinName, vignetteImg);
     waitKey();
     destroyAllWindows();
-	return 0;
+    return 0;
+}
+
+int processArguments(int argc, char **argv, Mat &img)
+{
+    if (argc < 2)
+    {
+        return 1;
+    }
+    img = imread(argv[1], CV_LOAD_IMAGE_COLOR);
+    return 0;
 }
