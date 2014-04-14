@@ -20,44 +20,47 @@ using namespace cv;
 int vignette(InputArray src, OutputArray dst, Size rect)
 {
     CV_Assert(src.type() == CV_8UC3 && rect.height != 0 && rect.width != 0);
-    Mat imgSrc(src.size(), CV_8UC3);
-    imgSrc = src.getMat();
+
+    Mat imgSrc = src.getMat();
     Mat imgDst(imgSrc.size(), CV_8UC3);
     Vec3b intensity, intensityNew;
 
-    int centerRow = imgSrc.rows / 2;
-    int centerCol = imgSrc.cols / 2;
-    float aSquare = (rect.height / 2.0f) * (rect.height / 2.0f);
-    float bSquare = (rect.width / 2.0f) * (rect.width / 2.0f);
-    float ab = (rect.height / 2.0f) * (rect.width / 2.0f);
+    float centerRow = imgSrc.rows / 2.0f;
+    float centerCol = imgSrc.cols / 2.0f;
+    float aSquare = rect.height * rect.height / 4.0f;
+    float bSquare = rect.width * rect.width / 4.0f;
+    float ab = rect.height * rect.width / 4.0f;
     float radiusEllipse = 0.0f;
-    float radiusMax = sqrt((imgSrc.rows / 2) * (imgSrc.rows / 2) +
-                           (imgSrc.cols / 2) * (imgSrc.cols / 2));
+    float radiusMax = sqrtf(centerRow * centerRow + centerCol * centerCol);
+    float iMinusCenterRow = 0.0f;
+    float iMinusCenterRowSquare = 0.0f;
+    float jMinusCenterColSquare = 0.0f;
     float dist = 0.0f;
     float sinFi = 0.0f;
+    float sinFiSquare = 0.0f;
     float coefficient = 0.0f;
 
     for (int i = 0; i < imgSrc.rows; i++)
     {
+        iMinusCenterRow = (i - centerRow);
+        iMinusCenterRowSquare = iMinusCenterRow * iMinusCenterRow;
         for (int j = 0; j < imgSrc.cols; j++)
         {
             intensity = imgSrc.at<Vec3b>(i, j);
 
+            jMinusCenterColSquare = (j - centerCol) * (j - centerCol);
             intensityNew = intensity;
-            if ((i - centerRow) * (i - centerRow) / aSquare +
-                    (j - centerCol) * (j - centerCol) / bSquare > 1)
+            if (iMinusCenterRowSquare / aSquare + jMinusCenterColSquare / bSquare > 1)
             {
-                dist = sqrtf((i - centerRow) * (i - centerRow) +
-                             (j - centerCol) * (j - centerCol));
-                sinFi = (i - centerRow) / dist;
-                radiusEllipse = ab / sqrt(aSquare * (1 - sinFi * sinFi) +
-                                          bSquare * sinFi * sinFi);
+                dist = sqrtf(iMinusCenterRowSquare + jMinusCenterColSquare);
+                sinFi = iMinusCenterRow / dist;
+                sinFiSquare = sinFi * sinFi;
+                radiusEllipse = ab / sqrtf(aSquare * (1.0f - sinFiSquare) +
+                                          bSquare * sinFiSquare);
                 coefficient = 1.0f - ((dist - radiusEllipse) /
                                       (radiusMax - radiusEllipse));
 
-                intensityNew.val[0] = (uchar)(intensity.val[0] * coefficient);
-                intensityNew.val[1] = (uchar)(intensity.val[1] * coefficient);
-                intensityNew.val[2] = (uchar)(intensity.val[2] * coefficient);
+                intensityNew *= coefficient;
             }
             imgDst.at<Vec3b>(i, j) = intensityNew;
         }

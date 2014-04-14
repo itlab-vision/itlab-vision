@@ -4,35 +4,46 @@
 using namespace cv;
 using namespace std;
 
+const char *helper =
+"./sepia_sample <img>\n\
+\t<img> - file name contained the processed image\n\
+";
+
 int main(int argc, char** argv)
 {
-    if (argc != 2)
-    {
-        cout << "Error. Write the name of image as parameter." << endl;
-        return -1;
-    }
-    Mat image;
-    image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-    if (!image.data)
-    {
-        cout << "Error. Image wasn't found." << endl;
-        return -1;
-    }
-    namedWindow(argv[1], WINDOW_AUTOSIZE);
-    Mat img_dst;
+    const char *srcImgWinName = "Initial image",
+               *dstImgWinName = "Processed image";
+    Mat image, vignetteImg;
     Size rectangle;
+
+    if (argc < 2)
+    {
+        cout << helper << endl;
+        return 1;
+    }
+
+    image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
     rectangle.height = image.rows / 1.5f;
     rectangle.width = image.cols / 2.0f;
-    imshow(argv[1], image);
-    if (vignette(image, img_dst, rectangle) == 0)
+
+    if (image.data == NULL)
     {
-        imshow(argv[1], img_dst);
-        imwrite("/home/vlad/Изображения/girl2_vignette.jpg", img_dst);
+        cout << "Error. Image wasn't found." << endl;
+        return 2;
     }
-    else
+
+    int codeError = vignette(image, vignetteImg, rectangle);
+    if (codeError == 1)
     {
-        cout << "Error. Wrong parameters." << endl;
+        cout << "Incorrect image type or size of rectangle." << endl;
+        return 2;
     }
-    waitKey(0);
+
+    namedWindow(srcImgWinName);
+    namedWindow(dstImgWinName);
+    imshow(srcImgWinName, image);
+    imshow(dstImgWinName, vignetteImg);
+    waitKey();
+    destroyAllWindows();
 	return 0;
 }
