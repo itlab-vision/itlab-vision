@@ -19,7 +19,7 @@ The algorithm:
 
 #. Save this matrix as BGR image.
 
-Example.
+Example:
 
 |srcImage| |dstImage|
 
