@@ -1,12 +1,16 @@
 #include "photoeffects.hpp"
-#include <stdio.h>
+#include <iostream>
 
 using namespace cv;
+using namespace std;
 
 const char *helper =
 "./tint_sample <img>\n\
 \t<img> - file name contained the processed image\n\
 ";
+const char *nameWinImage = "Image";
+const char *nameWinFilter = "Filter";
+const char *nameWinParam = "Tint";
 
 Vec3b ColorTint;
 Mat BaseColor, img, filterImg;
@@ -36,50 +40,55 @@ void trackbarTint(int pos, void*)
     BaseColor.copyTo(Color);
     Rect r(pos - 1, 0, 4, 20);
     rectangle(Color, r, Scalar(0));
-    imshow("Tint", Color);
+    imshow(nameWinParam, Color);
     ColorTint = BaseColor.at<Vec3b>(0, pos);
 
-    float den = (float)valueDen / 100.0;
+    float den = (float)valueDen / 100.0f;
     tint(img, filterImg, ColorTint, den);
-    imshow("Filter", filterImg);
+    imshow(nameWinFilter, filterImg);
 }
 
 void trackbarDen(int pos, void *)
 {
-    float den = (float)valueDen / 100.0;
+    float den = (float)valueDen / 100.0f;
     tint(img, filterImg, ColorTint, den);
-    imshow("Filter", filterImg);
+    imshow(nameWinFilter, filterImg);
 }
+
+int processArguments(int argc, char** argv, Mat &image);
 
 int main(int argc, char* argv[])
 {
     char* filename;
 
-    if (argc >= 2)
+    if (processArguments(argc, argv, img) != 0)
     {
-        filename = argv[1];
-    }
-    else
-    {
-        printf("Couldn't open image\n");
-        printf("%s\n", helper);
+        cout << helper << endl;
         return 1;
     }
 
-    img = imread(filename);
-
-    namedWindow("Tint");
-    createTrackbar("Hue", "Tint", &valueHue, 360, trackbarTint);
-    createTrackbar("Density(%)", "Tint", &valueDen, 100, trackbarDen);
+    namedWindow(nameWinParam);
+    createTrackbar("Hue", nameWinParam, &valueHue, 360, trackbarTint);
+    createTrackbar("Density(%)", nameWinParam, &valueDen, 100, trackbarDen);
     preparePicture();
 
-    namedWindow("Image");
-    namedWindow("Filter");
+    namedWindow(nameWinImage);
+    namedWindow(nameWinFilter);
 
-    imshow("Tint", BaseColor);
-    imshow("Image", img);
-    imshow("Filter", img);
+    imshow(nameWinParam, BaseColor);
+    imshow(nameWinImage, img);
+    imshow(nameWinFilter, img);
 
     waitKey();
+    return 0;
+}
+
+int processArguments(int argc, char **argv, Mat &image)
+{
+    if (argc < 2)
+    {
+        return 1;
+    }
+    image = imread(argv[1], 1);
     return 0;
 }

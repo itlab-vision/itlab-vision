@@ -13,12 +13,7 @@ int tint(InputArray src, OutputArray dst,
         for (int j = 0; j < image.cols; j++)
         {
             Vec3b colorDest = image.at<Vec3b>(i, j);
-            colorDest[0] = (uchar)((colorTint[0] - colorDest[0])
-                *density + colorDest[0]);
-            colorDest[1] = (uchar)((colorTint[1] - colorDest[1])
-                *density + colorDest[1]);
-            colorDest[2] = (uchar)((colorTint[2] - colorDest[2])
-                *density + colorDest[2]);
+            colorDest = colorTint * density + (1 - density) * colorDest;
             outputImage.at<Vec3b>(i, j) = colorDest;
         }
     }
