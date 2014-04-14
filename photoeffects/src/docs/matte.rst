@@ -1,32 +1,33 @@
 =======================================
-matte
+Matte
 =======================================
-Applies matte effect to the initial image.
+Applies matte effect to image.
 
-.. cpp:function:: int matte(cv::InputArray src, cv::OutputArray dst, cv::Point firstPoint, 
-cv::Point secondPoint, float sigma)
+.. cpp:function:: int matte(cv::InputArray src, cv::OutputArray dst, cv::Point firstPoint, cv::Point secondPoint, float sigma)
 
-    :param src: Source image.
-    :param dst: Destination image of the same size and the same type as **src**.
-    :param firstPoint: The first point for creating ellipse.
-    :param secondPoint: The second point for creatin ellipse.
-    :param sigma: The deviation in the Gaussian blur effect.
-    :return: Error code.
+   :param src: RGB image.
+   :param dst: Destination image of the same size and the same type as **src**.
+   :param firstPoint: The first point for creating ellipse.
+   :param secondPoint: The second point for creatin ellipse.
+   :param sigma: The deviation in the Gaussian blur effect.
+   :return: Error code.
 
 The algorithm:
 
 #. Create new image with white background for mask.
-#. Build black ellipse by two points on the mask image - it's meaning part.
-#. Use Gaussian Blur to meaning part for creating fade effect.
-#. Accept mask to the image with convolution formula on all channels.
-#. Save this matrix as image in same color format as **src**.
+#. Draw black ellipse inscribed in a rectangle that is defined by two opposite corner points (**firstPoint** and **secondPoint**) on the mask image. It's a meaning part.
+#. Apply gaussian blur to the meaning part to make fade effect.
+#. Convolve mask with the image.
+#. Convert resulting image to the same color format as **src**.
 
-Example with sigma=25:
+Example:
+
+    sigma = 25.
 
 |srcImage| |dstImage|
 
-.. |srcImage| image:: originalForMatte.jpg
-    :width: 20%
+.. |srcImage| image:: matte_before.jpg
+    :width: 40%
 
-.. |dstImage| image:: afterEffectMatte25.jpg
-    :width: 20%
+.. |dstImage| image:: matte_after.jpg
+    :width: 40%
