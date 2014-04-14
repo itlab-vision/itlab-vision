@@ -1,7 +1,7 @@
 =======================================
 Matte
 =======================================
-Applies matte effect to image.
+Increases the brightness of peripheral pixels.
 
 .. cpp:function:: int matte(cv::InputArray src, cv::OutputArray dst, cv::Point firstPoint, cv::Point secondPoint, float sigma)
 
@@ -12,7 +12,7 @@ Applies matte effect to image.
    :param sigma: The deviation in the Gaussian blur effect.
    :return: Error code.
 
-The algorithm:
+The algorithm.
 
 #. Create new image with white background for mask.
 #. Draw black ellipse inscribed in a rectangle that is defined by two opposite corner points (**firstPoint** and **secondPoint**) on the mask image. It's a meaning part.
@@ -20,14 +20,14 @@ The algorithm:
 #. Convolve mask with the image.
 #. Convert resulting image to the same color format as **src**.
 
-Example:
+Example.
 
     sigma = 25.
 
 |srcImage| |dstImage|
 
 .. |srcImage| image:: matte_before.jpg
-    :width: 40%
+   :width: 40%
 
 .. |dstImage| image:: matte_after.jpg
-    :width: 40%
+   :width: 40%
