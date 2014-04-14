@@ -18,6 +18,7 @@ Contents:
    code/docs/glow.rst
    code/docs/tint.rst
    code/docs/edgeBlur.rst
+   code/docs/matte.rst
 
 
 Indices and tables
