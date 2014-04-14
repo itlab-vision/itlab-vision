@@ -16,6 +16,7 @@ Contents:
    code/docs/boostColor.rst
    code/docs/glow.rst
    code/docs/tint.rst
+   code/docs/edgeBlur.rst
 
 
 Indices and tables
