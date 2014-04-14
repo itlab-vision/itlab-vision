@@ -1,35 +1,33 @@
 =======================================
-tint
+Tint
 =======================================
-Add a tint to the initial image.
+Add a tint to the image.
 
 .. cpp:function:: int tint(cv::InputArray src, cv::OutputArray dst, const cv::Vec3b &colorTint, float density)
 
-	:param src: Source 8-bit 3-channel(RGB) image.
-	:param dst: Destination image of the same size and the same type as **src**.
-	:param colorTint: It's a bearing color. All color of the image **src** will be shifted to it.
-	:param density: Float value between 0 and 1, defines a range of shift to the colorTint.
-	:return: Error code.
+   :param src: Source 8-bit 3-channel (RGB) image.
+   :param dst: Destination image of the same size and the same type as **src**.
+   :param colorTint: It's a bearing color. All color of the image **src** will be shifted to it.
+   :param density: Float value between 0 and 1, defines a range of shift to the colorTint.
+   :return: Error code.
 
 The algorithm:
 
-	Calculate new values by this formula:
+    Calculate new values by the formula:
 
-	- **Rdst = density * Rsrc + (1 - density) * Rtint.**
-	- **Gdst = density * Gsrc + (1 - density) * Gtint.**
-	- **Bdst = density * Bsrc + (1 - density) * Btint.**
+    .. math::
 
-	Where (Rtint, Gtint, Btint) = **colorTint**. 
+       dst(x, y) = density \cdot src(x, y) + (1 - density) \cdot colorTint
+
 
 Example:
-	**density** = 10, **colorTint** - |colorTint|
 
-.. |colorTint| image:: colorTint.png
+    **density** = 0.1, **colorTint** = Vec3b(255, 255, 0), i.e. cyan.
 
 |srcImage| |dstImage|
 
-.. |srcImage| image:: originalForTint.png
-	:width: 40%
+.. |srcImage| image:: tint_before.png
+   :width: 40%
 
-.. |dstImage| image:: tint.png
-	:width: 40%
+.. |dstImage| image:: tint_after.png
+   :width: 40%
