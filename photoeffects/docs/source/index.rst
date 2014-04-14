@@ -19,6 +19,7 @@ Contents:
    code/docs/tint.rst
    code/docs/edgeBlur.rst
    code/docs/matte.rst
+   code/docs/antique.rst
 
 
 Indices and tables
