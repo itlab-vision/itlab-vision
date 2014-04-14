@@ -4,32 +4,43 @@
 using namespace cv;
 using namespace std;
 
+const char *helper =
+"./sepia_sample <img>\n\
+\t<img> - file name contained the processed image\n\
+";
+
 int main(int argc, char** argv)
 {
+    const char *srcImgWinName = "Initial image",
+               *dstImgWinName = "Processed image";
+    Mat image, warmifyImg;
+
     if (argc != 2)
     {
-        cout << "Error. Write the name of image as parameter." << endl;
-        return -1;
+        cout << helper << endl;
+        return 1;
     }
-    Mat image;
+
     image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
+
     if (!image.data)
     {
         cout << "Error. Image wasn't found." << endl;
-        return -1;
+        return 2;
     }
-    namedWindow(argv[1], WINDOW_AUTOSIZE);
-    Mat img_dst;
-    imshow(argv[1], image);
-    if (warmify(image, img_dst, 30) == 0)
+
+    int codeError = warmify(image, warmifyImg, 30);
+    if (codeError == 1)
     {
-        imshow(argv[1], img_dst);
-        imwrite("/home/vlad/Изображения/sunset1_warm.jpg", img_dst);
+        cout << "Incorrect image type or size of rectangle." << endl;
+        return 2;
     }
-    else
-    {
-        cout << "Error. Wrong parameters." << endl;
-    }
-    waitKey(0);
+
+    namedWindow(srcImgWinName);
+    namedWindow(dstImgWinName);
+    imshow(srcImgWinName, image);
+    imshow(dstImgWinName, warmifyImg);
+    waitKey();
+    destroyAllWindows();
     return 0;
 }
