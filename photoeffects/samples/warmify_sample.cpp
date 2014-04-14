@@ -9,19 +9,19 @@ const char *helper =
 \t<img> - file name contained the processed image\n\
 ";
 
+int processArguments(int argc, char **argv, Mat &img);
+
 int main(int argc, char** argv)
 {
     const char *srcImgWinName = "Initial image",
                *dstImgWinName = "Processed image";
     Mat image, warmifyImg;
 
-    if (argc != 2)
+    if (processArguments(argc, argv, image))
     {
         cout << helper << endl;
         return 1;
     }
-
-    image = imread(argv[1], CV_LOAD_IMAGE_COLOR);
 
     if (!image.data)
     {
@@ -42,5 +42,15 @@ int main(int argc, char** argv)
     imshow(dstImgWinName, warmifyImg);
     waitKey();
     destroyAllWindows();
+    return 0;
+}
+
+int processArguments(int argc, char **argv, Mat &img)
+{
+    if (argc < 2)
+    {
+        return 1;
+    }
+    img = imread(argv[1], CV_LOAD_IMAGE_COLOR);
     return 0;
 }
