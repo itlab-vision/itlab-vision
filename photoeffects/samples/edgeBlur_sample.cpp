@@ -1,7 +1,15 @@
 #include "photoeffects.hpp"
-#include <stdio.h>
+#include <iostream>
 
 using namespace cv;
+using namespace std;
+
+const char *helper = 
+"./sepia_sample <img>\n\
+\t<img> - file name contained the processed image\n\
+";
+const char *nameWinImage = "Image";
+const char *nameWinFilter = "Edge blur";
 
 Mat img, filterImg;
 int indentTop = 0, indentLeft = 0;
@@ -9,39 +17,46 @@ int indentTop = 0, indentLeft = 0;
 void trackbarIndTop(int pos, void*)
 {
 	edgeBlur(img, filterImg, indentTop, indentLeft);
-	imshow("Edge blur", filterImg);
+	imshow(nameWinFilter, filterImg);
 }
 
 void trackbarIndLeft(int pos, void*)
 {
 	edgeBlur(img, filterImg, indentTop, indentLeft);
-	imshow("Edge blur", filterImg);
+	imshow(nameWinFilter, filterImg);
 }
 
-int main(int argc, char* argv[])
+int processArguments(int argc, char** argv, Mat &image);
+
+int main(int argc, char** argv)
 {
 	char* filename;
 
-    if (argc == 2)
+    if (processArguments(argc, argv, img) != 0)
     {
-        filename = argv[1];
+        cout << helper << endl;
+        return 1;
     }
-    else
-    {
-        printf("Couldn't open image\n");
-        return 0;
-    }
-    img = imread(filename);
 
-    namedWindow("Edge blur");
-    createTrackbar("Indent top", "Edge blur", &indentTop, (int)(img.rows / 2.0f) - 20, trackbarIndTop);
-    createTrackbar("Indent left", "Edge blur", &indentLeft, (int)(img.cols / 2.0f) - 20, trackbarIndLeft);
+    namedWindow(nameWinFilter);
+    createTrackbar("Indent top", nameWinFilter, &indentTop, img.rows / 2 - 10, trackbarIndTop);
+    createTrackbar("Indent left", nameWinFilter, &indentLeft, img.cols / 2 - 10, trackbarIndLeft);
 
-    namedWindow("Image");
+    namedWindow(nameWinImage);
 
-    imshow("Image", img);
-    imshow("Edge blur", img);
+    imshow(nameWinImage, img);
+    imshow(nameWinFilter, img);
 
     waitKey();
+    return 0;
+}
+
+int processArguments(int argc, char **argv, Mat &image)
+{
+    if (argc < 2)
+    {
+        return 1;
+    }
+    image = imread(argv[1], 1);
     return 0;
 }
