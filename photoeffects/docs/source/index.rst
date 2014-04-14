@@ -20,6 +20,7 @@ Contents:
    code/docs/edgeBlur.rst
    code/docs/matte.rst
    code/docs/antique.rst
+   code/docs/vignette.rst
 
 
 Indices and tables
