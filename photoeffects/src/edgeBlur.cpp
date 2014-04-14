@@ -4,25 +4,23 @@
 using namespace cv;
 
 #define MAX_KERNELSIZE 15
-#define PI 3.14159265359
 
 int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
 {
     CV_Assert(src.type() == CV_8UC3);
     Mat image = src.getMat(), outputImage(image.size(), CV_8UC3);
     
-    CV_Assert(indentTop >= 0 && indentTop <= (image.rows / 2.0f - 10));
-    CV_Assert(indentLeft >= 0 && indentLeft <= (image.cols / 2.0f - 10));
+    CV_Assert(indentTop >= 0 && indentTop <= (image.rows / 2 - 10));
+    CV_Assert(indentLeft >= 0 && indentLeft <= (image.cols / 2 - 10));
 
-    float kSizeEdges = (image.rows / 2.0f)
-                    * (image.rows / 2.0f)
-                    / (image.rows / 2.0f - indentTop)
-                    / (image.rows / 2.0f - indentTop)
+    float halfWidth = (image.cols / 2.0f) * (image.cols / 2.0f);
+    float halfHeight = (image.rows / 2.0f) * (image.rows / 2.0f);
+    float a = (image.cols / 2.0f - indentLeft) 
+            * (image.cols / 2.0f - indentLeft);
+    float b = (image.rows / 2.0f - indentTop) 
+            * (image.rows / 2.0f - indentTop);
+    int kSizeEdges = halfWidth / a + halfHeight / b;
 
-                    + (image.cols / 2.0f)
-                    * (image.cols / 2.0f)
-                    / (image.cols / 2.0f - indentLeft)
-                    / (image.cols / 2.0f - indentLeft);
     if (kSizeEdges > MAX_KERNELSIZE)
     {
         kSizeEdges = MAX_KERNELSIZE;
@@ -33,61 +31,56 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
     copyMakeBorder(image, bearingImage, kSizeEdges, kSizeEdges,
         kSizeEdges, kSizeEdges, BORDER_REPLICATE);
 
-    float radius;
-    int size;
-    float B, G, R, sumC;
+    int size, maxI = bearingImage.rows - kSizeEdges,
+    maxJ = bearingImage.cols - kSizeEdges;
+    Vec3f sumF;
     Vec3b Color;
-    float coeff;
-    for (int i = kSizeEdges; i < (bearingImage.rows - kSizeEdges); i++)
-    {
-        for (int j = kSizeEdges; j < (bearingImage.cols - kSizeEdges); j++)
-        {
-            radius = (bearingImage.rows / 2.0f - i)
-                    * (bearingImage.rows / 2.0f - i)
-                    / (image.rows / 2.0f - indentTop)
-                    / (image.rows / 2.0f - indentTop)
+    float radius, sumC, coeff;
+    float bearHalfWidth = bearingImage.cols / 2.0f;
+    float bearHalfHeight = bearingImage.rows / 2.0f;
 
-                    + (bearingImage.cols / 2.0f - j)
-                    * (bearingImage.cols / 2.0f - j)
-                    / (image.cols / 2.0f - indentLeft)
-                    / (image.cols / 2.0f - indentLeft);
+    for (int i = kSizeEdges; i < maxI; i++)
+    {
+        for (int j = kSizeEdges; j < maxJ; j++)
+        {
+            radius = (bearHalfHeight - i)
+                    * (bearHalfHeight - i)
+                    / b
+
+                    + (bearHalfWidth - j)
+                    * (bearHalfWidth - j)
+                    / a;
             if (radius < 1.0f)
             {
                 outputImage.at<Vec3b>(i - kSizeEdges, j - kSizeEdges) =
                     bearingImage.at<Vec3b>(i, j);
                 continue;
             }
-            else
+            sumF[0] = 0.0f;
+            sumF[1] = 0.0f;
+            sumF[2] = 0.0f;
+            sumC = 0.0f;
+            size = radius;
+            radius -= 0.5f;
+            radius *= 2.0f * radius;
+            if (size > kSizeEdges)
             {
-                R = G = B = sumC = 0.0f;
-                size = radius;
-                radius -= 0.5f;
-                radius *= radius;
-                if (size > kSizeEdges)
-                {
-                    size = kSizeEdges;
-                }
-                for (int x = i - size; x <= i + size; x++)
-                {
-                    for (int y = j - size; y <= j + size; y++)
-                    {
-                        coeff = 1.0f / (2.0f * PI * radius)
-                                * exp(- ((x - i)*(x - i) + (y - j)*(y - j))
-                                      / (2.0f * radius));
-
-                        Color = bearingImage.at<Vec3b>(x, y);
-                        B = B + coeff * Color[0];
-                        G = G + coeff * Color[1];
-                        R = R + coeff * Color[2];
-                        sumC += coeff;
-                    }
-                }
-                B /= sumC;
-                G /= sumC;
-                R /= sumC;
-                Color = Vec3b(B, G, R);
-                outputImage.at<Vec3b>(i - kSizeEdges, j - kSizeEdges) = Color;
+                size = kSizeEdges;
             }
+            for (int x = -size; x <= size; x++)
+            {
+                for (int y = -size; y <= size; y++)
+                {
+                    coeff = 1.0f / (CV_PI * radius)
+                            * exp(- (x * x + y * y) / radius);
+
+                    Color = bearingImage.at<Vec3b>(x + i, y + j);
+                    sumF = sumF + (Vec3f) (coeff * Color);
+                    sumC += coeff;
+                }
+            }
+            sumF = sumF * (1.0f / sumC);
+            outputImage.at<Vec3b>(i - kSizeEdges, j - kSizeEdges) = sumF;
         }
     }
 
