@@ -7,7 +7,7 @@ Applies film grain effect to the initial image.
 
     :param src: Grayscale or RGB image.
     :param dst: Destination image of the same size and the same type as **src**.
-    :param grainValue: Degree of graininess. 
+    :param grainValue: Degree of graininess. 8 is default value. 
     
     :return: Error code.
 
