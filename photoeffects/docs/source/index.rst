@@ -13,7 +13,9 @@ Contents:
 
    code/docs/sepia.rst
    code/docs/fadeColor.rst
-
+   code/docs/boostColor.rst
+   code/docs/glow.rst
+   code/docs/tint.rst
 
 Indices and tables
 ==================
