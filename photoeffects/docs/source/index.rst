@@ -21,6 +21,7 @@ Contents:
    code/docs/matte.rst
    code/docs/antique.rst
    code/docs/vignette.rst
+   code/docs/warmify.rst
 
 
 Indices and tables
