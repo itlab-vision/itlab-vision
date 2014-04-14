@@ -1,4 +1,4 @@
-=======
+=========================================
 warmify
 =========================================
 
@@ -19,7 +19,6 @@ The algorithm:
 	#. 3rd channel is the matrix, each element equals **red** = red_src + delta.
 
 #. Save this matrix as BGR image.
->>>>>>> Added warmify implementation and 2 files of rst-documentation
 
 Example.
 
