@@ -25,16 +25,8 @@ int main(int argc, char **argv)
         cout << helper << endl;
         return 1;
     }
-    int opRes = boostColor(img, dstImg, intensity);
-    switch (opRes)
-    {
-        case 1:
-            cout << "Incorrect image type." << endl;
-            return 2;
-        case 2:
-            cout << "Incorrect value of intensity" << endl;
-            return 2;
-    }
+    
+    boostColor(img, dstImg, intensity);
 
     namedWindow(srcImgWinName);
     namedWindow(dstImgWinName);

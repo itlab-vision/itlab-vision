@@ -25,7 +25,8 @@ TEST(photoeffects, BoostColorRegressionTest)
         {
             for (int k = 0; k < 3; k++)
             {
-                ASSERT_EQ(rightDst.at<Vec3b>(i, j)[k], dst.at<Vec3b>(i, j)[k]);
+                ASSERT_LE(rightDst.at<Vec3b>(i, j)[k] - 1, dst.at<Vec3b>(i, j)[k]);
+                ASSERT_GE(rightDst.at<Vec3b>(i, j)[k] + 1, dst.at<Vec3b>(i, j)[k]);
             }
         }
     }    
