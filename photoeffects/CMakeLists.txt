@@ -34,3 +34,4 @@ message( STATUS "General configuration for ${PROJECT_NAME} =====================
 message( STATUS "")
 message( STATUS "   Configuration:           ${CMAKE_BUILD_TYPE}")
 message( STATUS "   OpenCV build path:       ${OpenCV_DIR}")
+

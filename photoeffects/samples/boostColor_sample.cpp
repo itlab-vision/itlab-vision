@@ -26,14 +26,26 @@ int main(int argc, char **argv)
         return 1;
     }
     
-    boostColor(img, dstImg, intensity);
+    int errorCode = 0;
+    try
+    {
+        boostColor(img, dstImg, intensity);
+    }
+    catch (cv::Exception &e)
+    {
+        errorCode = e.code;
+    }
 
-    namedWindow(srcImgWinName);
-    namedWindow(dstImgWinName);
-    imshow(srcImgWinName, img);
-    imshow(dstImgWinName, dstImg);
-    waitKey();
-    destroyAllWindows();
+    if(errorCode == 0)
+    {
+        namedWindow(srcImgWinName);
+        namedWindow(dstImgWinName);
+        imshow(srcImgWinName, img);
+        imshow(dstImgWinName, dstImg);
+        waitKey();
+        destroyAllWindows();
+    }
+
     return 0;
 }
 
