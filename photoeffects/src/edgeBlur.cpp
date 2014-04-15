@@ -3,8 +3,6 @@
 
 using namespace cv;
 
-#define MAX_KERNELSIZE 15
-
 int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
 {
     CV_Assert(src.type() == CV_8UC3);
@@ -22,6 +20,7 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
             * (image.rows / 2.0f - indentTop);
     int kSizeEdges = halfWidth * halfWidth / a + halfHeight * halfHeight / b;
 
+    const int MAX_KERNELSIZE = 15;
     kSizeEdges = MIN(kSizeEdges, MAX_KERNELSIZE);
     Mat bearingImage(image.rows + 2 * kSizeEdges,
                     image.cols + 2 * kSizeEdges,
@@ -34,10 +33,6 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
     {
         for (int j = kSizeEdges; j < bearingImage.cols - kSizeEdges; j++)
         {
-            int size;
-            Vec3f sumF;
-            Vec3b Color;
-            float sumC = 0.0f, coeff;
             float radius = (halfHeight - i)
                     * (halfHeight- i)
                     / b
@@ -51,19 +46,19 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
                     bearingImage.at<Vec3b>(i, j);
                 continue;
             }
-            size = radius;
+            int size = MIN(radius, kSizeEdges);
             radius = 2.0f * (radius - 0.5f) * (radius - 0.5f);
-            size = MIN(size, kSizeEdges);
+            float sumC = 0.0f;
+            Vec3f sumF;
+            float coeff1 = 1.0f / (CV_PI * radius);
             for (int x = -size; x <= size; x++)
             {
                 for (int y = -size; y <= size; y++)
                 {
-                    coeff = 1.0f / (CV_PI * radius)
-                            * exp(- (x * x + y * y) / radius);
-
-                    Color = bearingImage.at<Vec3b>(x + i, y + j);
-                    sumF += coeff * (Vec3f)Color;
-                    sumC += coeff;
+                    float coeff2 = coeff1 * exp(- (x * x + y * y) / radius);
+                    Vec3b Color = bearingImage.at<Vec3b>(x + i, y + j);
+                    sumF += coeff2 * (Vec3f)Color;
+                    sumC += coeff2;
                 }
             }
             sumF *= (1.0f / sumC);
