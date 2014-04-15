@@ -14,24 +14,12 @@ const char *nameWinFilter = "Edge blur";
 Mat img, filterImg;
 int indentTop = 0, indentLeft = 0;
 
-void trackbarIndTop(int pos, void*)
-{
-	edgeBlur(img, filterImg, indentTop, indentLeft);
-	imshow(nameWinFilter, filterImg);
-}
-
-void trackbarIndLeft(int pos, void*)
-{
-	edgeBlur(img, filterImg, indentTop, indentLeft);
-	imshow(nameWinFilter, filterImg);
-}
-
+void trackbarIndTop(int pos, void *);
+void trackbarIndLeft(int pos, void *);
 int processArguments(int argc, char** argv, Mat &image);
 
 int main(int argc, char** argv)
 {
-	char* filename;
-
     if (processArguments(argc, argv, img) != 0)
     {
         cout << helper << endl;
@@ -59,4 +47,16 @@ int processArguments(int argc, char **argv, Mat &image)
     }
     image = imread(argv[1], 1);
     return 0;
+}
+
+void trackbarIndTop(int pos, void*)
+{
+    edgeBlur(img, filterImg, indentTop, indentLeft);
+    imshow(nameWinFilter, filterImg);
+}
+
+void trackbarIndLeft(int pos, void*)
+{
+    edgeBlur(img, filterImg, indentTop, indentLeft);
+    imshow(nameWinFilter, filterImg);
 }
