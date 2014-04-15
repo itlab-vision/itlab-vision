@@ -1,5 +1,4 @@
 #include "photoeffects.hpp"
-#include "stdio.h"
 
 using namespace cv;
 
