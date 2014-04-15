@@ -36,7 +36,7 @@ int main(int argc, char **argv)
         errorCode = e.code;
     }
 
-    if(errorCode == 0)
+    if (errorCode == 0)
     {
         namedWindow(srcImgWinName);
         namedWindow(dstImgWinName);
