@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-int boost_color(Mat& image)
+int boostColor(Mat& image)
 {
     return image.cols;
 }
