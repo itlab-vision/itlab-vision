@@ -19,6 +19,5 @@ int tint(InputArray src, OutputArray dst,
             outputImage.at<Vec3b>(i, j) = colorDest;
         }
     }
-    outputImage.convertTo(dst, CV_8UC3);
     return 0;
 }
