@@ -64,7 +64,7 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
                             * exp(- (x * x + y * y) / radius);
 
                     Color = bearingImage.at<Vec3b>(x + i, y + j);
-                    sumF += (Vec3f) (coeff * Color);
+                    sumF += coeff * Color;
                     sumC += coeff;
                 }
             }
