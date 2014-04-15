@@ -10,12 +10,51 @@ const char *helper =
 ";
 const char *nameWinImage = "Image";
 const char *nameWinFilter = "Filter";
-const char *nameWinParam = "Tint";
+const char *nameWinParam = "Settings";
 
 Vec3b ColorTint;
 Mat BaseColor, img, filterImg;
 int valueHue = 0;
 int valueDen = 50;
+
+void preparePicture();
+void trackbarTint(int pos, void *);
+void trackbarDen(int pos, void *);
+int processArguments(int argc, char** argv, Mat &image);
+
+int main(int argc, char* argv[])
+{
+    if (processArguments(argc, argv, img) != 0)
+    {
+        cout << helper << endl;
+        return 1;
+    }
+
+    namedWindow(nameWinParam);
+    createTrackbar("Hue", nameWinParam, &valueHue, 360, trackbarTint);
+    createTrackbar("Density(%)", nameWinParam, &valueDen, 100, trackbarDen);
+    preparePicture();
+
+    namedWindow(nameWinImage);
+    namedWindow(nameWinFilter);
+
+    imshow(nameWinParam, BaseColor);
+    imshow(nameWinImage, img);
+    imshow(nameWinFilter, img);
+
+    waitKey();
+    return 0;
+}
+
+int processArguments(int argc, char **argv, Mat &image)
+{
+    if (argc < 2)
+    {
+        return 1;
+    }
+    image = imread(argv[1], 1);
+    return 0;
+}
 
 void preparePicture()
 {
@@ -53,42 +92,4 @@ void trackbarDen(int pos, void *)
     float den = (float)valueDen / 100.0f;
     tint(img, filterImg, ColorTint, den);
     imshow(nameWinFilter, filterImg);
-}
-
-int processArguments(int argc, char** argv, Mat &image);
-
-int main(int argc, char* argv[])
-{
-    char* filename;
-
-    if (processArguments(argc, argv, img) != 0)
-    {
-        cout << helper << endl;
-        return 1;
-    }
-
-    namedWindow(nameWinParam);
-    createTrackbar("Hue", nameWinParam, &valueHue, 360, trackbarTint);
-    createTrackbar("Density(%)", nameWinParam, &valueDen, 100, trackbarDen);
-    preparePicture();
-
-    namedWindow(nameWinImage);
-    namedWindow(nameWinFilter);
-
-    imshow(nameWinParam, BaseColor);
-    imshow(nameWinImage, img);
-    imshow(nameWinFilter, img);
-
-    waitKey();
-    return 0;
-}
-
-int processArguments(int argc, char **argv, Mat &image)
-{
-    if (argc < 2)
-    {
-        return 1;
-    }
-    image = imread(argv[1], 1);
-    return 0;
 }

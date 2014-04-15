@@ -1,4 +1,5 @@
 #include "photoeffects.hpp"
+#include "stdio.h"
 
 using namespace cv;
 
@@ -9,6 +10,7 @@ int tint(InputArray src, OutputArray dst,
     CV_Assert(density >= 0.0f || density <= 1.0f);
     dst.create(src.size(), CV_8UC3);
     Mat image = src.getMat(), outputImage = dst.getMat();
+
     float negDen = 1 - density;
     for (int i = 0; i < image.rows; i++)
     {
@@ -19,6 +21,5 @@ int tint(InputArray src, OutputArray dst,
             outputImage.at<Vec3b>(i, j) = colorDest;
         }
     }
-    outputImage.convertTo(dst, CV_8UC3);
     return 0;
 }
