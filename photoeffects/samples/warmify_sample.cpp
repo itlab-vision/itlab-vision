@@ -23,12 +23,6 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    if (!image.data)
-    {
-        cout << "Error. Image wasn't found." << endl;
-        return 2;
-    }
-
     int codeError = warmify(image, warmifyImg, 30);
     if (codeError == 1)
     {
