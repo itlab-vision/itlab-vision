@@ -24,11 +24,6 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    if (image.data == NULL)
-    {
-        cout << "Error. Image wasn't found." << endl;
-        return 2;
-    }
     rectangle.height = image.rows / 1.5f;
     rectangle.width = image.cols / 2.0f;
 
