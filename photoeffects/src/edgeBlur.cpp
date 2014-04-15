@@ -14,13 +14,13 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
     CV_Assert(indentTop >= 0 && indentTop <= (image.rows / 2 - 10));
     CV_Assert(indentLeft >= 0 && indentLeft <= (image.cols / 2 - 10));
 
-    float halfWidth = (image.cols / 2.0f) * (image.cols / 2.0f);
-    float halfHeight = (image.rows / 2.0f) * (image.rows / 2.0f);
+    float halfWidth = image.cols / 2.0f;
+    float halfHeight = image.rows / 2.0f;
     float a = (image.cols / 2.0f - indentLeft) 
             * (image.cols / 2.0f - indentLeft);
     float b = (image.rows / 2.0f - indentTop) 
             * (image.rows / 2.0f - indentTop);
-    int kSizeEdges = halfWidth / a + halfHeight / b;
+    int kSizeEdges = halfWidth * halfWidth / a + halfHeight * halfHeight / b;
 
     kSizeEdges = MIN(kSizeEdges, MAX_KERNELSIZE);
     Mat bearingImage(image.rows + 2 * kSizeEdges,
@@ -38,14 +38,12 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
             Vec3f sumF;
             Vec3b Color;
             float sumC = 0.0f, coeff;
-            float bearHalfWidth = bearingImage.cols / 2.0f;
-            float bearHalfHeight = bearingImage.rows / 2.0f;
-            float radius = (bearHalfHeight - i)
-                    * (bearHalfHeight - i)
+            float radius = (halfHeight - i)
+                    * (halfHeight- i)
                     / b
 
-                    + (bearHalfWidth - j)
-                    * (bearHalfWidth - j)
+                    + (halfWidth - j)
+                    * (halfHeight - j)
                     / a;
             if (radius < 1.0f)
             {
@@ -64,7 +62,7 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
                             * exp(- (x * x + y * y) / radius);
 
                     Color = bearingImage.at<Vec3b>(x + i, y + j);
-                    sumF += coeff * Color;
+                    sumF += coeff * (Vec3f)Color;
                     sumC += coeff;
                 }
             }
