@@ -12,10 +12,16 @@ Contents:
    :maxdepth: 2
 
    code/docs/sepia.rst
-   code/docs/fadeColor.rst
-   code/docs/boostColor.rst
-   code/docs/glow.rst
+   code/docs/antique.rst
+   code/docs/vignette.rst
+   code/docs/matte.rst
+   code/docs/edge_blur.rst
+   code/docs/fade_color.rst
+   code/docs/boost_color.rst
    code/docs/tint.rst
+   code/docs/warmify.rst
+   code/docs/glow.rst
+   code/docs/film_grain.rst
 
 
 Indices and tables
