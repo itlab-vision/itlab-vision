@@ -23,3 +23,24 @@ TEST(photoeffects, MatteInvalidImageFormat)
     EXPECT_ERROR(CV_StsAssert, matte(src, dst, firstpoint, secondpoint, 1.0f, 1.0f));
 }
 
+TEST(photoeffects, MatteRegressionTest)
+{
+    string input = "./testdata/matte_test.png";
+    string expectedOutput = "./testdata/matte_test_result.png";
+    Mat src = imread(input, CV_LOAD_IMAGE_COLOR);
+    Mat expectedDst = imread(expectedOutput, CV_LOAD_IMAGE_COLOR);
+    if(src.empty())
+    {
+        FAIL() << "Can't read " + input + "image";
+    }
+    if(expectedDst.empty())
+    {
+        FAIL() << "Can't read " + expectedOutput + "image";
+    }
+    Mat dst;
+    EXPECT_EQ(0, matte(src, dst, Point(100, 100), Point(300, 300), 50.0f, 50.0f));
+    dst.convertTo(dst, CV_8UC3, 1.0f*255);
+    Mat diff = abs(expectedDst - dst);
+    Mat mask = diff.reshape(1) > 1;
+    EXPECT_EQ(0, countNonZero(mask));
+}
