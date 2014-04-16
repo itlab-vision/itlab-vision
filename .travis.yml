@@ -11,6 +11,6 @@ before_script:
 script:
   - cmake ../itlab-vision/photoeffects
   - make -j5
-  - ./photoeffects_test
+  - ./bin/photoeffects_test
 notifications:
   email: false
