@@ -4,8 +4,6 @@
 
 using namespace cv;
 
-const char *ORIGINAL_IMAGE_TEST="../itlab-vision/photoeffects/test/images/fadeColor_test.png";
-const char *FADE_IMAGE_TEST="../itlab-vision/photoeffects/test/images/fadeColor_result.png";
 TEST(photoeffects, FadeColorInvalidImageFormat)
 {
     Mat src(10, 20, CV_8UC2);
@@ -31,9 +29,17 @@ TEST(photoeffects, FadeColorTest) {
 }
 TEST(photoeffects, FadeColorRegressionTest)
 {
+    string input ="./testdata/fadeColor_test.png";
+    string expectedOutput ="./testdata/fadeColor_result.png";
+
     Mat image, dst, rightDst;
-    image = imread(ORIGINAL_IMAGE_TEST, CV_LOAD_IMAGE_COLOR);
-    rightDst = imread(FADE_IMAGE_TEST, CV_LOAD_IMAGE_COLOR);
+    image = imread(input, CV_LOAD_IMAGE_COLOR);
+    rightDst = imread(expectedOutput, CV_LOAD_IMAGE_COLOR);
+
+    if (image.empty())
+        FAIL() << "Can't read " + input + " image";
+    if (rightDst.empty())
+        FAIL() << "Can't read " + expectedOutput + " image";
 
     EXPECT_EQ(0, fadeColor(image, dst, Point(100, 100), Point(250, 250)));
 
