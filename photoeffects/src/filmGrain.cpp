@@ -3,8 +3,11 @@
 using namespace cv;
 int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue)
 {
+    CV_Assert(!src.empty());
     CV_Assert(src.type() == CV_8UC1 || src.type() == CV_8UC3);
+
     Mat image=src.getMat();
+
     RNG& rng=theRNG();
     if(src.type()==CV_8UC1)
     {

@@ -17,6 +17,25 @@ TEST(photoeffects, FilmGrainTest) {
     Mat dst;
     EXPECT_EQ(0, filmGrain(imageWithOneChannel, dst, 5));
     EXPECT_EQ(0, filmGrain(imageWithThreeChannel, dst, 5));
-    RNG &rng=theRNG();
+}
+TEST(photoeffects, FilmGrainRegressionTest)
+{
+    string input = "./testdata/filmGrain_test.png";
+    string expectedOutput = "./testdata/filmGrain_test_result.png";
 
+    Mat image = imread(input, CV_LOAD_IMAGE_COLOR);
+    Mat rightDst = imread(expectedOutput, CV_LOAD_IMAGE_COLOR);
+
+    if (image.empty())
+        FAIL() << "Can't read " + input + " image";
+    if (rightDst.empty())
+        FAIL() << "Can't read " + input + " image";
+
+    Mat dst;
+    theRNG()=RNG(0);
+    EXPECT_EQ(0, filmGrain(image, dst, 8));
+
+    Mat diff = abs(rightDst - dst);
+    Mat mask = diff.reshape(1) > 1;
+    EXPECT_EQ(0, countNonZero(mask));
 }
