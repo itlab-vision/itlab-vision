@@ -6,7 +6,7 @@ using namespace cv;
 using namespace std;
 
 const char *helper = 
-"glow_sample <img> <sigma> <intensity>\n\
+"./glow_sample <img> <sigma> <intensity>\n\
 \t<img> - file name contained the source image, 3-channel, RGB-image\n\
 \t<sigma> - Gaussian kernel standard deviation, must be positive real number\n\
 \t<intensity> - intensity of glow filter, must be real number from 0.0 to 1.0 \n\
