@@ -26,3 +26,30 @@ TEST(photoeffects, AntiqueInvalidImageFormat)
     Mat texture(10, 10, CV_8UC1);
     EXPECT_ERROR(CV_StsAssert, antique(srcNormal, dst, texture, 0.4f));
 }
+
+TEST(photoeffects, AntiqueRegressionTest)
+{
+    string input = "./testdata/antique_test.png";
+    string texture = "./testdata/antique_texture_test.png";
+    string expectedOut = "./testdata/antique_test_result.png";
+    Mat src = imread(input, CV_LOAD_IMAGE_COLOR);
+    if (src.empty())
+    {
+        FAIL() << "Can't read " + input + " image";
+    }
+    Mat txtre = imread(texture, CV_LOAD_IMAGE_COLOR);
+    if (txtre.empty())
+    {
+        FAIL() << "Can't read " + texture + " image";
+    }
+    Mat expectedDst = imread(expectedOut, CV_LOAD_IMAGE_COLOR);
+    if (expectedDst.empty())
+    {
+        FAIL() << "Can't read" + expectedOut + " image";
+    }
+    Mat dst;
+    EXPECT_EQ(0, antique(src, dst, txtre, 0.9f));
+    Mat diff = abs(expectedDst - dst);
+    Mat mask = diff.reshape(1) > 1;
+    EXPECT_EQ(0, countNonZero(mask));
+}
