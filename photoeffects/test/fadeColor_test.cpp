@@ -29,8 +29,8 @@ TEST(photoeffects, FadeColorTest) {
 }
 TEST(photoeffects, FadeColorRegressionTest)
 {
-    string input ="fadeColor_test.png";
-    string expectedOutput ="fadeColor_result.png";
+    string input ="./testdata/fadeColor_test.png";
+    string expectedOutput ="./testdata/fadeColor_result.png";
 
     Mat image, dst, rightDst;
     image = imread(input, CV_LOAD_IMAGE_COLOR);
