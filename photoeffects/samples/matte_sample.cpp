@@ -78,11 +78,6 @@ int processArguments(int argc, char **argv, Mat &src)
         return 1;
     }
     src = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-    if(src.empty())
-    {
-        cout<<"Image file not found!"<<endl;
-        return 2;
-    }
     sigma1=atof(argv[2]);
     sigma2=atof(argv[3]);
     return 0;
