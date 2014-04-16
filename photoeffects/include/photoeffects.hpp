@@ -4,8 +4,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include <opencv2/highgui/highgui.hpp>
-
 int sepia(cv::InputArray src, cv::OutputArray dst);
 
 int filmGrain(cv::InputArray src, cv::OutputArray dst);
