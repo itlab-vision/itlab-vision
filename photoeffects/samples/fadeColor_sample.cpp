@@ -10,7 +10,7 @@ const char *helper =
 "./fadeColor_sample <img>\n\
 \t<img> - file name contained the processed image\n\
 ";
-Point startPoint,endPoint;
+        Point startPoint,endPoint;
 int numberChoosenPoint=0;
 
 void CallBackFunc(int event, int x, int y, int flags, void* userdata);
@@ -53,12 +53,14 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
         case 0:
             numberChoosenPoint++;
             startPoint=Point(x, y);
+            cout<<"x:"<<startPoint.x<<endl<<"y:"<<startPoint.y<<endl;
             circle(srcCopy, Point(x,y), 5, CV_RGB(255,50,255) ,4);
             imshow(ORIGINAL_IMAGE, srcCopy);
             break;
         case 1:
             numberChoosenPoint++;
             endPoint=Point(x, y);
+            cout<<"x:"<<endPoint.x<<endl<<"y:"<<endPoint.y<<endl;
             circle(srcCopy, startPoint, 5, CV_RGB(255,50,255), 4);
             circle(srcCopy, endPoint, 5, CV_RGB(255,50,255), 4);
             Mat dst;

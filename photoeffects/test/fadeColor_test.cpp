@@ -21,16 +21,16 @@ TEST(photoeffects, FadeColorInvalidArgument)
     EXPECT_ERROR(CV_StsAssert, fadeColor(src, dst, Point(5,5), Point(5,5)));
 }
 TEST(photoeffects, FadeColorTest) {
-    Mat imageWithOneChannel(10, 20, CV_8UC1);
-    Mat imageWithThreeChannel(10, 20, CV_8UC3);
+    Mat imageWithOneChannel(100, 200, CV_8UC1);
+    Mat imageWithThreeChannel(100, 200, CV_8UC3);
     Mat dst;
-    EXPECT_EQ(0, fadeColor(imageWithOneChannel, dst, Point(5,5), Point(5,10)));
-    EXPECT_EQ(0, fadeColor(imageWithThreeChannel, dst, Point(5,5), Point(5,10)));
+    EXPECT_EQ(0, fadeColor(imageWithOneChannel, dst, Point(5,5), Point(5,8)));
+    EXPECT_EQ(0, fadeColor(imageWithThreeChannel, dst, Point(5,5), Point(5,8)));
 }
 TEST(photoeffects, FadeColorRegressionTest)
 {
-    string input ="./testdata/fadeColor_test.png";
-    string expectedOutput ="./testdata/fadeColor_result.png";
+    string input ="fadeColor_test.png";
+    string expectedOutput ="fadeColor_result.png";
 
     Mat image, dst, rightDst;
     image = imread(input, CV_LOAD_IMAGE_COLOR);
@@ -41,7 +41,7 @@ TEST(photoeffects, FadeColorRegressionTest)
     if (rightDst.empty())
         FAIL() << "Can't read " + expectedOutput + " image";
 
-    EXPECT_EQ(0, fadeColor(image, dst, Point(100, 100), Point(250, 250)));
+    EXPECT_EQ(0, fadeColor(image, dst, Point(100, 100), Point(1, 1)));
 
     for (int i=0; i<dst.rows; i++)
     {
