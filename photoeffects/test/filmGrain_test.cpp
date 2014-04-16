@@ -17,4 +17,6 @@ TEST(photoeffects, FilmGrainTest) {
     Mat dst;
     EXPECT_EQ(0, filmGrain(imageWithOneChannel, dst, 5));
     EXPECT_EQ(0, filmGrain(imageWithThreeChannel, dst, 5));
+    RNG &rng=theRNG();
+
 }

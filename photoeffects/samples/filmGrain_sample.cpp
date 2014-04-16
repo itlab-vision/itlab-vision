@@ -27,9 +27,11 @@ int main(int argc, char** argv)
     namedWindow(ORIGINAL_IMAGE, CV_WINDOW_AUTOSIZE);
     imshow(ORIGINAL_IMAGE, src);
     Mat dst;
-    filmGrain(src, dst);//, atoi(argv[2]));
+    RNG &rng=theRNG()(0);
+    filmGrain(src, dst, atoi(argv[2]));
     imshow(FILM_GRAIN_IMAGE, dst);
     cout << "Press any key to EXIT"<<endl;
     waitKey(0);
+    imwrite("result.png",dst);
     return 0;
 }
