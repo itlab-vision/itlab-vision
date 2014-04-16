@@ -8,7 +8,7 @@ using namespace cv;
 using namespace std;
 
 const char *helper =
-"boost_color <img> <intensity>\n\
+"./boostColor_sample <img> <intensity>\n\
 \t<img> - file name contained the source image, must be 3-channel, RGB-image\n\
 \t<intensity> - intensity of boost color filter, must be real number from 0.0 to 1.0\n\
 ";
