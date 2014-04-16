@@ -28,15 +28,17 @@ Point topleftFind(Point firstPoint, Point secondPoint, int &xsize, int &ysize)
     return topleft;
 }
 
-int matte(InputArray src, OutputArray dst, Point firstPoint, Point secondPoint, float sigma)
+int matte(InputArray src, OutputArray dst, Point firstPoint, Point secondPoint, float sigma1,
+            float sigma2, Size ksize)
 {
     CV_Assert((src.type() == CV_8UC3) || (src.type() == CV_32FC3));
+    CV_Assert(sigma1 > 0.0f);
     Mat srcImg = src.getMat();
     if(srcImg.type() != CV_32FC3)
     {
         srcImg.convertTo(srcImg, CV_32FC3, 1.0f/255.0f);
     }
-    Mat bg=Mat(srcImg.size(),CV_32FC3);
+    Mat bg=Mat(srcImg.size(),srcImg.type());
     bg=Scalar(1.0f,1.0f,1.0f);
     int xsize = firstPoint.x - secondPoint.x;
     int ysize = firstPoint.y - secondPoint.y;
@@ -44,7 +46,7 @@ int matte(InputArray src, OutputArray dst, Point firstPoint, Point secondPoint, 
     Mat mask(srcImg.rows, srcImg.cols, CV_32FC1, Scalar(0.0f,0.0f,0.0f));
     ellipse(mask, Point((topLeft.x+xsize/2),(topLeft.y-ysize/2)),
             Size(xsize/2,ysize/2),0, 0, 360, Scalar(1.0f,1.0f,1.0f), -1, 8);
-    GaussianBlur(mask, mask, Size(127, 127), sigma);
+    GaussianBlur(mask, mask, ksize, sigma1, sigma2);
     vector<Mat> ch_img;
     vector<Mat> ch_bg;
     split(srcImg,ch_img);

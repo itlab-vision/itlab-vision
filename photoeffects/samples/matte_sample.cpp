@@ -9,14 +9,18 @@ const string MATTE_IMAGE = "Matte image";
 
 Point firstPoint, secondPoint;
 int numberOfChoosenPoints = 0;
-float sigma = 0.0f;
-const char *helper = "matte_sample.exe <img> <sigma>\n\
+float sigma1 = 0.0f;
+float sigma2 = 0.0f;
+const char *helper = "matte_sample.exe <img> <sigma1> <sigma2>\n\
 \t<img>-file name contained the processed image\n\
-\t<sigma>-float param - power of the blur";
+\t<sigma1>-float param - power of the blur on Xahis\n\
+\t<sigma2>-float param - power of the blur on Yahis";
+
 
 void CallBackFunc(int event, int x, int y, int flags, void* userdata)
 {
     Mat src=*((Mat*)userdata);
+    Mat srcCpy;
     if (event == EVENT_LBUTTONDOWN)
     {
         switch(numberOfChoosenPoints)
@@ -24,17 +28,22 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
             case 0:
             {
                 firstPoint = Point(x,y);
-                circle(src, firstPoint, 5, CV_RGB(255, 0, 0), 4);
+                src.copyTo(srcCpy);
+                circle(srcCpy, firstPoint, 3, CV_RGB(255, 0, 0), 3);
+                imshow(ORIGINAL_IMAGE, srcCpy);
                 numberOfChoosenPoints++;
                 break;
             }
             case 1:
             {
                 secondPoint = Point(x,y);
-                circle(src, secondPoint, 5, CV_RGB(255, 0, 0), 4);
+                src.copyTo(srcCpy);
+                circle(srcCpy, firstPoint, 3, CV_RGB(255, 0, 0), 3);
+                circle(srcCpy, secondPoint, 3, CV_RGB(255, 0, 0), 3);
+                imshow(ORIGINAL_IMAGE, srcCpy);
                 numberOfChoosenPoints++;
                 Mat dst;
-                matte(src, dst, firstPoint, secondPoint, sigma);
+                matte(src, dst, firstPoint, secondPoint, sigma1, sigma2);
                 namedWindow(MATTE_IMAGE, CV_WINDOW_AUTOSIZE);
                 imshow(MATTE_IMAGE, dst);
                 break;
@@ -64,7 +73,7 @@ int main(int argc, char** argv)
 
 int processArguments(int argc, char **argv, Mat &src)
 {
-    if(argc < 3)
+    if(argc < 4)
     {
         return 1;
     }
@@ -74,6 +83,7 @@ int processArguments(int argc, char **argv, Mat &src)
         cout<<"Image file not found!"<<endl;
         return 2;
     }
-    sigma=atof(argv[2]);
+    sigma1=atof(argv[2]);
+    sigma2=atof(argv[3]);
     return 0;
 }
