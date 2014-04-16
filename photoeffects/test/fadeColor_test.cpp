@@ -41,7 +41,7 @@ TEST(photoeffects, FadeColorRegressionTest)
     if (rightDst.empty())
         FAIL() << "Can't read " + expectedOutput + " image";
 
-    EXPECT_EQ(0, fadeColor(image, dst, Point(100, 100), Point(1, 1)));
+    EXPECT_EQ(0, fadeColor(image, dst, Point(100, 100), Point(250, 250)));
 
     for (int i=0; i<dst.rows; i++)
     {
