@@ -9,12 +9,12 @@ const string MATTE_IMAGE = "Matte image";
 
 Point firstPoint, secondPoint;
 int numberOfChoosenPoints = 0;
-float sigma1 = 0.0f;
-float sigma2 = 0.0f;
+float sigmaX = 0.0f;
+float sigmaY = 0.0f;
 const char *helper = "matte_sample.exe <img> <sigma1> <sigma2>\n\
 \t<img>-file name contained the processed image\n\
-\t<sigma1>-float param - power of the blur on Xahis\n\
-\t<sigma2>-float param - power of the blur on Yahis";
+\t<sigmaX>-float param - power of the blur on Xahis\n\
+\t<sigmaY>-float param - power of the blur on Yahis";
 
 
 void CallBackFunc(int event, int x, int y, int flags, void* userdata)
@@ -43,7 +43,7 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
                 imshow(ORIGINAL_IMAGE, srcCpy);
                 numberOfChoosenPoints++;
                 Mat dst;
-                matte(src, dst, firstPoint, secondPoint, sigma1, sigma2);
+                matte(src, dst, firstPoint, secondPoint, sigmaX, sigmaY);
                 namedWindow(MATTE_IMAGE, CV_WINDOW_AUTOSIZE);
                 imshow(MATTE_IMAGE, dst);
                 break;
@@ -78,7 +78,7 @@ int processArguments(int argc, char **argv, Mat &src)
         return 1;
     }
     src = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-    sigma1=atof(argv[2]);
-    sigma2=atof(argv[3]);
+    sigmaX=atof(argv[2]);
+    sigmaY=atof(argv[3]);
     return 0;
 }
