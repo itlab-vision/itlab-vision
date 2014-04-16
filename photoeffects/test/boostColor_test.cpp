@@ -13,13 +13,18 @@ TEST(photoeffects, BoostColorTest)
 
 TEST(photoeffects, BoostColorRegressionTest)
 {
-    Mat image, dst, rightDst;
-    image = imread("./testdata/boostColor_test.png",  CV_LOAD_IMAGE_COLOR);
-    rightDst = imread("./testdata/boostColor_test_result.png",  CV_LOAD_IMAGE_COLOR);
+    string input = "./testdata/boostColor_test.png";
+    string expectedOutput = "./testdata/boostColor_test_result.png";
+
+    Mat image = imread(input, CV_LOAD_IMAGE_COLOR);
+    Mat rightDst = imread(expectedOutput, CV_LOAD_IMAGE_COLOR);
 
     if (image.empty())
-        FAIL();
+        FAIL() << "Can't read " + input + " image";
+    if (rightDst.empty())
+        FAIL() << "Can't read " + input + " image";
 
+    Mat dst;
     EXPECT_EQ(0, boostColor(image, dst, 0.5f));
 
     for (int i = 0; i < dst.rows; i++)
