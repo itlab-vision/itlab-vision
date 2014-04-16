@@ -13,23 +13,34 @@ TEST(photoeffects, BoostColorTest)
 
 TEST(photoeffects, BoostColorRegressionTest)
 {
-    Mat image, dst, rightDst;
-    image = imread("../itlab-vision/photoeffects/test/images/boostColor_test.png",  CV_LOAD_IMAGE_COLOR);
-    rightDst = imread("../itlab-vision/photoeffects/test/images/boostColor_test_result.png",  CV_LOAD_IMAGE_COLOR);
+    string input = "./testdata/boostColor_test.png";
+    string expectedOutput = "./testdata/boostColor_test_result.png";
 
+    Mat image = imread(input, CV_LOAD_IMAGE_COLOR);
+    Mat rightDst = imread(expectedOutput, CV_LOAD_IMAGE_COLOR);
+
+    if (image.empty())
+        FAIL() << "Can't read " + input + " image";
+    if (rightDst.empty())
+        FAIL() << "Can't read " + input + " image";
+
+    Mat dst;
     EXPECT_EQ(0, boostColor(image, dst, 0.5f));
 
-    for (int i = 0; i < dst.rows; i++)
-    {
-        for (int j = 0; j < dst.cols; j++)
-        {
-            for (int k = 0; k < 3; k++)
-            {
-                ASSERT_LE(rightDst.at<Vec3b>(i, j)[k] - 1, dst.at<Vec3b>(i, j)[k]);
-                ASSERT_GE(rightDst.at<Vec3b>(i, j)[k] + 1, dst.at<Vec3b>(i, j)[k]);
-            }
-        }
-    }    
+    // for (int i = 0; i < dst.rows; i++)
+    // {
+    //     for (int j = 0; j < dst.cols; j++)
+    //     {
+    //         for (int k = 0; k < 3; k++)
+    //         {
+    //             ASSERT_LE(rightDst.at<Vec3b>(i, j)[k] - 1, dst.at<Vec3b>(i, j)[k]);
+    //             ASSERT_GE(rightDst.at<Vec3b>(i, j)[k] + 1, dst.at<Vec3b>(i, j)[k]);
+    //         }
+    //     }
+    // }
+    Mat diff = abs(rightDst - dst);
+    Mat mask = diff.reshape(1) > 1;
+    EXPECT_EQ(0, countNonZero(mask));
 }
 
 TEST(photoeffects, BoostColorTestBadIntensity)
