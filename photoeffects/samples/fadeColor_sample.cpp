@@ -10,7 +10,8 @@ const char *helper =
 "./fadeColor_sample <img>\n\
 \t<img> - file name contained the processed image\n\
 ";
-        Point startPoint,endPoint;
+
+Point startPoint,endPoint;
 int numberChoosenPoint=0;
 
 void CallBackFunc(int event, int x, int y, int flags, void* userdata);

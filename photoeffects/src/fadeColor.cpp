@@ -4,29 +4,28 @@ using namespace cv;
 
 Point findFarthestPoint(Point vector, Mat& image)
 {
-    Point farthestPoint;
-    if(vector.x<=0 && vector.y<=0)
+    int a,b;
+    if(vector.x<=0)
     {
-        farthestPoint=Point(0, 0);
+        a=0;
+    }
+    else
+    {
+        a=1;
     }
 
-    if(vector.x<=0 && vector.y>0)
+    if(vector.y<=0)
     {
-        farthestPoint=Point(0, image.rows);
+        b=0;
+    }
+    else
+    {
+        b=1;
     }
 
-    if(vector.x>0 && vector.y<=0)
-    {
-        farthestPoint=Point(image.cols, 0);
-    }
-
-    if(vector.x>0 && vector.y>0)
-    {
-        farthestPoint=Point(image.cols, image.rows);
-    }
-
-    return farthestPoint;
+    return Point(a*image.cols, b*image.rows);
 }
+
 int fadeColor(InputArray src, OutputArray dst,
               Point startPoint, Point endPoint)
 {
@@ -79,7 +78,6 @@ int fadeColor(InputArray src, OutputArray dst,
         {
             int distance=A*i+B*j+C;
             //change pixels only in the direction of the perpendicular
-
             if(distance>0)
             {
                 for(int n=0;n<3;n++)

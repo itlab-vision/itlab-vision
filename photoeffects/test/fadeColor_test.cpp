@@ -43,14 +43,7 @@ TEST(photoeffects, FadeColorRegressionTest)
 
     EXPECT_EQ(0, fadeColor(image, dst, Point(100, 100), Point(250, 250)));
 
-    for (int i=0; i<dst.rows; i++)
-    {
-        for (int j=0; j<dst.cols; j++)
-        {
-            for (int k=0; k<3; k++)
-            {
-                ASSERT_EQ(rightDst.at<Vec3b>(i, j)[k], dst.at<Vec3b>(i, j)[k]);
-            }
-        }
-    }
+    Mat diff = abs(rightDst - dst);
+    Mat mask = diff.reshape(1) > 1;
+    EXPECT_EQ(0, countNonZero(mask));
 }
