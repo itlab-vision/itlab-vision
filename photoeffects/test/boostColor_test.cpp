@@ -14,8 +14,11 @@ TEST(photoeffects, BoostColorTest)
 TEST(photoeffects, BoostColorRegressionTest)
 {
     Mat image, dst, rightDst;
-    image = imread("../itlab-vision/photoeffects/test/images/boostColor_test.png",  CV_LOAD_IMAGE_COLOR);
-    rightDst = imread("../itlab-vision/photoeffects/test/images/boostColor_test_result.png",  CV_LOAD_IMAGE_COLOR);
+    image = imread("./testdata/boostColor_test.png",  CV_LOAD_IMAGE_COLOR);
+    rightDst = imread("./testdata/boostColor_test_result.png",  CV_LOAD_IMAGE_COLOR);
+
+    if (image.empty())
+        FAIL();
 
     EXPECT_EQ(0, boostColor(image, dst, 0.5f));
 
@@ -29,7 +32,7 @@ TEST(photoeffects, BoostColorRegressionTest)
                 ASSERT_GE(rightDst.at<Vec3b>(i, j)[k] + 1, dst.at<Vec3b>(i, j)[k]);
             }
         }
-    }    
+    }
 }
 
 TEST(photoeffects, BoostColorTestBadIntensity)
