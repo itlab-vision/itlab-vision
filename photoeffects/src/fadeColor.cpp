@@ -1,12 +1,7 @@
 #include "photoeffects.hpp"
-#include <stdio.h>
+
 using namespace cv;
 using namespace std;
-
-double dotProduct(Point a, Point b)
-{
-    return a.x*b.x+a.y*b.y;
-}
 
 Point findFarthestPoint(Point vector, Mat& image)
 {
@@ -50,8 +45,8 @@ int fadeColor(InputArray src, OutputArray dst,
     perpendicular.y=endPoint.y-startPoint.y;
     //line equation: A*x+By+C=0
 
-    int A=-perpendicular.y;
-    int B=-perpendicular.x;
+    int A=perpendicular.y;
+    int B=perpendicular.x;
     int C=-startPoint.y*A-B*startPoint.x;
     //find the most distant point from the line
     Point farthestPoint=findFarthestPoint(perpendicular, image);
@@ -63,10 +58,9 @@ int fadeColor(InputArray src, OutputArray dst,
         for(int i=0;i<image.rows;i++)
             for(int j=0;j<image.cols;j++)
             {
-                int distance=abs(A*i+B*j+C);
+                int distance=A*i+B*j+C;
                 //change pixels only in the direction of the perpendicular
-                Point directionVector(j-startPoint.x, i-startPoint.y);
-                if(dotProduct(perpendicular, directionVector)>=0)
+                if(distance>0)
                 {
                     int channelValue=image.at<uchar>(i,j);
                     channelValue*=(maxDistance-distance);
@@ -83,10 +77,10 @@ int fadeColor(InputArray src, OutputArray dst,
     for(int i=0;i<image.rows;i++)
         for(int j=0;j<image.cols;j++)
         {
-            int distance=abs(A*i+B*j+C);
+            int distance=A*i+B*j+C;
             //change pixels only in the direction of the perpendicular
-            Point directionVector(j-startPoint.x, i-startPoint.y);
-            if(dotProduct(perpendicular, directionVector)>=0)
+
+            if(distance>0)
             {
                 for(int n=0;n<3;n++)
                 {
