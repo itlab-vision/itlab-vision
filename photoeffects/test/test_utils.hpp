@@ -5,10 +5,7 @@
 
 
 int suppressAssertionMessage(int, const char *, const char *,
-                            const char *, int, void *)
-{
-    return 0;
-}
+                            const char *, int, void *);
 
 
 #define EXPECT_ERROR(expectedErrorCode, expr) \

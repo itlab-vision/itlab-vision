@@ -1,18 +1,20 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 set(PROJECT_NAME photoeffects)
-PROJECT(${PROJECT_NAME})
+project(${PROJECT_NAME})
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-# FIXME: make it work (Kirill Kornyakov)
-# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin/")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE})
 
-set( PHOTOEFFECTS_LIBRARY ${PROJECT_NAME} )
-set( PHOTOEFFECTS_TESTS "${PROJECT_NAME}_test" )
+set(PHOTOEFFECTS_LIBRARY ${PROJECT_NAME})
+set(PHOTOEFFECTS_TESTS "${PROJECT_NAME}_test")
 
 find_package(OpenCV REQUIRED)
 
@@ -32,5 +34,5 @@ add_subdirectory(samples)
 message( STATUS "")
 message( STATUS "General configuration for ${PROJECT_NAME} =====================================")
 message( STATUS "")
-message( STATUS "   Configuration:           ${CMAKE_BUILD_TYPE}")
-message( STATUS "   OpenCV build path:       ${OpenCV_DIR}")
+message( STATUS "   Configuration:       ${CMAKE_BUILD_TYPE}")
+message( STATUS "   OpenCV build path:   ${OpenCV_DIR}")
