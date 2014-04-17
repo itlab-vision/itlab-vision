@@ -61,7 +61,8 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
                 }
             }
             sumF *= (1.0f / sumC);
-            outputImage.at<Vec3b>(i - kSizeEdges, j - kSizeEdges) = (Vec3b)sumF;
+            outputImage.at<Vec3b>(i - kSizeEdges, 
+                                j - kSizeEdges) = (Vec3b)sumF;
         }
     }
 

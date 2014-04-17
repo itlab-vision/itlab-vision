@@ -27,8 +27,10 @@ int main(int argc, char** argv)
     }
 
     namedWindow(nameWinFilter);
-    createTrackbar("Indent top", nameWinFilter, &indentTop, img.rows / 2 - 10, trackbarIndTop);
-    createTrackbar("Indent left", nameWinFilter, &indentLeft, img.cols / 2 - 10, trackbarIndLeft);
+    createTrackbar("Indent top", nameWinFilter, &indentTop, 
+                    img.rows / 2 - 10, trackbarIndTop);
+    createTrackbar("Indent left", nameWinFilter, &indentLeft, 
+                    img.cols / 2 - 10, trackbarIndLeft);
 
     namedWindow(nameWinImage);
 
