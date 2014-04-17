@@ -27,10 +27,13 @@ int main(int argc, char** argv)
     rectangle.height = image.rows / 1.5f;
     rectangle.width = image.cols / 2.0f;
 
-    int codeError = vignette(image, vignetteImg, rectangle);
-    if (codeError == 1)
+    try
     {
-        cout << "Incorrect image type or size of rectangle." << endl;
+        vignette(image, vignetteImg, rectangle);
+    }
+    catch(...)
+    {
+        cout << "Incorrect image type, size of rectangle or image wasn't found." << endl;
         return 2;
     }
 
