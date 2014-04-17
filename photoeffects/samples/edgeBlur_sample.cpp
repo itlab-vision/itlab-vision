@@ -36,6 +36,7 @@ int main(int argc, char** argv)
     imshow(nameWinFilter, img);
 
     waitKey();
+    destroyAllWindows();
     return 0;
 }
 

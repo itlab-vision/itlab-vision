@@ -14,17 +14,15 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
 
     float halfWidth = image.cols / 2.0f;
     float halfHeight = image.rows / 2.0f;
-    float a = (image.cols / 2.0f - indentLeft) 
-            * (image.cols / 2.0f - indentLeft);
-    float b = (image.rows / 2.0f - indentTop) 
-            * (image.rows / 2.0f - indentTop);
+    float a = (halfWidth - indentLeft) 
+            * (halfWidth - indentLeft);
+    float b = (halfHeight - indentTop) 
+            * (halfHeight - indentTop);
     int kSizeEdges = halfWidth * halfWidth / a + halfHeight * halfHeight / b;
 
-    const int MAX_KERNELSIZE = 15;
-    kSizeEdges = MIN(kSizeEdges, MAX_KERNELSIZE);
-    Mat bearingImage(image.rows + 2 * kSizeEdges,
-                    image.cols + 2 * kSizeEdges,
-                    CV_8UC3);
+    // 15 is a maximal kernel size
+    kSizeEdges = MIN(kSizeEdges, 15);
+    Mat bearingImage;
     copyMakeBorder(image, bearingImage, kSizeEdges, kSizeEdges,
         kSizeEdges, kSizeEdges, BORDER_REPLICATE);
 
@@ -38,7 +36,7 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
                     / b
 
                     + (halfWidth - j)
-                    * (halfHeight - j)
+                    * (halfWidth - j)
                     / a;
             if (radius < 1.0f)
             {
@@ -62,7 +60,7 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
                 }
             }
             sumF *= (1.0f / sumC);
-            outputImage.at<Vec3b>(i - kSizeEdges, j - kSizeEdges) = sumF;
+            outputImage.at<Vec3b>(i - kSizeEdges, j - kSizeEdges) = (Vec3b)sumF;
         }
     }
 
