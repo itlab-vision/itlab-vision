@@ -23,10 +23,13 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    int codeError = warmify(image, warmifyImg, 30);
-    if (codeError == 1)
+    try
     {
-        cout << "Incorrect image type or size of rectangle." << endl;
+        warmify(image, warmifyImg, 30);
+    }
+    catch(...)
+    {
+        cout << "Incorrect image type." << endl;
         return 2;
     }
 
