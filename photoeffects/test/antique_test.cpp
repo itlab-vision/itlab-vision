@@ -7,11 +7,15 @@ using namespace cv;
 TEST(photoeffects, AntiqueTest) 
 {
     Mat srcUCThreeChannels(10, 10, CV_8UC3);
+    srcUCThreeChannels = Mat::zeros(10, 10, CV_8UC3);
     Mat textureUCThreeChannels(10, 10, CV_8UC3);
+    textureUCThreeChannels = Mat::zeros(10, 10, CV_8UC3);
     Mat dst;
     EXPECT_EQ(0, antique(srcUCThreeChannels, dst, textureUCThreeChannels, 0.5f));
     Mat srcFCThreeChannels(10, 10, CV_32FC3);
+    srcFCThreeChannels = Mat::zeros(10, 10, CV_32FC3);
     Mat textureFCThreeChannels(10, 10, CV_32FC3);
+    textureFCThreeChannels = Mat::zeros(10, 10, CV_32FC3);
     EXPECT_EQ(0, antique(srcFCThreeChannels, dst, textureFCThreeChannels, 0.5f));
 }
 
