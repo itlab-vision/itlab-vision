@@ -6,11 +6,11 @@ using namespace cv;
 
 TEST(photoeffects, VignetteInvalidArguments)
 {
-    Mat image(100, 100, CV_8UC3);
+    Mat image(100, 100, CV_8UC1);
     Mat dst;
     Size rectangle;
-    rectangle.height = image.rows / 1.5f;
-    rectangle.width = image.cols / 2.0f;
+    rectangle.height = 0;
+    rectangle.width = 0;
 
     EXPECT_ERROR(CV_StsAssert, vignette(image, dst, rectangle));
 }
