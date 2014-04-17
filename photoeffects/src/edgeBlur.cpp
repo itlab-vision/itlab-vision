@@ -5,6 +5,7 @@ using namespace cv;
 
 int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
 {
+    CV_Assert(!src.empty());
     CV_Assert(src.type() == CV_8UC3);
     dst.create(src.size(), src.type());
     Mat image = src.getMat(), outputImage = dst.getMat();
