@@ -6,7 +6,7 @@ using namespace cv;
 
 TEST(photoeffects, WarmifyInvalidImageFormat)
 {
-    Mat image(100, 100, CV_8UC3);
+    Mat image(100, 100, CV_8UC1);
     Mat dst;
 
     EXPECT_ERROR(CV_StsAssert, warmify(image, dst, 30));
