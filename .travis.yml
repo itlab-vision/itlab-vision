@@ -4,7 +4,10 @@ compiler:
   - clang
 before_install: sudo apt-get update -qq
 install:
-  - sudo apt-get install -qq libopencv-dev
+  - sudo apt-get install libopencv-dev -qq
+  - sudo wget https://launchpad.net/~mmoyar/+archive/jderobot/+build/4527815/+files/libopencv-ts2.3_2.3.1-7%2Bmmo1_amd64.deb -qq
+  - ls
+  - sudo sudo dpkg -i libopencv-ts2.3_2.3.1-7+mmo1_amd64.deb -qq
 before_script:
   - mkdir ../build
   - cd ../build
