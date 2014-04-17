@@ -7,7 +7,7 @@ int tint(InputArray src, OutputArray dst,
         const Vec3b &colorTint, float density)
 {
     CV_Assert(src.type() == CV_8UC3);
-    CV_Assert(density >= 0.0f || density <= 1.0f);
+    CV_Assert(density >= 0.0f && density <= 1.0f);
     dst.create(src.size(), CV_8UC3);
     Mat image = src.getMat(), outputImage = dst.getMat();
 

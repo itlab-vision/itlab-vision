@@ -22,7 +22,7 @@ void trackbarTint(int pos, void *);
 void trackbarDen(int pos, void *);
 int processArguments(int argc, char** argv, Mat &image);
 
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
     if (processArguments(argc, argv, img) != 0)
     {
@@ -43,6 +43,7 @@ int main(int argc, char* argv[])
     imshow(nameWinFilter, img);
 
     waitKey();
+    destroyAllWindows();
     return 0;
 }
 
