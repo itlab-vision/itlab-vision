@@ -1,13 +1,27 @@
-#include <gtest/gtest.h>
 #include "photoeffects.hpp"
+#include "test_utils.hpp"
+#include <gtest/gtest.h>
 
 using namespace cv;
 
+TEST(photoeffects, VignetteInvalidArguments)
+{
+    Mat image(100, 100, CV_8UC3);
+    Mat dst;
+    Size rectangle;
+    rectangle.height = image.rows / 1.5f;
+    rectangle.width = image.cols / 2.0f;
+
+    EXPECT_ERROR(CV_StsAssert, vignette(image, dst, rectangle));
+}
+
 TEST(photoeffects, VignetteTest)
 {
-    Mat image(100, 100, CV_8UC3), dst;
+    Mat image(100, 100, CV_8UC3);
+    Mat dst;
     Size rectangle;
-    rectangle.width = image.cols / 2;
-    rectangle.height = image.rows / 2;
+    rectangle.height = image.rows / 1.5f;
+    rectangle.width = image.cols / 2.0f;
+
     EXPECT_EQ(0, vignette(image, dst, rectangle));
 }
