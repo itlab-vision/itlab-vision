@@ -15,6 +15,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEAS
 
 set(PHOTOEFFECTS_LIBRARY ${PROJECT_NAME})
 set(PHOTOEFFECTS_TESTS "${PROJECT_NAME}_test")
+set(PHOTOEFFECTS_PERF "${PROJECT_NAME}_perf")
 
 find_package(OpenCV REQUIRED)
 
@@ -28,6 +29,7 @@ add_subdirectory(3rdparty)
 
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(perf)
 add_subdirectory(samples)
 
 # REPORT
