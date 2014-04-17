@@ -8,6 +8,8 @@ TEST(photoeffects, BoostColorTest)
 {
     Mat image(10, 10, CV_32FC3), dst;
 
+    image = Mat::zeros(10, 10, CV_32FC3);
+
     EXPECT_EQ(0, boostColor(image, dst, 0.5f));
 }
 
@@ -22,22 +24,11 @@ TEST(photoeffects, BoostColorRegressionTest)
     if (image.empty())
         FAIL() << "Can't read " + input + " image";
     if (rightDst.empty())
-        FAIL() << "Can't read " + input + " image";
+        FAIL() << "Can't read " + expectedOutput + " image";
 
     Mat dst;
     EXPECT_EQ(0, boostColor(image, dst, 0.5f));
 
-    // for (int i = 0; i < dst.rows; i++)
-    // {
-    //     for (int j = 0; j < dst.cols; j++)
-    //     {
-    //         for (int k = 0; k < 3; k++)
-    //         {
-    //             ASSERT_LE(rightDst.at<Vec3b>(i, j)[k] - 1, dst.at<Vec3b>(i, j)[k]);
-    //             ASSERT_GE(rightDst.at<Vec3b>(i, j)[k] + 1, dst.at<Vec3b>(i, j)[k]);
-    //         }
-    //     }
-    // }
     Mat diff = abs(rightDst - dst);
     Mat mask = diff.reshape(1) > 1;
     EXPECT_EQ(0, countNonZero(mask));
