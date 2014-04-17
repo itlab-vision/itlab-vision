@@ -6,6 +6,7 @@ using namespace cv;
 
 TEST(photoeffects, GlowTest) {
     Mat image(10, 10, CV_32FC3), dst;
+    image = Mat::zeros(10, 10, CV_32FC3);
 
     EXPECT_EQ(0, glow(image, dst, 1.0f, 0.5f));
 }

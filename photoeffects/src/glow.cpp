@@ -24,9 +24,8 @@ namespace
                 {
                     float intensFore = foreImg.at<Vec3f>(i, j)[k] / 255.0f;
                     float intensBack = backImg.at<Vec3f>(i, j)[k] / 255.0f;
-                    float intensResult = 0.0f;
-        
-                    intensResult = 2.0f * intensFore * intensBack;
+                    float intensResult = 2.0f * intensFore * intensBack;
+                    
                     if (intensBack > 0.5f)
                     {
                         intensResult = -intensResult - 1.0f + 2.0f * (intensFore + intensBack);
@@ -80,9 +79,8 @@ int glow(InputArray src, OutputArray dst, float sigma, float intensity)
     }
 
     Mat blurImg;
-    Size size;
-    size.width = 0;
-    size.height = 0;
+    Size size(0, 0);
+
     GaussianBlur(srcImg, blurImg, size, sigma, sigma);
  
     Mat overlayImg;
