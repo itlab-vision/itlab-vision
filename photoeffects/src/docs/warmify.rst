@@ -1,7 +1,6 @@
 =========================================
 warmify
 =========================================
-
 Increases the saturation of red and yellow tones, giving photographers more warm, sunset view.
 
 .. cpp:function:: int warmify(cv::InputArray src, cv::OutputArray dst, uchar delta = 30)
