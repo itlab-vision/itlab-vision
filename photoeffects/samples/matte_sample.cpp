@@ -11,10 +11,10 @@ Point firstPoint, secondPoint;
 int numberOfChoosenPoints = 0;
 float sigmaX = 0.0f;
 float sigmaY = 0.0f;
-const char *helper = "matte_sample.exe <img> <sigma1> <sigma2>\n\
+const char *helper = "./matte_sample <img> <sigma1> <sigma2>\n\
 \t<img>-file name contained the processed image\n\
-\t<sigmaX>-float param - power of the blur on Xahis\n\
-\t<sigmaY>-float param - power of the blur on Yahis";
+\t<sigmaX>-float param - power of the blur in X derection\n\
+\t<sigmaY>-float param - power of the blur in Y derection";
 
 
 void CallBackFunc(int event, int x, int y, int flags, void* userdata)
