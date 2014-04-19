@@ -14,25 +14,25 @@ TEST(photoeffects, EdgeBlurTest)
 
 TEST(photoeffects, EdgeBlurWrongImage) 
 {
-	Mat src1(50, 50, CV_8UC1), src2, dst;
+    Mat src1(50, 50, CV_8UC1), src2, dst;
 
-	EXPECT_ERROR(CV_StsAssert, edgeBlur(src1, dst, 1, 1));
-	EXPECT_ERROR(CV_StsAssert, edgeBlur(src2, dst, 1, 1));
+    EXPECT_ERROR(CV_StsAssert, edgeBlur(src1, dst, 1, 1));
+    EXPECT_ERROR(CV_StsAssert, edgeBlur(src2, dst, 1, 1));
 }
 
 TEST(photoeffects, EdgeBlurWrongIndent)
 {
-	Mat src(50, 50, CV_8UC3), dst;
+    Mat src(50, 50, CV_8UC3), dst;
 
-	EXPECT_ERROR(CV_StsAssert, edgeBlur(src, dst, -2, 0));
-	EXPECT_ERROR(CV_StsAssert, edgeBlur(src, dst, 100, 0));
-	EXPECT_ERROR(CV_StsAssert, edgeBlur(src, dst, 0, -5));
-	EXPECT_ERROR(CV_StsAssert, edgeBlur(src, dst, 0, 100));
+    EXPECT_ERROR(CV_StsAssert, edgeBlur(src, dst, -2, 0));
+    EXPECT_ERROR(CV_StsAssert, edgeBlur(src, dst, 100, 0));
+    EXPECT_ERROR(CV_StsAssert, edgeBlur(src, dst, 0, -5));
+    EXPECT_ERROR(CV_StsAssert, edgeBlur(src, dst, 0, 100));
 }
 
 TEST(photoeffects, EdgeBlurRegressionTest)
 {
-	string input = "./testdata/edgeBlur_test.png";
+    string input = "./testdata/edgeBlur_test.png";
     string expectedOutput = "./testdata/edgeBlur_test_result.png";
 
     Mat src, dst, rightDst;
