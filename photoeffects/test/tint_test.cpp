@@ -12,18 +12,18 @@ TEST(photoeffects, TintTest) {
 
 TEST(photoeffects, TintWrongImage)
 {
-	Mat src(10, 10, CV_8UC2), dst;
-	Vec3b color;
-	EXPECT_ERROR(CV_StsAssert, tint(src, dst, color, 0.5f));
+    Mat src(10, 10, CV_8UC2), dst;
+    Vec3b color;
+    EXPECT_ERROR(CV_StsAssert, tint(src, dst, color, 0.5f));
 }
 
 TEST(photoeffects, TintWrongDensity)
 {
-	Mat src(10, 10, CV_8UC3), dst;
-	Vec3b color;
+    Mat src(10, 10, CV_8UC3), dst;
+    Vec3b color;
 
-	EXPECT_ERROR(CV_StsAssert, tint(src, dst, color, 15.0f));
-	EXPECT_ERROR(CV_StsAssert, tint(src, dst, color, -1.0f));
+    EXPECT_ERROR(CV_StsAssert, tint(src, dst, color, 15.0f));
+    EXPECT_ERROR(CV_StsAssert, tint(src, dst, color, -1.0f));
 }
 
 TEST(photoeffects, TintTestOutputImage)
