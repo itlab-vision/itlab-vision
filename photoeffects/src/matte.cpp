@@ -45,8 +45,8 @@ int matte(InputArray src, OutputArray dst, Point firstPoint, Point secondPoint, 
     int xsize = firstPoint.x - secondPoint.x;
     int ysize = firstPoint.y - secondPoint.y;
     Point topLeft = topleftFind(firstPoint, secondPoint, xsize, ysize);
-    Scalar black = Scalar(0.0f,0.0f,0.0f);
-    Scalar white = Scalar(1.0f,1.0f,1.0f);
+    const Scalar black = Scalar(0.0f,0.0f,0.0f);
+    const Scalar white = Scalar(1.0f,1.0f,1.0f);
     Mat mask(srcImg.rows, srcImg.cols, CV_32FC1, black);
     ellipse(mask, Point((topLeft.x+xsize/2),(topLeft.y-ysize/2)),
             Size(xsize/2,ysize/2), 0, 0, 360, white, -1);
