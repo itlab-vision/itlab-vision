@@ -1,11 +1,27 @@
-#include <gtest/gtest.h>
-
 #include "photoeffects.hpp"
+#include "test_utils.hpp"
+#include <gtest/gtest.h>
 
 using namespace cv;
 
 TEST(photoeffects, TintTest) {
-    Mat image(10, 10, CV_8UC1);
+    Mat src(10, 10, CV_8UC3), dst;
+    Vec3b color;
+    EXPECT_EQ(0, tint(src, dst, color, 0.0f));
+}
 
-    EXPECT_EQ(10, tint(image, 0, 0.0).cols);
+TEST(photoeffects, TintWrongImage)
+{
+    Mat src(10, 10, CV_8UC2), dst;
+    Vec3b color;
+    EXPECT_ERROR(CV_StsAssert, tint(src, dst, color, 0.5f));
+}
+
+TEST(photoeffects, TintWrongDensity)
+{
+    Mat src(10, 10, CV_8UC3), dst;
+    Vec3b color;
+
+    EXPECT_ERROR(CV_StsAssert, tint(src, dst, color, 15.0f));
+    EXPECT_ERROR(CV_StsAssert, tint(src, dst, color, -1.0f));
 }
