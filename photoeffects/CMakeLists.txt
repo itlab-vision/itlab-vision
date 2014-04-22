@@ -18,7 +18,8 @@ set(PHOTOEFFECTS_TESTS "${PROJECT_NAME}_test")
 
 find_package(OpenCV REQUIRED)
 
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(PHOTOEFFECTS_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+include_directories("${PHOTOEFFECTS_INCLUDE}")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/3rdparty")
 
 set(LIBRARY_DEPS ${OpenCV_LIBS})
