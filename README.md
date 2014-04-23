@@ -38,45 +38,24 @@ Tests execution:
 
 Samples execution (test images are used):
   1. Antique
-
-    >./antique_sample testdata/antique_test.png testdata/antique_texture_test.png 0.7
-
+    ./antique_sample testdata/antique_test.png testdata/antique_texture_test.png 0.7
   2. Edge Blur
-
-    >./edgeBlur_sample testdata/edgeBlur_test.png
-
+    ./edgeBlur_sample testdata/edgeBlur_test.png
   3. Film Grain
-
-    >./filmGrain_sample testdata/filmGrain_test.png 7
-
+    ./filmGrain_sample testdata/filmGrain_test.png 7
   4. Matte
-
-    >./matte_sample testdata/matte_test.png 25 25
-
+    ./matte_sample testdata/matte_test.png 25 25
   5. Vignette
-
-    >./vignette_sample testdata/antique_test.png
-
+    ./vignette_sample testdata/antique_test.png
   6. Boost Color
-
-    >./boostColor_sample  testdata/boostColor_test.png 0.2
-
+    ./boostColor_sample  testdata/boostColor_test.png 0.2
   7. Fade Color
-
-    >./fadeColor_sample testdata/fadeColor_test.png
-
+    ./fadeColor_sample testdata/fadeColor_test.png
   8. Glow
-
-    >./glow_sample testdata/glow_test.png 25 0.8
-
+    ./glow_sample testdata/glow_test.png 25 0.8
   9. Sepia
-
-    >./sepia_sample testdata/antique_test.png
-
+    ./sepia_sample testdata/antique_test.png
   10. Tint
-
-    >./tint_sample testdata/antique_test.png
-
+    ./tint_sample testdata/antique_test.png
   11. Warmify
-
-    >./warmify_sample testdata/antique_test.png
+    ./warmify_sample testdata/antique_test.png
