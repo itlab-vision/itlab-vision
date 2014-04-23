@@ -21,6 +21,8 @@ Project developers:
   - Vadim Levin
   - Vlad Vinogradov
 
+
+
 Build instructions:
 
     >mkdir photofilters
