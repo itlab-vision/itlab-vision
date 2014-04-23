@@ -39,7 +39,9 @@ Tests execution:
 Samples execution (test images are used):
   1. Antique
 
-	./antique_sample testdata/antique_test.png testdata/antique_texture_test.png 0.7
+    ```
+    ./antique_sample testdata/antique_test.png testdata/antique_texture_test.png 0.7
+    ```
 
   2. Edge Blur
 
