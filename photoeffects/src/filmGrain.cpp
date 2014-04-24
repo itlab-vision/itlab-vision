@@ -1,8 +1,9 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/internal.hpp>
 #include "photoeffects.hpp"
-
+#include <iostream>
 using namespace cv;
+using namespace std;
 class FilmGrainInvoker
 {
 public:
@@ -23,7 +24,7 @@ public:
             uchar* row = (uchar*)srcStripe.row(y).data;
             for (int x = 0; x < height_*3; x+=3)
             {
-                int newValue=(row[x]+rng.gaussian(grainValue_));
+                int newValue=(row[x]+rng(grainValue_));
                 if(newValue<0)
                 {
                     newValue=0;
@@ -77,7 +78,11 @@ int filmGrain(InputArray src, OutputArray dst, int grainValue)
     {
         dst.create(image.size(), image.type());
         Mat dstMat = dst.getMat();
+        cout<<getNumThreads()<<endl;
+        setNumThreads(2);
+        cout<<getNumThreads()<<endl;
         parallel_for(BlockedRange(0, image.rows), FilmGrainInvoker(image, dstMat, grainValue));
     }
     return 0;
+
 }
