@@ -33,8 +33,8 @@ int main(int argc, char** argv)
         return 2;
     }
 
-    namedWindow(srcImgWinName);
-    namedWindow(dstImgWinName);
+    namedWindow(srcImgWinName, 2);
+    namedWindow(dstImgWinName, 2);
     imshow(srcImgWinName, image);
     imshow(dstImgWinName, warmifyImg);
     waitKey();

@@ -32,3 +32,28 @@ TEST(photoeffects, WamifyTest)
         }
     }
 }
+
+TEST(photoeffects, WarmifyRegressionTest)
+{
+    string input = "./testdata/warmify_test.png";
+    string expectedOutput = "./testdata/warmify_test_result.png";
+
+    Mat image, dst, rightDst;
+    image = imread(input, CV_LOAD_IMAGE_COLOR);
+    rightDst = imread(expectedOutput, CV_LOAD_IMAGE_COLOR);
+
+    if (image.empty())
+    {
+        FAIL() << "Can't read " + input + " image";
+    }
+    if (rightDst.empty())
+    {
+        FAIL() << "Can't read " + expectedOutput + " image";
+    }
+
+    EXPECT_EQ(0, warmify(image, dst, 30));
+
+    Mat diff = abs(rightDst - dst);
+    Mat mask = diff.reshape(1) > 1;
+    EXPECT_EQ(0, countNonZero(mask));
+}
