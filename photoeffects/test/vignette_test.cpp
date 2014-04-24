@@ -25,3 +25,32 @@ TEST(photoeffects, VignetteTest)
 
     EXPECT_EQ(0, vignette(image, dst, rectangle));
 }
+
+TEST(photoeffects, VignetteRegressionTest)
+{
+    string input = "./testdata/vignette_test.png";
+    string expectedOutput = "./testdata/vignette_test_result.png";
+
+    Mat image, dst, rightDst;
+    image = imread(input, CV_LOAD_IMAGE_COLOR);
+    rightDst = imread(expectedOutput, CV_LOAD_IMAGE_COLOR);
+
+    if (image.empty())
+    {
+        FAIL() << "Can't read " + input + " image";
+    }
+    if (rightDst.empty())
+    {
+        FAIL() << "Can't read " + expectedOutput + " image";
+    }
+
+    Size rect;
+    rect.height = image.rows / 1.5f;
+    rect.width = image.cols / 2.0f;
+
+    EXPECT_EQ(0, vignette(image, dst, rect));
+
+    Mat diff = abs(rightDst - dst);
+    Mat mask = diff.reshape(1) > 1;
+    EXPECT_EQ(0, countNonZero(mask));
+}
