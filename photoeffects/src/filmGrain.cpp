@@ -1,6 +1,52 @@
+#include <opencv2/core/core.hpp>
+#include <opencv2/core/internal.hpp>
 #include "photoeffects.hpp"
 
 using namespace cv;
+class FilmGrainInvoker
+{
+public:
+    FilmGrainInvoker(const Mat& src, Mat& dst, int grainValue)
+        : src_(src),
+          dst_(dst),
+          grainValue_(grainValue),
+          height_(src.cols) {}
+
+    void operator()(const BlockedRange& rows) const
+    {
+        Mat srcStripe = src_.rowRange(rows.begin(), rows.end());
+        cvtColor(srcStripe, srcStripe, CV_RGB2YUV);
+        int stripeWidht = srcStripe.rows;
+        RNG& rng=theRNG();
+        for (int y = 0; y < stripeWidht; y++)
+        {
+            uchar* row = (uchar*)srcStripe.row(y).data;
+            for (int x = 0; x < height_*3; x+=3)
+            {
+                int newValue=(row[x]+rng.gaussian(grainValue_));
+                if(newValue<0)
+                {
+                    newValue=0;
+                }
+                if(newValue>=256)
+                {
+                    newValue=255;
+                }
+                row[x]= newValue;
+            }
+        }
+        Mat dstStripe = dst_.rowRange(rows.begin(), rows.end());
+        cvtColor(srcStripe, dstStripe, CV_YUV2RGB);
+    }
+
+private:
+    const Mat& src_;
+    Mat& dst_;
+    int grainValue_;
+    int height_;
+
+    FilmGrainInvoker& operator=(const FilmGrainInvoker&);
+};
 int filmGrain(InputArray src, OutputArray dst, int grainValue)
 {
     CV_Assert(!src.empty());
@@ -29,23 +75,9 @@ int filmGrain(InputArray src, OutputArray dst, int grainValue)
     }
     if(src.type()==CV_8UC3)
     {
-        Mat imageYUV;
-        cvtColor(image, imageYUV, CV_RGB2YUV);
-        for(int i=0; i<imageYUV.rows; i++)
-            for(int j=0; j<imageYUV.cols; j++)
-            {
-                int newValue=(imageYUV.at<Vec3b>(i, j)[0]+rng.gaussian(grainValue));
-                if(newValue<0)
-                {
-                    newValue=0;
-                }
-                if(newValue>=256)
-                {
-                    newValue=255;
-                }
-                imageYUV.at<Vec3b>(i, j)[0]= newValue;
-            }
-        cvtColor(imageYUV, dst, CV_YUV2RGB);
+        dst.create(image.size(), image.type());
+        Mat dstMat = dst.getMat();
+        parallel_for(BlockedRange(0, image.rows), FilmGrainInvoker(image, dstMat, grainValue));
     }
     return 0;
 }
