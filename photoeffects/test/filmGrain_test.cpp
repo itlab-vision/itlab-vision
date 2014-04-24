@@ -33,7 +33,7 @@ TEST(photoeffects, FilmGrainRegressionTest)
 
     Mat dst;
     theRNG()=RNG(0);
-    EXPECT_EQ(0, filmGrain(image, dst, 8));
+    EXPECT_EQ(0, filmGrain(image, dst, 30));
 
     Mat diff = abs(rightDst - dst);
     Mat mask = diff.reshape(1) > 1;
