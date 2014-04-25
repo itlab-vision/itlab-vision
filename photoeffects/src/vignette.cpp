@@ -8,7 +8,9 @@ int vignette(InputArray src, OutputArray dst, Size rect)
 
     Mat imgSrc = src.getMat();
     CV_Assert(imgSrc.data);
-    Mat imgDst(imgSrc.size(), CV_8UC3);
+
+    dst.create(imgSrc.size(), CV_8UC3);
+    Mat imgDst = dst.getMat();
     Vec3b intensity, intensityNew;
 
     float centerRow = imgSrc.rows / 2.0f;
@@ -43,6 +45,5 @@ int vignette(InputArray src, OutputArray dst, Size rect)
             imgDst.at<Vec3b>(i, j) = intensityNew;
         }
     }
-    imgDst.copyTo(dst);
     return 0;
 }
