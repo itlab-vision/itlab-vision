@@ -16,13 +16,17 @@ public:
     void operator()(const BlockedRange& rows) const
     {
         Mat srcStripe = src_.rowRange(rows.begin(), rows.end());
-        cvtColor(srcStripe, srcStripe, CV_RGB2YUV);
         int stripeWidht = srcStripe.rows;
+        int numChannels=src_.channels();
+        if(numChannels==3)
+        {
+            cvtColor(srcStripe, srcStripe, CV_RGB2YUV);
+        }
         RNG& rng=theRNG();
         for (int y = 0; y < stripeWidht; y++)
         {
             uchar* row = (uchar*)srcStripe.row(y).data;
-            for (int x = 0; x < height_*3; x+=3)
+            for (int x = 0; x < height_*numChannels; x+=numChannels)
             {
                 int newValue=(row[x]+rng(grainValue_));
                 if(newValue<0)
@@ -37,7 +41,14 @@ public:
             }
         }
         Mat dstStripe = dst_.rowRange(rows.begin(), rows.end());
-        cvtColor(srcStripe, dstStripe, CV_YUV2RGB);
+        if(numChannels==3)
+        {
+            cvtColor(srcStripe, dstStripe, CV_YUV2RGB);
+        }
+        else
+        {
+            srcStripe.copyTo(dstStripe);
+        }
     }
 
 private:
@@ -54,35 +65,9 @@ int filmGrain(InputArray src, OutputArray dst, int grainValue)
     CV_Assert(src.type() == CV_8UC1 || src.type() == CV_8UC3);
 
     Mat image=src.getMat();
-
-    RNG& rng=theRNG();
-    if(src.type()==CV_8UC1)
-    {
-        for(int i=0; i<image.rows; i++)
-            for(int j=0; j<image.cols; j++)
-            {
-                int newValue=(image.at<uchar>(i, j)+rng.gaussian(grainValue));
-                if(newValue<0)
-                {
-                    newValue=0;
-                }
-                if(newValue>=256)
-                {
-                    newValue=255;
-                }
-                image.at<uchar>(i, j)= newValue;
-            }
-        image.copyTo(dst);
-    }
-    if(src.type()==CV_8UC3)
-    {
-        dst.create(image.size(), image.type());
-        Mat dstMat = dst.getMat();
-        cout<<getNumThreads()<<endl;
-        setNumThreads(2);
-        cout<<getNumThreads()<<endl;
-        parallel_for(BlockedRange(0, image.rows), FilmGrainInvoker(image, dstMat, grainValue));
-    }
+    dst.create(image.size(), image.type());
+    Mat dstMat = dst.getMat();
+    parallel_for(BlockedRange(0, image.rows), FilmGrainInvoker(image, dstMat, grainValue));
     return 0;
 
 }
