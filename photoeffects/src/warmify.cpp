@@ -8,7 +8,6 @@ int warmify(cv::InputArray src, cv::OutputArray dst, uchar delta)
 
     Mat imgSrc = src.getMat();
     CV_Assert(imgSrc.data);
-
     dst.create(imgSrc.size(), CV_8UC3);
     Mat imgDst = dst.getMat();
     Vec3b intensityNew;
