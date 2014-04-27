@@ -51,45 +51,31 @@ int fadeColor(InputArray src, OutputArray dst,
     Point farthestPoint=findFarthestPoint(perpendicular, image);
 
     int maxDistance=abs(A*farthestPoint.y+B*farthestPoint.x+C);
-    //one channel
-    if(src.type() == CV_8UC1)
-    {
-        for(int i=0;i<image.rows;i++)
-            for(int j=0;j<image.cols;j++)
-            {
-                int distance=A*i+B*j+C;
-                //change pixels only in the direction of the perpendicular
-                if(distance>0)
-                {
-                    int channelValue=image.at<uchar>(i,j);
-                    channelValue*=(maxDistance-distance);
-                    channelValue+=255*distance;
-                    channelValue/=maxDistance;
-                    image.at<uchar>(i,j)=channelValue;
-                }
-            }
-        image.copyTo(dst);
-        return 0;
-    }
 
-    //three channel
+    int numChannel=image.channels();
+    dst.create(image.size(),image.type());
+    Mat dstMat=dst.getMat();
     for(int i=0;i<image.rows;i++)
+    {
+        uchar* line( image.ptr<uchar>(i) );
+        uchar* dstLine(dstMat.ptr<uchar>(i) );
         for(int j=0;j<image.cols;j++)
         {
             int distance=A*i+B*j+C;
             //change pixels only in the direction of the perpendicular
             if(distance>0)
             {
-                for(int n=0;n<3;n++)
+
+                for(int n=0;n<numChannel;n++)
                 {
-                    int channelValue=image.at<Vec3b>(i,j)[n];
+                    int channelValue=line[numChannel*j+n];
                     channelValue*=(maxDistance-distance);
                     channelValue+=255*distance;
                     channelValue/=maxDistance;
-                    image.at<Vec3b>(i,j)[n]=channelValue;
+                    dstLine[numChannel*j+n]=channelValue;
                 }
             }
         }
-    image.copyTo(dst);
+    }
     return 0;
 }
