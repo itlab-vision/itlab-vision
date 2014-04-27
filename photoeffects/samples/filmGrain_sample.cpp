@@ -5,7 +5,7 @@ using namespace cv;
 using namespace std;
 
 const char *ORIGINAL_IMAGE="Original image";
-const char *FILM_GRAIN_IMAGE="Faded image";
+const char *FILM_GRAIN_IMAGE="Film Grain image";
 const char *helper =
 "./filmGrain_sample <img> <value of grain>\n\
 \t<img> - file name contained the processed image\n\
@@ -26,9 +26,11 @@ int main(int argc, char** argv)
     namedWindow(ORIGINAL_IMAGE, CV_WINDOW_AUTOSIZE);
     imshow(ORIGINAL_IMAGE, src);
     Mat dst;
+    theRNG()=RNG(0);
     filmGrain(src, dst, grainValue);
     imshow(FILM_GRAIN_IMAGE, dst);
     cout << "Press any key to EXIT"<<endl;
+    imwrite("result.png",dst);
     waitKey(0);
     return 0;
 }
