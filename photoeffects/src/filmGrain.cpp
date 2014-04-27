@@ -1,73 +1,23 @@
-#include <opencv2/core/core.hpp>
-#include <opencv2/core/internal.hpp>
 #include "photoeffects.hpp"
 #include <iostream>
-using namespace cv;
 using namespace std;
-class FilmGrainInvoker
-{
-public:
-    FilmGrainInvoker(const Mat& src, Mat& dst, int grainValue)
-        : src_(src),
-          dst_(dst),
-          grainValue_(grainValue),
-          height_(src.cols) {}
-
-    void operator()(const BlockedRange& rows) const
-    {
-        Mat srcStripe = src_.rowRange(rows.begin(), rows.end());
-        int stripeWidht = srcStripe.rows;
-        int numChannels=src_.channels();
-        if(numChannels==3)
-        {
-            cvtColor(srcStripe, srcStripe, CV_RGB2YUV);
-        }
-        RNG& rng=theRNG();
-        for (int y = 0; y < stripeWidht; y++)
-        {
-            uchar* row = (uchar*)srcStripe.row(y).data;
-            for (int x = 0; x < height_*numChannels; x+=numChannels)
-            {
-                int newValue=(row[x]+rng(grainValue_));
-                if(newValue<0)
-                {
-                    newValue=0;
-                }
-                if(newValue>=256)
-                {
-                    newValue=255;
-                }
-                row[x]= newValue;
-            }
-        }
-        Mat dstStripe = dst_.rowRange(rows.begin(), rows.end());
-        if(numChannels==3)
-        {
-            cvtColor(srcStripe, dstStripe, CV_YUV2RGB);
-        }
-        else
-        {
-            srcStripe.copyTo(dstStripe);
-        }
-    }
-
-private:
-    const Mat& src_;
-    Mat& dst_;
-    int grainValue_;
-    int height_;
-
-    FilmGrainInvoker& operator=(const FilmGrainInvoker&);
-};
+using namespace cv;
 int filmGrain(InputArray src, OutputArray dst, int grainValue)
 {
     CV_Assert(!src.empty());
     CV_Assert(src.type() == CV_8UC1 || src.type() == CV_8UC3);
 
     Mat image=src.getMat();
-    dst.create(image.size(), image.type());
-    Mat dstMat = dst.getMat();
-    parallel_for(BlockedRange(0, image.rows), FilmGrainInvoker(image, dstMat, grainValue));
+    RNG& rng=theRNG();
+    Mat noise;
+    noise.create(image.size(), CV_8UC1);
+    rng.fill(noise, RNG::UNIFORM, 0, grainValue);
+    dst.create(src.size(), src.type());
+    Mat dstMat=dst.getMat();
+    if(src.type()==CV_8UC3)
+    {
+        cvtColor(noise, noise, CV_GRAY2RGB);
+    }
+    dstMat=image+noise;
     return 0;
-
 }
