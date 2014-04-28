@@ -23,7 +23,6 @@ Contents:
    code/docs/glow.rst
    code/docs/film_grain.rst
 
-
 Indices and tables
 ==================
 
