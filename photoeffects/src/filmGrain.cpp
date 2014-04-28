@@ -1,14 +1,13 @@
 #include "photoeffects.hpp"
-#include <iostream>
-using namespace std;
+
 using namespace cv;
-int filmGrain(InputArray src, OutputArray dst, int grainValue)
+int filmGrain(InputArray src, OutputArray dst, int grainValue, int seed)
 {
     CV_Assert(!src.empty());
     CV_Assert(src.type() == CV_8UC1 || src.type() == CV_8UC3);
 
     Mat image=src.getMat();
-    RNG& rng=theRNG();
+    RNG rng=RNG(seed);
     Mat noise;
     noise.create(image.size(), CV_8UC1);
     rng.fill(noise, RNG::UNIFORM, 0, grainValue);
