@@ -13,23 +13,23 @@ public:
         : src_(src),
           dst_(dst),
           intensity_(intensity),
-          height_(src.cols) {}
+          cols_(src.cols) {}
 
-    void operator()(const BlockedRange& rows) const
+    void operator()(const BlockedRange& rowsRange) const
     {
-        Mat srcStripe = src_.rowRange(rows.begin(), rows.end());
+        Mat srcStripe = src_.rowRange(rowsRange.begin(), rowsRange.end());
         srcStripe /= 255.0f;
         cvtColor(srcStripe, srcStripe, CV_BGR2HLS);
-        int stripeWidht = srcStripe.rows;
-        for (int y = 0; y < stripeWidht; y++)
+        int rows = srcStripe.rows;
+        for (int y = 0; y < rows; y++)
         {
             float* row = (float*)srcStripe.row(y).data;
-            for (int x = 0; x < height_*3; x += 3)
+            for (int x = 0; x < cols_*3; x += 3)
             {
                 row[x + 2] = min(row[x + 2] + intensity_, 1.0f);
             }
         }
-        Mat dstStripe = dst_.rowRange(rows.begin(), rows.end());
+        Mat dstStripe = dst_.rowRange(rowsRange.begin(), rowsRange.end());
         cvtColor(srcStripe, dstStripe, CV_HLS2BGR);
         dstStripe *= 255.0f;
     }
@@ -38,7 +38,7 @@ private:
     const Mat& src_;
     Mat& dst_;
     float intensity_;
-    const int height_;
+    int cols_;
 
     BoostColorInvoker& operator=(const BoostColorInvoker&);
 };
