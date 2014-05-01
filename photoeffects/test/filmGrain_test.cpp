@@ -32,7 +32,8 @@ TEST(photoeffects, FilmGrainRegressionTest)
         FAIL() << "Can't read " + input + " image";
 
     Mat dst;
-    EXPECT_EQ(0, filmGrain(image, dst, 25, 0));
+    theRNG()=RNG(0);
+    EXPECT_EQ(0, filmGrain(image, dst, 25));
 
     Mat diff = abs(rightDst - dst);
     Mat mask = diff.reshape(1) > 1;
