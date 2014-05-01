@@ -10,7 +10,8 @@ int tint(InputArray src, OutputArray dst,
     CV_Assert(density >= 0.0f && density <= 1.0f);
     dst.create(src.size(), CV_8UC3);
     Mat image = src.getMat(), outputImage = dst.getMat();
-    Mat matColTint(src.size(), CV_8UC3, Scalar(colorTint[0], colorTint[1], colorTint[2]));
+    Mat matColTint(src.size(), CV_8UC3, 
+        Scalar(colorTint[0], colorTint[1], colorTint[2]));
 
     outputImage = matColTint * density + image * (1 - density);
     return 0;
