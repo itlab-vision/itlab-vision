@@ -65,7 +65,7 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
             circle(srcCopy, startPoint, 5, CV_RGB(255,50,255), 4);
             circle(srcCopy, endPoint, 5, CV_RGB(255,50,255), 4);
             Mat dst;
-            fadeColor(src, dst, startPoint,  endPoint);
+            fadeColor(src, dst, startPoint, endPoint);
             imshow(ORIGINAL_IMAGE, srcCopy);
             namedWindow(FADED_IMAGE, CV_WINDOW_AUTOSIZE);
             imshow(FADED_IMAGE, dst);
