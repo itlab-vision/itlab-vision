@@ -1,7 +1,54 @@
 #include "photoeffects.hpp"
-
+#include <opencv2/core/internal.hpp>
 using namespace cv;
 
+class FadeColorInvoker
+{
+public:
+    FadeColorInvoker(const Mat& src, Mat& dst, int A,int B,int C,int mD)
+        : src_(src),
+          dst_(dst),
+          A_(A),B_(B),C_(C),maxDistance(mD),
+          cols_(src.cols) {}
+
+    void operator()(const BlockedRange& rowsRange) const
+    {
+        Mat srcStripe = src_.rowRange(rowsRange.begin(), rowsRange.end());
+        Mat dstStripe = dst_.rowRange(rowsRange.begin(), rowsRange.end());
+        int rows = srcStripe.rows;
+        int rown=rowsRange.begin();
+        for (int i = 0; i < rows; i++)
+        {
+            uchar* row = (uchar*)srcStripe.row(i).data;
+            uchar* dstRow = (uchar*)dstStripe.row(i).data;
+            for (int j = 0; j < cols_; j ++)
+            {
+                int distance=A_*(rown+i)+B_*j+C_;
+                //change pixels only in the direction of the perpendicular
+                if(distance>0)
+                {
+                    for(int n=0;n<src_.channels();n++)
+                    {
+                        int channelValue=row[src_.channels()*j+n];
+                        channelValue*=(maxDistance-distance);
+                        channelValue+=255*distance;
+                        channelValue/=maxDistance;
+                        dstRow[src_.channels()*j+n]=channelValue;
+                    }
+                }
+            }
+        }
+    }
+
+private:
+    const Mat& src_;
+    Mat& dst_;
+    int cols_;
+    //line
+    int A_,B_,C_;
+    int maxDistance;
+    FadeColorInvoker& operator=(const FadeColorInvoker&);
+};
 Point findFarthestPoint(Point vector, Mat& image)
 {
     int a,b;
@@ -51,31 +98,9 @@ int fadeColor(InputArray src, OutputArray dst,
     Point farthestPoint=findFarthestPoint(perpendicular, image);
 
     int maxDistance=abs(A*farthestPoint.y+B*farthestPoint.x+C);
-
-    int numChannel=image.channels();
-    dst.create(image.size(),image.type());
     Mat dstMat=dst.getMat();
-    for(int i=0;i<image.rows;i++)
-    {
-        uchar* line( image.ptr<uchar>(i) );
-        uchar* dstLine(dstMat.ptr<uchar>(i) );
-        for(int j=0;j<image.cols;j++)
-        {
-            int distance=A*i+B*j+C;
-            //change pixels only in the direction of the perpendicular
-            if(distance>0)
-            {
-
-                for(int n=0;n<numChannel;n++)
-                {
-                    int channelValue=line[numChannel*j+n];
-                    channelValue*=(maxDistance-distance);
-                    channelValue+=255*distance;
-                    channelValue/=maxDistance;
-                    dstLine[numChannel*j+n]=channelValue;
-                }
-            }
-        }
-    }
+    dstMat.create(image.size(),image.type());
+    parallel_for(BlockedRange(0, image.rows), FadeColorInvoker(image, dstMat, A,B,C,maxDistance));
+    dstMat.copyTo(dst);
     return 0;
 }
