@@ -1,5 +1,4 @@
 #include "photoeffects.hpp"
-#include <math.h>
 
 using namespace cv;
 
@@ -13,58 +12,44 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
     CV_Assert(indentTop >= 0 && indentTop <= (image.rows / 2 - 10));
     CV_Assert(indentLeft >= 0 && indentLeft <= (image.cols / 2 - 10));
 
-    float halfWidth = image.cols / 2.0f;
-    float halfHeight = image.rows / 2.0f;
-    float a = (halfWidth - indentLeft) 
-            * (halfWidth - indentLeft);
-    float b = (halfHeight - indentTop) 
-            * (halfHeight - indentTop);
-    int kSizeEdges = halfWidth * halfWidth / a + halfHeight * halfHeight / b;
+    Mat x(image.rows, image.cols, CV_32FC1);
+    Mat y(image.rows, image.cols, CV_32FC1);
+    Mat magn;
 
-    // 15 is a maximal kernel size
-    kSizeEdges = MIN(kSizeEdges, 15);
-    Mat bearingImage;
-    copyMakeBorder(image, bearingImage, kSizeEdges, kSizeEdges,
-        kSizeEdges, kSizeEdges, BORDER_REPLICATE);
-
-
-    for (int i = kSizeEdges; i < bearingImage.rows - kSizeEdges; i++)
+    float a = image.rows / 2 - indentTop;
+    float b = image.cols / 2 - indentLeft;
+    for (int i = 0; i < image.rows; i++)
     {
-        for (int j = kSizeEdges; j < bearingImage.cols - kSizeEdges; j++)
+        for (int j = 0; j < image.cols; j++)
         {
-            float radius = (halfHeight - i)
-                    * (halfHeight- i)
-                    / b
+            x.at<float>(i,j) = (i - image.rows / 2.0f) / a;
+            y.at<float>(i,j) = (j - image.cols / 2.0f) / b;
+        }
+    }
+    cartToPolar(x, y, magn, angle, true);
 
-                    + (halfWidth - j)
-                    * (halfWidth - j)
-                    / a;
-            if (radius < 1.0f)
+    int kSize = MAX(image.rows, image.cols) / 50;
+    Mat imgBoxFilter(image.size(), CV_8UC3);
+    boxFilter(image, imgBoxFilter, -1, 
+            Size(kSize, kSize), Point(-1, -1), 
+            true, BORDER_REPLICATE);
+
+    Mat mask = Mat::zeros(image.size(), CV_8UC3);
+    float length = magn.at<float>(0, 0) - 1.0f;
+    for (int i = 0; i < image.rows; i++)
+    {
+        for (int j = 0; j < image.cols; j++)
+        {
+            if (magn.at<float>(i,j) > 1.0f)
             {
-                outputImage.at<Vec3b>(i - kSizeEdges, j - kSizeEdges) =
-                    bearingImage.at<Vec3b>(i, j);
-                continue;
+                mask.at<Vec3b>(i,j) =
+                    Vec3b::all((magn.at<float>(i,j) - 1.0f) * 100.0f / length);
             }
-            int size = MIN(radius, kSizeEdges);
-            radius = 2.0f * (radius - 0.5f) * (radius - 0.5f);
-            float sumC = 0.0f;
-            Vec3f sumF;
-            float coeff1 = 1.0f / (CV_PI * radius);
-            for (int x = -size; x <= size; x++)
-            {
-                for (int y = -size; y <= size; y++)
-                {
-                    float coeff2 = coeff1 * exp(- (x * x + y * y) / radius);
-                    Vec3b Color = bearingImage.at<Vec3b>(x + i, y + j);
-                    sumF += coeff2 * (Vec3f)Color;
-                    sumC += coeff2;
-                }
-            }
-            sumF *= (1.0f / sumC);
-            outputImage.at<Vec3b>(i - kSizeEdges, 
-                                j - kSizeEdges) = (Vec3b)sumF;
         }
     }
 
+    Mat negMask(image.size(), CV_8UC3, Scalar(100, 100, 100));
+    negMask -= mask;
+    outputImage = imgBoxFilter.mul(mask, 0.01f) + image.mul(negMask, 0.01f);
     return 0;
 }
