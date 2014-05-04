@@ -5,20 +5,22 @@ using namespace cv;
 int warmify(cv::InputArray src, cv::OutputArray dst, uchar delta)
 {
     CV_Assert(src.type() == CV_8UC3);
-
     Mat imgSrc = src.getMat();
     CV_Assert(imgSrc.data);
-    dst.create(imgSrc.size(), CV_8UC3);
+    dst.create(src.size(), CV_8UC3);
     Mat imgDst = dst.getMat();
-    Vec3b intensityNew;
+    Vec3b intensity, intensityNew;
 
     for (int i = 0; i < imgSrc.rows; i++)
     {
         for (int j = 0; j < imgSrc.cols; j++)
         {
-            intensityNew = imgSrc.at<Vec3b>(i, j);
-            intensityNew[1] = (intensityNew[1] + delta < 255) ? (uchar)(intensityNew[1] + delta) : 255;
-            intensityNew[2] = (intensityNew[2] + delta < 255) ? (uchar)(intensityNew[2] + delta) : 255;
+            intensity = imgSrc.at<Vec3b>(i, j);
+            intensityNew[0] = intensity[0];
+            uchar g = (intensity[1] + delta) >> 8;
+            uchar r = (intensity[2] + delta) >> 8;
+            intensityNew[1] = g * 255 + (1 - g) * intensity[1] + (1 - g) * delta;
+            intensityNew[2] = r * 255 + (1 - r) * intensity[2] + (1 - r) * delta;
             imgDst.at<Vec3b>(i, j) = intensityNew;
         }
     }
