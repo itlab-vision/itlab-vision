@@ -4,6 +4,7 @@ compiler:
   - clang
 before_install: sudo apt-get update -qq
 install:
+  - sudo apt-get install kwstyle
   - sudo apt-get install -qq libopencv-dev
 before_script:
   - mkdir ../build
@@ -13,5 +14,7 @@ script:
   - make -j5
   - cd ./bin/
   - ./photoeffects_test
+  - cd ../itlab-vision
+  - KWStyle -v -D Files.txt 
 notifications:
   email: false
