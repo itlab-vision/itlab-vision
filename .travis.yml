@@ -12,7 +12,7 @@ before_script:
   - mkdir ../build
   - cd ../build
 script:
-  - vera++ ../itlab-vision/photoeffects/src/fadeColor.cpp
+  - if [ "$VERA" = "true" ]; vera++ ../itlab-vision/photoeffects/src/fadeColor.cpp
   - cmake ../itlab-vision/photoeffects
   - make -j5
   - cd ./bin/
