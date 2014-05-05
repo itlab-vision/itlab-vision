@@ -1,7 +1,50 @@
 #include "photoeffects.hpp"
-
+#include <opencv2/core/internal.hpp>
 using namespace cv;
 
+class FadeColorInvoker
+{
+public:
+    FadeColorInvoker(Mat& dst, int A,int B,int C,int mD)
+        : dst_(dst),
+          A_(A),B_(B),C_(C),maxDistance(mD),
+          cols_(dst.cols) {}
+
+    void operator()(const BlockedRange& rowsRange) const
+    {
+        Mat dstStripe = dst_.rowRange(rowsRange.begin(), rowsRange.end());
+        int rows = dstStripe.rows;
+        int rowNum=rowsRange.begin();
+        for (int i = 0; i < rows; i++)
+        {
+            uchar* dstRow = (uchar*)dstStripe.row(i).data;
+            for (int j = 0; j < cols_; j ++)
+            {
+                int distance=A_*(rowNum+i)+B_*j+C_;
+                //change pixels only in the direction of the perpendicular
+                if(distance>0)
+                {
+                    for(int n=0;n<dst_.channels();n++)
+                    {
+                        int channelValue=dstRow[dst_.channels()*j+n];
+                        channelValue*=(maxDistance-distance);
+                        channelValue+=255*distance;
+                        channelValue/=maxDistance;
+                        dstRow[dst_.channels()*j+n]=channelValue;
+                    }
+                }
+            }
+        }
+    }
+
+private:
+    Mat& dst_;
+    int cols_;
+    //line
+    int A_,B_,C_;
+    int maxDistance;
+    FadeColorInvoker& operator=(const FadeColorInvoker&);
+};
 Point findFarthestPoint(Point vector, Mat& image)
 {
     int a,b;
@@ -51,45 +94,9 @@ int fadeColor(InputArray src, OutputArray dst,
     Point farthestPoint=findFarthestPoint(perpendicular, image);
 
     int maxDistance=abs(A*farthestPoint.y+B*farthestPoint.x+C);
-    //one channel
-    if(src.type() == CV_8UC1)
-    {
-        for(int i=0;i<image.rows;i++)
-            for(int j=0;j<image.cols;j++)
-            {
-                int distance=A*i+B*j+C;
-                //change pixels only in the direction of the perpendicular
-                if(distance>0)
-                {
-                    int channelValue=image.at<uchar>(i,j);
-                    channelValue*=(maxDistance-distance);
-                    channelValue+=255*distance;
-                    channelValue/=maxDistance;
-                    image.at<uchar>(i,j)=channelValue;
-                }
-            }
-        image.copyTo(dst);
-        return 0;
-    }
-
-    //three channel
-    for(int i=0;i<image.rows;i++)
-        for(int j=0;j<image.cols;j++)
-        {
-            int distance=A*i+B*j+C;
-            //change pixels only in the direction of the perpendicular
-            if(distance>0)
-            {
-                for(int n=0;n<3;n++)
-                {
-                    int channelValue=image.at<Vec3b>(i,j)[n];
-                    channelValue*=(maxDistance-distance);
-                    channelValue+=255*distance;
-                    channelValue/=maxDistance;
-                    image.at<Vec3b>(i,j)[n]=channelValue;
-                }
-            }
-        }
-    image.copyTo(dst);
+    Mat dstMat;
+    image.copyTo(dstMat);
+    parallel_for(BlockedRange(0, image.rows), FadeColorInvoker(dstMat, A,B,C,maxDistance));
+    dstMat.copyTo(dst);
     return 0;
 }
