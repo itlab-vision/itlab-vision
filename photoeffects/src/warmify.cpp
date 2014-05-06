@@ -10,8 +10,6 @@ int warmify(cv::InputArray src, cv::OutputArray dst, uchar delta)
     dst.create(src.size(), CV_8UC3);
     Mat imgDst = dst.getMat();
 
-    Mat warmifyMat(src.size(), CV_8UC3, Scalar(0, delta, delta));
-
-    imgDst = imgSrc + warmifyMat;
+    imgDst = imgSrc + Scalar(0, delta, delta);
     return 0;
 }
