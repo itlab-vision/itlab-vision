@@ -30,8 +30,10 @@ TEST(photoeffects, BoostColorRegressionTest)
     EXPECT_EQ(0, boostColor(image, dst, 0.5f));
 
     Mat diff = abs(rightDst - dst);
-    Mat mask = diff.reshape(1) > 1;
-    EXPECT_EQ(0, countNonZero(mask));
+
+	Mat mask = diff.reshape(1) > 1;
+    
+	EXPECT_EQ(0, countNonZero(mask));
 }
 
 TEST(photoeffects, BoostColorTestBadIntensity)
