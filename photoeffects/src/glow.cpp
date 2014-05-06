@@ -64,12 +64,12 @@ namespace
     }
 }   
 
-int glow(InputArray src, OutputArray dst, float sigma, float intensity)
+int glow(InputArray src, OutputArray dst, int radius, float intensity)
 {
     Mat srcImg = src.getMat();
 
     CV_Assert(srcImg.channels() == COUNT_CHANNEL);
-    CV_Assert(sigma > 0.0f);
+    CV_Assert(radius >= 0 && radius % 2 != 0);
     CV_Assert(intensity >= 0.0f && intensity <= 1.0f);
 
     int srcImgType = srcImg.type();
@@ -79,9 +79,9 @@ int glow(InputArray src, OutputArray dst, float sigma, float intensity)
     }
 
     Mat blurImg;
-    Size size(0, 0);
+    Size size(radius, radius);
 
-    GaussianBlur(srcImg, blurImg, size, sigma, sigma);
+    GaussianBlur(srcImg, blurImg, size, 0.0f, 0.0f);
  
     Mat overlayImg;
     overlay(blurImg, srcImg, overlayImg);
