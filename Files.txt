@@ -1,1 +1,4 @@
 photoeffects/src/*.cpp
+photoeffects/include/*.hpp
+photoeffects/samples/*.cpp
+photoeffects/test/*.cpp
