@@ -17,10 +17,11 @@ public:
         int rowNum=rowsRange.begin();
         for (int i = 0; i < rows; i++)
         {
+            int distance=A_*(rowNum+i)-B_+C_;
             uchar* dstRow = (uchar*)dstStripe.row(i).data;
             for (int j = 0; j < cols_; j ++)
             {
-                int distance=A_*(rowNum+i)+B_*j+C_;
+                distance+=B_;
                 //change pixels only in the direction of the perpendicular
                 if(distance>0)
                 {
