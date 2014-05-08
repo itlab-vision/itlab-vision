@@ -28,6 +28,7 @@ int main(int argc, char** argv)
     Mat dst;
     filmGrain(src, dst, grainValue, RNG(0));
     imshow(FILM_GRAIN_IMAGE, dst);
+    cout << "Press any key to EXIT"<<endl;
     waitKey(0);
     return 0;
 }
