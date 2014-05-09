@@ -5,12 +5,11 @@ compiler:
 before_install:
   - cd ../
   - wget http://sourceforge.net/projects/opencvlibrary/files/latest/download
-  - mkdir opencv
-  - unzip opencv-2.4.9.zip -d opencv
+  - unzip opencv-2.4.9.zip
   - mkdir build-opencv
   - cd ./build-opencv/
 install:
-  - cmake ../opencv/
+  - cmake ../opencv-2.4.9/
   - make -j5
   - make install
 before_script:
