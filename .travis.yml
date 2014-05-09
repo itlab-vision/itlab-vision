@@ -11,7 +11,7 @@ before_install:
 install:
   - cmake ../opencv-2.4.9/
   - make -j5
-  - make install
+  - sudo make install
 before_script:
   - mkdir ../build
   - cd ../build
