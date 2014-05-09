@@ -3,8 +3,9 @@ compiler:
   - gcc
   - clang
 before_install:
-  - cd ../
-  - wget http://sourceforge.net/projects/opencvlibrary/files/latest/download
+  - mkdir ../opencv/
+  - cd ../opencv/
+  - wget http://sourceforge.net/projects/opencvlibrary/files/latest/download -P ./
   - unzip opencv-2.4.9.zip
   - mkdir build-opencv
   - cd ./build-opencv/
@@ -13,8 +14,8 @@ install:
   - make -j5
   - sudo make install
 before_script:
-  - mkdir ../build
-  - cd ../build
+  - mkdir ../../build
+  - cd ../../build
 script:
   - cmake ../itlab-vision/photoeffects
   - make -j5
