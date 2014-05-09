@@ -5,8 +5,8 @@ compiler:
 before_install:
   - mkdir ../opencv/
   - cd ../opencv/
-  - wget http://sourceforge.net/projects/opencvlibrary/files/latest/download -P ./
-  - unzip opencv-2.4.9.zip
+  - wget http://sourceforge.net/projects/opencvlibrary/files/latest/download
+  - unzip download.zip
   - mkdir build-opencv
   - cd ./build-opencv/
 install:
