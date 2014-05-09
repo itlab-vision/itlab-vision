@@ -19,7 +19,7 @@ class VignetteCalculate
 private:
     const Mat& imgSrc;
     Mat& imgDst;
-    float centerRow, centerCol, aSquare, bSquare, ab, radiusMax;
+    float centerRow, centerCol, aSquare, bSquare, radiusMax;
 
     VignetteCalculate& operator=(const VignetteCalculate&);
 
@@ -28,43 +28,49 @@ public:
         imgSrc(src),
         imgDst(dst)
     {
-        centerRow = imgSrc.rows / 2.0f;
-        centerCol = imgSrc.cols / 2.0f;
-        aSquare = rect.height * rect.height / 4.0f;
-        bSquare = rect.width * rect.width / 4.0f;
-        ab = rect.height * rect.width / 4.0f;
-        radiusMax = sqrtf(centerRow * centerRow + centerCol * centerCol);
+        float centerRow = imgSrc.rows / 2.0f;
+		float centerCol = imgSrc.cols / 2.0f;
+		float aSquare = rect.height * rect.height / 4.0f;
+		float bSquare = rect.width * rect.width / 4.0f;
+		float radiusMax = centerRow * centerRow / aSquare + centerCol * centerCol / bSquare - 1;
     }
 
-    void operator()(const BlockedRange& rows) const
+    void operator()(const BlockedRange& iters) const
+    {
+    	for (int i = iters.begin(); i != iters.end(); i++)
+    	{
+    		Vec3b intensity = imgSrc.at<Vec3b>(i);
+
+    		float dist = ((int)(i / imgSrc.cols) - centerRow) * ((int)(i / imgSrc.cols) - centerRow) / aSquare +
+	                    ((int)(i / imgSrc.rows) - centerCol) * ((int)(i / imgSrc.rows) - centerCol) / bSquare;
+            if (dist > 1.0f)
+            {
+                float coefficient = 1.0f - (dist - 1.0f) / radiusMax;
+                intensity *= coefficient;
+            }
+            imgDst.at<Vec3b>(i) = intensity;
+    	}
+    }
+
+    /*void operator()(const BlockedRange& rows) const
     {
         for (int i = rows.begin(); i != rows.end(); i++)
         {
-            float iMinusCenterRow = (i - centerRow);
-            float iMinusCenterRowSquare = iMinusCenterRow * iMinusCenterRow;
-
             for (int j = 0; j < imgSrc.cols; j++)
-            {
-                Vec3b intensity = imgSrc.at<Vec3b>(i, j);
+	        {
+	            Vec3b intensity = imgSrc.at<Vec3b>(i, j);
 
-                float jMinusCenterColSquare = (j - centerCol) * (j - centerCol);
-                Vec3b intensityNew = intensity;
-                if (iMinusCenterRowSquare / aSquare + jMinusCenterColSquare / bSquare > 1.0f)
-                {
-                    float dist = sqrtf(iMinusCenterRowSquare + jMinusCenterColSquare);
-                    float sinFi = iMinusCenterRow / dist;
-                    float sinFiSquare = sinFi * sinFi;
-                    float radiusEllipse = ab / sqrtf(aSquare * (1.0f - sinFiSquare) +
-                                              bSquare * sinFiSquare);
-                    float coefficient = 1.0f - ((dist - radiusEllipse) /
-                                          (radiusMax - radiusEllipse));
-
-                    intensityNew *= coefficient;
-                }
-                imgDst.at<Vec3b>(i, j) = intensityNew;
-            }
+	            float dist = (i - centerRow) * (i - centerRow) / aSquare +
+	                    (j - centerCol) * (j - centerCol) / bSquare;
+	            if (dist > 1.0f)
+	            {
+	                float coefficient = 1.0f - (dist - 1.0f) / radiusMax;
+	                intensity *= coefficient;
+	            }
+	            imgDst.at<Vec3b>(i, j) = intensity;
+	        }
         }
-    }
+    }*/
 };
 
 int vignette(InputArray src, OutputArray dst, Size rect)
@@ -80,7 +86,7 @@ int vignette(InputArray src, OutputArray dst, Size rect)
     TIMER_END(Other);
 
     TIMER_START(Main);
-    parallel_for(BlockedRange(0, imgSrc.rows), VignetteCalculate(imgSrc, imgDst, rect));
+    parallel_for(BlockedRange(0, imgSrc.rows * imgSrc.cols), VignetteCalculate(imgSrc, imgDst, rect));
     TIMER_END(Main);
     return 0;
 }
