@@ -2,10 +2,17 @@ language: cpp
 compiler:
   - gcc
   - clang
-before_install: sudo apt-get update -qq
+before_install:
+  - cd ../
+  - wget http://sourceforge.net/projects/opencvlibrary/files/latest/download
+  - mkdir opencv
+  - unzip opencv-2.4.9.zip -d opencv
+  - mkdir build-opencv
+  - cd ./build-opencv/
 install:
-  - sudo apt-get install -qq libopencv-dev
-  - sudo pip install cpp-coveralls
+  - cmake ../opencv/
+  - make -j5
+  - make install
 before_script:
   - mkdir ./build
   - cd ./build
