@@ -12,7 +12,8 @@ before_script:
   - cd photoeffects
 script:
   - cd ../itlab-vision/photoeffects
-  - vera++ --error src/fadeColor.cpp
+  - vera++ -param max-line-length=80 src/*.cpp
+  - vera++ -param max-line-length=80 samples/*.cpp
   - cd ../..
   - mkdir build
   - cd build
