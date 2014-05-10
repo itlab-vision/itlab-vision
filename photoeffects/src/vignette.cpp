@@ -14,17 +14,17 @@
 
 using namespace cv;
 
-class VignetteCalculate
+class VignetteInvoker
 {
 private:
     const Mat& imgSrc;
     Mat& imgDst;
     float centerRow, centerCol, aSquare, bSquare, radiusMax;
 
-    VignetteCalculate& operator=(const VignetteCalculate&);
+    VignetteInvoker& operator=(const VignetteInvoker&);
 
 public:
-    VignetteCalculate(Mat src, Mat dst, Size rect):
+    VignetteInvoker(const Mat src, Mat dst, Size rect):
         imgSrc(src),
         imgDst(dst)
     {
@@ -32,50 +32,41 @@ public:
 		float centerCol = imgSrc.cols / 2.0f;
 		float aSquare = rect.height * rect.height / 4.0f;
 		float bSquare = rect.width * rect.width / 4.0f;
-		float radiusMax = centerRow * centerRow / aSquare + centerCol * centerCol / bSquare - 1;
+		float radiusMax = centerRow * centerRow / aSquare + centerCol * centerCol / bSquare - 1.0f;
     }
 
-    void operator()(const BlockedRange& iters) const
+    void operator()(const BlockedRange& rows) const
     {
-    	for (int i = iters.begin(); i != iters.end(); i++)
-    	{
-    		Vec3b intensity = imgSrc.at<Vec3b>(i);
+    	Mat srcStripe = imgSrc.rowRange(rows.begin(), rows.end());
+    	Mat dstStripe = imgDst.rowRange(rows.begin(), rows.end());
+    	int stripeWidth = srcStripe.rows;
 
-    		float dist = ((int)(i / imgSrc.cols) - centerRow) * ((int)(i / imgSrc.cols) - centerRow) / aSquare +
-	                    ((int)(i / imgSrc.rows) - centerCol) * ((int)(i / imgSrc.rows) - centerCol) / bSquare;
-            if (dist > 1.0f)
-            {
-                float coefficient = 1.0f - (dist - 1.0f) / radiusMax;
-                intensity *= coefficient;
-            }
-            imgDst.at<Vec3b>(i) = intensity;
-    	}
-    }
-
-    /*void operator()(const BlockedRange& rows) const
-    {
-        for (int i = rows.begin(); i != rows.end(); i++)
+        for (int i = 0; i < stripeWidth; i++)
         {
+        	Vec3b* srcRow = (Vec3b*)srcStripe.row(i).data;
+        	Vec3b* dstRow = (Vec3b*)dstStripe.row(i).data;
             for (int j = 0; j < imgSrc.cols; j++)
 	        {
-	            Vec3b intensity = imgSrc.at<Vec3b>(i, j);
 
 	            float dist = (i - centerRow) * (i - centerRow) / aSquare +
 	                    (j - centerCol) * (j - centerCol) / bSquare;
 	            if (dist > 1.0f)
 	            {
 	                float coefficient = 1.0f - (dist - 1.0f) / radiusMax;
-	                intensity *= coefficient;
+	                dstRow[j] = srcRow[j] * coefficient;
 	            }
-	            imgDst.at<Vec3b>(i, j) = intensity;
+	            else
+	            {
+	            	dstRow[j] = srcRow[j];
+	            }
 	        }
         }
-    }*/
+    }
 };
 
 int vignette(InputArray src, OutputArray dst, Size rect)
 {
-    TIMER_START(Other);
+    TIMER_START(Initialize);
     CV_Assert(src.type() == CV_8UC3 && rect.height != 0 && rect.width != 0);
 
     Mat imgSrc = src.getMat();
@@ -83,10 +74,10 @@ int vignette(InputArray src, OutputArray dst, Size rect)
 
     dst.create(imgSrc.size(), CV_8UC3);
     Mat imgDst = dst.getMat();
-    TIMER_END(Other);
+    TIMER_END(Initialize);
 
     TIMER_START(Main);
-    parallel_for(BlockedRange(0, imgSrc.rows * imgSrc.cols), VignetteCalculate(imgSrc, imgDst, rect));
+    parallel_for(BlockedRange(0, imgSrc.rows), VignetteInvoker(imgSrc, imgDst, rect));
     TIMER_END(Main);
     return 0;
 }
