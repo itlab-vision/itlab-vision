@@ -34,8 +34,8 @@ public:
 
         for (int i = rows.begin(); i < rows.end(); i++)
         {
-        	Vec3b* srcRow = (Vec3b*)srcStripe.row(i - rows.begin()).data;
-        	Vec3b* dstRow = (Vec3b*)dstStripe.row(i - rows.begin()).data;
+        	uchar* srcRow = (uchar*)srcStripe.row(i - rows.begin()).data;
+        	uchar* dstRow = (uchar*)dstStripe.row(i - rows.begin()).data;
             for (int j = 0; j < imgSrc.cols; j++)
 	        {
 	            float dist = (i - centerRow) * (i - centerRow) / aSquare +
@@ -45,7 +45,9 @@ public:
 	            {
 	                coefficient = 1.0f - (dist - 1.0f) / radiusMax;
 	            }
-	            dstRow[j] *= coefficient;
+	            dstRow[3 * j] *= coefficient;
+	            dstRow[3 * j + 1] *= coefficient;
+	            dstRow[3 * j + 2] *= coefficient;
 	        }
         }
     }
@@ -62,5 +64,6 @@ int vignette(InputArray src, OutputArray dst, Size rect)
     Mat imgDst = dst.getMat();
 
     parallel_for(BlockedRange(0, imgSrc.rows), VignetteInvoker(imgSrc, imgDst, rect));
+    
     return 0;
 }
