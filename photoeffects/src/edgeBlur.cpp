@@ -83,6 +83,7 @@ int edgeBlur(InputArray src, OutputArray dst, int indentTop, int indentLeft)
     float length = halfWidth * halfWidth / a 
                 + halfHeight * halfHeight / b - 1.0f;
     Mat mask = Mat::zeros(image.size(), CV_32FC1);
+
     for (int i = 0; i < image.rows; i++)
     {
         for (int j = 0; j < image.cols; j++)
