@@ -6,7 +6,7 @@ before_install:
   - mkdir ../opencv/
   - cd ../opencv/
   - wget http://sourceforge.net/projects/opencvlibrary/files/latest/download
-  - unzip download.zip
+  - unzip download
   - mkdir build-opencv
   - cd ./build-opencv/
 install:
