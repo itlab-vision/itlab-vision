@@ -5,11 +5,12 @@ compiler:
 before_install: sudo apt-get update -qq
 install:
   - sudo apt-get install -qq libopencv-dev
+  - sudo apt-get install -qq libtbb-dev
 before_script:
   - mkdir ../build
   - cd ../build
 script:
-  - cmake ../itlab-vision/photoeffects
+  - cmake -DWITH_TBB=ON ../itlab-vision/photoeffects
   - make -j5
   - cd ./bin/
   - ./photoeffects_test

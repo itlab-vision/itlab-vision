@@ -3,6 +3,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 set(PROJECT_NAME photoeffects)
 project(${PROJECT_NAME})
 
+option(WITH_TBB "Include Intel TBB support" OFF)
+
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
@@ -23,6 +25,10 @@ include_directories("${PHOTOEFFECTS_INCLUDE}")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/3rdparty")
 
 set(LIBRARY_DEPS ${OpenCV_LIBS})
+if (WITH_TBB)
+  include(cmake/DetectTBB.cmake)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHAVE_TBB")
+endif()
 
 # BUILD
 add_subdirectory(3rdparty)
