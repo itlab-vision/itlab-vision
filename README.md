@@ -1,6 +1,6 @@
 # ITLab Vision Group
 
-[![Build Status](https://travis-ci.org/UNN-VMK-Software/itlab-vision.png?branch=master)](https://travis-ci.org/UNN-VMK-Software/itlab-vision)
+[![Build Status](https://travis-ci.org/UNN-VMK-Software/itlab-vision.png?branch=master)](https://travis-ci.org/UNN-VMK-Software/itlab-vision) [![Coverage Status](https://coveralls.io/repos/UNN-VMK-Software/itlab-vision/badge.png)](https://coveralls.io/r/UNN-VMK-Software/itlab-vision)
 
 This project is developed at Nizhny Novgorod State University (ITLab laboratory) and supported by [Itseez](http://itseez.com) company.
 
