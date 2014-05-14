@@ -1,11 +1,11 @@
 #include "photoeffects.hpp"
 
-const int MAX_INTENSITY = 255; 
-
 using namespace cv;
 
 int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity)
 {
+	const int MAX_INTENSITY = 255;
+
     Mat srcImg = src.getMat();
 
     CV_Assert(srcImg.channels() == 3);
@@ -20,16 +20,10 @@ int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity)
     cvtColor(srcImg, srcHls, CV_BGR2HLS);
 
 	int intensityInt = intensity * MAX_INTENSITY;
-    for (int y = 0; y < srcHls.rows; y++)
-    {
-        unsigned char* row = srcHls.row(y).data;
-        for (int x = 0; x < srcHls.cols*3; x += 3)
-        {
-            row[x + 2] = min(row[x + 2] + intensityInt, MAX_INTENSITY);
-        }
-    }
-	
+	srcHls += Scalar(0, 0, intensityInt);
+
     cvtColor(srcHls, dst, CV_HLS2BGR);
+
 	dst.getMat().convertTo(dst, srcImg.type());
 
     return 0;
