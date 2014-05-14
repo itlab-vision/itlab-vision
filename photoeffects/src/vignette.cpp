@@ -2,27 +2,10 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/internal.hpp>
 
-#if 1
-    #include <stdio.h>
-    #define TIMER_START(name) int64 t_##name = getTickCount()
-    #define TIMER_END(name) printf("TIMER_" #name ":\t%6.2fms\n", \
-                1000.f * ((getTickCount() - t_##name) / getTickFrequency()))
-#else
-    #define TIMER_START(name)
-    #define TIMER_END(name)
-#endif
-
 using namespace cv;
 
 class VignetteInvoker
 {
-private:
-    const Mat& imgSrc;
-    Mat& imgDst;
-    float centerRow, centerCol, aSquare, bSquare, radiusMax;
-
-    VignetteInvoker& operator=(const VignetteInvoker&);
-
 public:
     VignetteInvoker(const Mat& src, Mat& dst, Size rect):
         imgSrc(src),
@@ -44,11 +27,11 @@ public:
         for (int i = rows.begin(); i < rows.end(); i++)
         {
         	uchar* dstRow = (uchar*)dstStripe.row(i - rows.begin()).data;
-        	
+
             for (int j = 0; j < imgSrc.cols; j++)
 	        {
 	            float dist = (i - centerRow) * (i - centerRow) / aSquare +
-	                    (j - centerCol) * (j - centerCol) / bSquare;
+	            	(j - centerCol) * (j - centerCol) / bSquare;
 	            float coefficient = 1.0f;
 	            if (dist > 1.0f)
 	            {
@@ -60,6 +43,13 @@ public:
 	        }
         }
     }
+
+private:
+    const Mat& imgSrc;
+    Mat& imgDst;
+    float centerRow, centerCol, aSquare, bSquare, radiusMax;
+
+    VignetteInvoker& operator=(const VignetteInvoker&);
 };
 
 int vignette(InputArray src, OutputArray dst, Size rect)
@@ -72,10 +62,7 @@ int vignette(InputArray src, OutputArray dst, Size rect)
     dst.create(imgSrc.size(), CV_8UC3);
     Mat imgDst = dst.getMat();
 
-    setNumThreads(4);
-    TIMER_START(Main);
     parallel_for(BlockedRange(0, imgSrc.rows), VignetteInvoker(imgSrc, imgDst, rect));
-    TIMER_END(Main);
     
     return 0;
 }
