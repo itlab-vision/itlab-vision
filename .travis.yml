@@ -4,11 +4,18 @@ compiler:
   - clang
 before_install: sudo apt-get update -qq
 install:
+  - sudo add-apt-repository ppa:smspillaz/verapp-latest -y
+  - sudo apt-get update
+  - sudo apt-get install vera++
   - sudo apt-get install -qq libopencv-dev
 before_script:
-  - mkdir ../build
-  - cd ../build
+  - cd photoeffects
 script:
+  - vera++ -param max-line-length=80 src/*.cpp
+  - vera++ -param max-line-length=80 samples/*.cpp
+  - cd ../..
+  - mkdir build
+  - cd build
   - cmake ../itlab-vision/photoeffects
   - make -j5
   - cd ./bin/
