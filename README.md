@@ -4,8 +4,8 @@
 
 ------------------
 
-This project is developed at Nizhny Novgorod State University (ITLab laboratory)
-and supported by the [Itseez](http://itseez.com) company.
+This project is developed at Nizhny Novgorod State University (CMC faculty,
+ITLab laboratory) and supported by the [Itseez](http://itseez.com) company.
 
 Resources:
 
@@ -45,7 +45,7 @@ Tests execution:
     $ ./photoeffects_test
 ```
 
-Samples execution (test images are used):
+Samples execution:
 
 ```
     $ ./antique_sample testdata/antique_test.png testdata/antique_texture_test.png 0.7
