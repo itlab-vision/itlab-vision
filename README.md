@@ -4,16 +4,14 @@
 [![Coverage Status](https://coveralls.io/repos/UNN-VMK-Software/itlab-vision/badge.png)](https://coveralls.io/r/UNN-VMK-Software/itlab-vision)
 [![Documentation](https://readthedocs.org/projects/itlab-vision/badge/?version=latest)](http://itlab-vision.readthedocs.org)
 
-------------------
-
 This project is developed at Nizhny Novgorod State University (CMC faculty,
 ITLab laboratory) and supported by the [Itseez](http://itseez.com) company.
 
 Project maintainers:
 
-  - Valentina Kustikova
-  - Pavel Druzhkov
-  - Kirill Kornyakov
+  - [Valentina Kustikova](https://github.com/valentina-kustikova)
+  - [Pavel Druzhkov](https://github.com/druzhkov-paul)
+  - [Kirill Kornyakov](https://github.com/kirill-kornyakov)
 
 Project developers:
   - Evgeniy Dolotov
