@@ -15,9 +15,10 @@ const char *helper =
 \t<img> - file name contained the source image, 3-channel, RGB-image\n\
 \t<radius> - Gaussian kernel size, must be positive and odd number\n\
 \t<intensity> - intensity of glow filter, must be real number from 0.0 to 1.0 \n\
+\t<typeBlur> - type of blur for glow filter, 'g' - gaussian blur, 'b' - box filter\n\
 ";
 
-int processArguments(int argc, char **argv, Mat &img, int &radius, float &intensity);
+int processArguments(int argc, char **argv, Mat &img, int &radius, float &intensity, char &typeBlur);
 
 int main(int argc, char **argv)
 {
@@ -25,7 +26,8 @@ int main(int argc, char **argv)
     Mat img, dstImg;
     float intensity;
 	int radius;
-    if (processArguments(argc, argv, img, radius, intensity) != 0)
+	char typeBlur;
+    if (processArguments(argc, argv, img, radius, intensity, typeBlur) != 0)
     {
         cout << helper << endl;
         return 1;
@@ -35,7 +37,11 @@ int main(int argc, char **argv)
     try
     {
 		TIMER_START(ALL);
-        glow(img, dstImg, radius, intensity);
+		if (typeBlur == 'g')
+			glow(img, dstImg, radius, intensity, GAUSS_BLUR);
+		else if (typeBlur == 'b')
+			glow(img, dstImg, radius, intensity, BOX_BLUR);
+
 		TIMER_END(ALL);
     }
     catch (cv::Exception &e)
@@ -55,7 +61,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-int processArguments(int argc, char **argv, Mat &img, int &radius, float &intensity)
+int processArguments(int argc, char **argv, Mat &img, int &radius, float &intensity, char &typeBlur)
 {
     if (argc < 4)
     {
@@ -64,6 +70,7 @@ int processArguments(int argc, char **argv, Mat &img, int &radius, float &intens
     img = imread(argv[1], CV_LOAD_IMAGE_COLOR);
     radius = atoi(argv[2]);
     intensity = (float)atof(argv[3]);
+	typeBlur = argv[4][0];
     
     return 0;
 }

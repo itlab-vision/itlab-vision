@@ -10,7 +10,7 @@ using namespace cv;
 
 namespace
 {
-    const int COUNT_CHANNEL = 3;
+    const int COUNT_CHANNEL = 3; 
 
     void overlay2(InputArray foreground, InputArray background, OutputArray result)
     {
@@ -132,7 +132,7 @@ namespace
     }
 }   
 
-int glow(InputArray src, OutputArray dst, int radius, float intensity)
+int glow(InputArray src, OutputArray dst, int radius, float intensity, TYPE_BLUR typeBlur)
 {
     Mat srcImg = src.getMat();
 
@@ -148,26 +148,25 @@ int glow(InputArray src, OutputArray dst, int radius, float intensity)
 
     Mat blurImg;
     Size size(radius, radius);
-    GaussianBlur(srcImg, blurImg, size, 0.0f, 0.0f);
+	if (typeBlur == BOX_BLUR)
+	{
+		TIMER_START(bbox);
+		boxFilter(srcImg, blurImg, -1, size);
+		TIMER_END(bbox);
+	}
+	else if (typeBlur == GAUSS_BLUR)
+	{
+		TIMER_START(ggauss);
+		GaussianBlur(srcImg, blurImg, size, 0.0f, 0.0f);
+		TIMER_END(ggauss);
+	}
     Mat overlayImg;
     overlay3(blurImg, srcImg, overlayImg);
-	/*
-	blurImg.convertTo(blurImg, CV_32FC3);
-	srcImg.convertTo(srcImg, CV_32FC3);
-	Mat overlayImg2;
-    overlay(blurImg, srcImg, overlayImg2);
-	blurImg.convertTo(blurImg, CV_8UC3);
-	srcImg.convertTo(srcImg, CV_8UC3);
-	overlayImg2.convertTo(overlayImg2, CV_8UC3);
-	Mat diff = abs(overlayImg2 - overlayImg);
-	diff = diff.reshape(1);
-	Mat mask = diff > 1;
-	printf("%d\n", cv::countNonZero(mask));
-	*/
 
-	uchar coeff = static_cast<uchar>(intensity * 256.0 + 0.5);
-	Mat dstImg = (coeff * overlayImg + (256 - coeff) * srcImg) / 256; 
-    //opacity(overlayImg, srcImg, dst, intensity);
+	uchar coeff = static_cast<uchar>(intensity * 255.0);
+	
+	Mat dstImg = (coeff * overlayImg + (255 - coeff) * srcImg) / 255; 
+    
     dstImg.convertTo(dst, srcImgType);
     return 0;
 }

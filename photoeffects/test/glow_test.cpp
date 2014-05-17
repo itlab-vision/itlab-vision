@@ -8,7 +8,7 @@ TEST(photoeffects, GlowTest) {
     Mat image(10, 10, CV_32FC3), dst;
     image = Mat::zeros(10, 10, CV_32FC3);
 
-    EXPECT_EQ(0, glow(image, dst, 1.0f, 0.5f));
+    EXPECT_EQ(0, glow(image, dst, 1.0f, 0.5f, GAUSS_BLUR));
 }
 
 TEST(photoeffects, GlowTestRegression) {
@@ -26,7 +26,7 @@ TEST(photoeffects, GlowTestRegression) {
         FAIL() << "Can't read " + expectedOutput + " image";
 
     Mat dst;
-    EXPECT_EQ(0, glow(image, dst, 101, 0.9f));
+    EXPECT_EQ(0, glow(image, dst, 101, 0.9f, GAUSS_BLUR));
 	
     Mat diff = abs(rightDst - dst);
     Mat mask = diff.reshape(1) > 1;
@@ -36,19 +36,19 @@ TEST(photoeffects, GlowTestRegression) {
 TEST(photoeffects, GlowTestBadRadius) {
     Mat image(10, 10, CV_32FC3), dst;
 
-    EXPECT_ERROR(CV_StsAssert, glow(image, dst, -1, 0.5f));
-	EXPECT_ERROR(CV_StsAssert, glow(image, dst, 2, 0.5f));
+    EXPECT_ERROR(CV_StsAssert, glow(image, dst, -1, 0.5f, GAUSS_BLUR));
+	EXPECT_ERROR(CV_StsAssert, glow(image, dst, 2, 0.5f, GAUSS_BLUR));
 }
 
 TEST(photoeffects, GlowTestBadIntensity) {
     Mat image(10, 10, CV_32FC3), dst;
 
-    EXPECT_ERROR(CV_StsAssert, glow(image, dst, 5.0f, 5.0f));
-    EXPECT_ERROR(CV_StsAssert, glow(image, dst, 5.0f, -5.0f));
+    EXPECT_ERROR(CV_StsAssert, glow(image, dst, 5.0f, 5.0f, GAUSS_BLUR));
+    EXPECT_ERROR(CV_StsAssert, glow(image, dst, 5.0f, -5.0f, GAUSS_BLUR));
 }
 
 TEST(photoeffects, GlowTestBadImage) {
     Mat image(10, 10, CV_8UC1), dst;
 
-    EXPECT_ERROR(CV_StsAssert, glow(image, dst, 5.0f, 0.5f));
+    EXPECT_ERROR(CV_StsAssert, glow(image, dst, 5.0f, 0.5f, GAUSS_BLUR));
 }
