@@ -12,13 +12,21 @@ install:
   - cmake ../opencv-2.4.9/
   - make -j5 opencv_imgproc opencv_highgui opencv_ts opencv_core
   - sudo make install
+  - sudo pip install cpp-coveralls
 before_script:
   - mkdir ../../build
   - cd ../../build
 script:
-  - cmake ../itlab-vision/photoeffects
+  - cmake -DWITH_CODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug ../itlab-vision/photoeffects
   - make -j5
   - cd ./bin/
   - ./photoeffects_test
+  after_success:
+  - cd ../
+  - coveralls --exclude photoeffects/3rdparty --exclude photoeffects/test 
+              --exclude photoeffects/samples --exclude photoeffects/testdata 
+              --exclude photoeffects/docs --exclude build/CMakeFiles --exclude build/samples 
+              --exclude build/3rdparty --exclude build/bin --exclude build/lib --root ../ 
+              --build-root ./
 notifications:
   email: false
