@@ -3,6 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 set(PROJECT_NAME photoeffects)
 project(${PROJECT_NAME})
 
+option(WITH_CODE_COVERAGE "Enable code coverage analysis" OFF)
 option(WITH_TBB "Include Intel TBB support" OFF)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
