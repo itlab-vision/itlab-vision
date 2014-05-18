@@ -40,7 +40,9 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
                 circle(srcCpy, secondPoint, 3, CV_RGB(255, 0, 0), 3);
                 imshow(ORIGINAL_IMAGE, srcCpy);
                 numberOfChoosenPoints++;
-                Mat dst;
+                Mat dst = src;
+                /*firstPoint = Point(500, 500);
+                secondPoint = Point(1000, 1000);*/
                 matte(src, dst, firstPoint, secondPoint);
                 namedWindow(MATTE_IMAGE, CV_WINDOW_AUTOSIZE);
                 imshow(MATTE_IMAGE, dst);
