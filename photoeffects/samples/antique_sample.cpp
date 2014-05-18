@@ -28,6 +28,7 @@ int main(int argc, char** argv)
     }
     namedWindow(ORIGINAL_IMAGE, CV_WINDOW_AUTOSIZE);
     imshow(ORIGINAL_IMAGE,src);
+    dst = src;
     antique(src, dst, texture, alpha);
     namedWindow(ANTIQUE_IMAGE,CV_WINDOW_AUTOSIZE);
     imshow(ANTIQUE_IMAGE,dst);
