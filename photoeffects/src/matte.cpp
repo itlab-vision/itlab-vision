@@ -36,7 +36,6 @@ int matte(InputArray src, OutputArray dst, Point firstPoint, Point secondPoint)
     CV_Assert(src.type() == CV_8UC3);
     Mat srcImg = src.getMat();
     CV_Assert(!(srcImg.empty()));
-    double t = (double)getTickCount();
     float xsize = firstPoint.x - secondPoint.x;
     float ysize = firstPoint.y - secondPoint.y;
     Point topLeft = topleftFind(firstPoint, secondPoint, xsize, ysize);
@@ -49,9 +48,6 @@ int matte(InputArray src, OutputArray dst, Point firstPoint, Point secondPoint)
     float coef = 0;
     const Vec3b whiteIntensity(255, 255, 255);
     Vec3b currentIntensity;
-    t = ((double)getTickCount() - t)/getTickFrequency();
-    cout << "Preparations : "<<t*1000<<"ms"<<endl;
-    t = (double)getTickCount();
     for (int i = 0; i < srcImg.rows; i++)
     {
         float ijCenterX= i - yellipseCenter;
@@ -75,7 +71,5 @@ int matte(InputArray src, OutputArray dst, Point firstPoint, Point secondPoint)
             }
         }
     }
-    t = ((double)getTickCount() - t)/getTickFrequency();
-    cout << "Cicle : "<<t*1000<<"ms"<<endl;
     return 0;
 }
