@@ -52,9 +52,4 @@ message( STATUS "")
 message( STATUS "   Configuration:        ${CMAKE_BUILD_TYPE}")
 message( STATUS "   OpenCV build path:    ${OpenCV_DIR}")
 message( STATUS "   Enable code coverage: ${WITH_CODE_COVERAGE}")
-message( STATUS "")
-<<<<<<< HEAD
-=======
-message( STATUS "   Configuration:       ${CMAKE_BUILD_TYPE}")
-message( STATUS "   OpenCV build path:   ${OpenCV_DIR}")
->>>>>>> first commit
+message( STATUS "   WITH_TBB:             ${WITH_TBB}")
