@@ -17,6 +17,17 @@ The algorithm.
 
 #. For every channel calculate :math:`dist` and :math:`coefficient`, where
    :math:`dist` is a distance between the current pixel and the center of image;
+
+   The :math:`dist` is calculated by the following 
+   formula:
+
+   .. math::
+
+      dist = (y - centerRow) * (y - centerRow) / (a * a) +
+      (x - centerCol) * (x - centerCol) / (b * b),
+
+   where :math:`(x, y)` is a point of image, :math:`(centerCol, centerRow)` is a center of image, :math:`a` and :math:`b` are axis of the ellipse.
+
    :math:`coefficient` is a number which multiplies the intensity channel.
 
    The :math:`coefficient` is calculated by the following formula:
