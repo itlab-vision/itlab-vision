@@ -10,7 +10,8 @@ before_install:
   - mkdir build-opencv
   - cd ./build-opencv/
   - cmake ../opencv-2.4.9/
-  - make opencv_imgproc opencv_highgui opencv_ts opencv_core
+  - make -j5 opencv_ts
+  # - make opencv_imgproc opencv_highgui opencv_ts opencv_core
 install:
   - sudo make install
   - sudo pip install cpp-coveralls
@@ -24,10 +25,17 @@ script:
   - ./photoeffects_test
 after_success:
   - cd ../
-  - coveralls --exclude photoeffects/3rdparty --exclude photoeffects/test
-              --exclude photoeffects/samples --exclude photoeffects/testdata
-              --exclude photoeffects/docs --exclude build/CMakeFiles --exclude build/samples
-              --exclude build/3rdparty --exclude build/bin --exclude build/lib --root ../
+  - coveralls --exclude photoeffects/3rdparty
+              --exclude photoeffects/test
+              --exclude photoeffects/samples
+              --exclude photoeffects/testdata
+              --exclude photoeffects/docs
+              --exclude build/CMakeFiles
+              --exclude build/samples
+              --exclude build/3rdparty
+              --exclude build/bin
+              --exclude build/lib
+              --root ../
               --build-root ./
 notifications:
   email: false
