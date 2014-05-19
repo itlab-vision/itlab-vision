@@ -1,106 +1,58 @@
 # ITLab Vision Group
 
-[![Build Status](https://travis-ci.org/UNN-VMK-Software/itlab-vision.png?branch=master)](https://travis-ci.org/UNN-VMK-Software/itlab-vision) [![Coverage Status](https://coveralls.io/repos/UNN-VMK-Software/itlab-vision/badge.png)](https://coveralls.io/r/UNN-VMK-Software/itlab-vision)
+[![Build Status](https://travis-ci.org/UNN-VMK-Software/itlab-vision.png?branch=master)](https://travis-ci.org/UNN-VMK-Software/itlab-vision)
+[![Coverage Status](https://coveralls.io/repos/UNN-VMK-Software/itlab-vision/badge.png)](https://coveralls.io/r/UNN-VMK-Software/itlab-vision)
+[![Documentation](https://readthedocs.org/projects/itlab-vision/badge/?version=latest)](http://itlab-vision.readthedocs.org)
 
-This project is developed at Nizhny Novgorod State University (ITLab laboratory) and supported by [Itseez](http://itseez.com) company.
-
-Resources:
-
-  - Documentation: http://itlab-vision.readthedocs.org
+This project is developed at Nizhny Novgorod State University (CMC faculty,
+ITLab laboratory) and supported by the [Itseez](http://itseez.com) company.
 
 Project maintainers:
 
-  - Valentina Kustikova
-  - Pavel Druzhkov
-  - Kirill Kornyakov
+  - [Valentina Kustikova](https://github.com/valentina-kustikova)
+  - [Pavel Druzhkov](https://github.com/druzhkov-paul)
+  - [Kirill Kornyakov](https://github.com/kirill-kornyakov)
 
 Project developers:
-  - Evgeniy Dolotov
-  - Artem Screbkov
-  - Dmitriy Kruchinin
-  - Vadim Levin
-  - Vlad Vinogradov
+  - [Evgeniy Dolotov](https://github.com/DolotovEvgeniy)
+  - [Artem Screbkov](https://github.com/stragger)
+  - [Dmitriy Kruchinin](https://github.com/KruchDmitriy)
+  - [Vadim Levin](https://github.com/VadimLevin)
+  - [Vlad Vinogradov](https://github.com/VladVin)
 
+## Build and Run instructions
 
+Build:
 
-Build instructions:
-
-    >mkdir photofilters
-    >cd photofilters/
-    >git clone https://github.com/UNN-VMK-Software/itlab-vision.git
-    >mkdir build
-    >cd build/
-    >cmake ../itlab-vision/photoeffects/
-    >make
-    >cd ./bin/
+```
+    $ mkdir photofilters
+    $ cd photofilters
+    $ git clone https://github.com/UNN-VMK-Software/itlab-vision.git
+    $ mkdir build
+    $ cd build
+    $ cmake ../itlab-vision/photoeffects/
+    $ make
+    $ cd ./bin
+```
 
 Tests execution:
 
-    >./photoeffects_test
+```
+    $ ./photoeffects_test
+```
 
-Samples execution (test images are used):
-  1. Antique
+Samples execution:
 
-    ```
-    ./antique_sample testdata/antique_test.png testdata/antique_texture_test.png 0.7
-    ```
-
-  2. Edge Blur
-
-    ```
-    ./edgeBlur_sample testdata/edgeBlur_test.png
-    ```
-
-  3. Film Grain
-
-    ```
-    ./filmGrain_sample testdata/filmGrain_test.png 7
-    ```
-
-  4. Matte
-
-    ```
-    ./matte_sample testdata/matte_test.png 25 25
-    ```
-
-  5. Vignette
-
-    ```
-    ./vignette_sample testdata/antique_test.png
-    ```
-
-  6. Boost Color
-
-    ```
-    ./boostColor_sample  testdata/boostColor_test.png 0.2
-    ```
-
-  7. Fade Color
-
-    ```
-    ./fadeColor_sample testdata/fadeColor_test.png
-    ```
-
-  8. Glow
-
-    ```
-    ./glow_sample testdata/glow_test.png 25 0.8
-    ```
-
-  9. Sepia
-
-    ```
-    ./sepia_sample testdata/antique_test.png
-    ```
-
-  10. Tint
-
-    ```
-    ./tint_sample testdata/antique_test.png
-    ```
-
-  11. Warmify
-
-    ```
-    ./warmify_sample testdata/antique_test.png
-    ```
+```
+    $ ./antique_sample testdata/antique_test.png testdata/antique_texture_test.png 0.7
+    $ ./edgeBlur_sample testdata/edgeBlur_test.png
+    $ ./filmGrain_sample testdata/filmGrain_test.png 7
+    $ ./matte_sample testdata/matte_test.png 25 25
+    $ ./vignette_sample testdata/antique_test.png
+    $ ./boostColor_sample testdata/boostColor_test.png 0.2
+    $ ./fadeColor_sample testdata/fadeColor_test.png
+    $ ./glow_sample testdata/glow_test.png 25 0.8
+    $ ./sepia_sample testdata/antique_test.png
+    $ ./tint_sample testdata/antique_test.png
+    $ ./warmify_sample testdata/antique_test.png
+```
