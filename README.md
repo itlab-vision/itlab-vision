@@ -49,7 +49,7 @@ Samples execution:
     $ ./filmGrain_sample testdata/filmGrain_test.png 7
     $ ./matte_sample testdata/matte_test.png 25 25
     $ ./vignette_sample testdata/antique_test.png
-    $ ./boostColor_sample  testdata/boostColor_test.png 0.2
+    $ ./boostColor_sample testdata/boostColor_test.png 0.2
     $ ./fadeColor_sample testdata/fadeColor_test.png
     $ ./glow_sample testdata/glow_test.png 25 0.8
     $ ./sepia_sample testdata/antique_test.png
