@@ -14,11 +14,11 @@ Project maintainers:
   - [Kirill Kornyakov](https://github.com/kirill-kornyakov)
 
 Project developers:
-  - Evgeniy Dolotov
-  - Artem Screbkov
-  - Dmitriy Kruchinin
-  - Vadim Levin
-  - Vlad Vinogradov
+  - [Evgeniy Dolotov](https://github.com/DolotovEvgeniy)
+  - [Artem Screbkov](https://github.com/stragger)
+  - [Dmitriy Kruchinin](https://github.com/KruchDmitriy)
+  - [Vadim Levin](https://github.com/VadimLevin)
+  - [Vlad Vinogradov](https://github.com/VladVin)
 
 ## Build and Run instructions
 
