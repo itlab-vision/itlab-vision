@@ -41,7 +41,7 @@ int glow(InputArray src, OutputArray dst, int radius, float intensity)
     Mat srcImg = src.getMat();
 
     CV_Assert(srcImg.channels() == COUNT_CHANNEL);
-    CV_Assert(radius >= 0 && radius % 2 != 0);
+    CV_Assert(radius >= 0);
     CV_Assert(intensity >= 0.0f && intensity <= 1.0f);
 
     int srcImgType = srcImg.type();

@@ -7,9 +7,8 @@ using namespace std;
 const char *helper = 
 "./glow_sample <img> <sigma> <intensity>\n\
 \t<img> - file name contained the source image, 3-channel, RGB-image\n\
-\t<radius> - Gaussian kernel size, must be positive and odd number\n\
+\t<radius> - kernel size for box Filter, must be positive\n\
 \t<intensity> - intensity of glow filter, must be real number from 0.0 to 1.0 \n\
-\t<typeBlur> - type of blur for glow filter, 'g' - gaussian blur, 'b' - box filter\n\
 ";
 
 int processArguments(int argc, char **argv, Mat &img, int &radius, float &intensity);

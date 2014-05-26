@@ -37,7 +37,6 @@ TEST(photoeffects, GlowTestBadRadius) {
     Mat image(10, 10, CV_32FC3), dst;
 
     EXPECT_ERROR(CV_StsAssert, glow(image, dst, -1, 0.5f));
-	EXPECT_ERROR(CV_StsAssert, glow(image, dst, 2, 0.5f));
 }
 
 TEST(photoeffects, GlowTestBadIntensity) {
