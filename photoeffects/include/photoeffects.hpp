@@ -4,8 +4,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-enum TYPE_BLUR {GAUSS_BLUR, BOX_BLUR};
-
 int sepia(cv::InputArray src, cv::OutputArray dst);
 
 int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue=8);
@@ -15,7 +13,7 @@ int fadeColor(cv::InputArray src, cv::OutputArray dst,cv::Point startPoint,cv::P
 int tint(cv::InputArray src, cv::OutputArray dst, 
 		const cv::Vec3b &colorTint, float density);
 
-int glow(cv::InputArray src, cv::OutputArray dst, int radius = 0, float intensity = 0.0f, TYPE_BLUR typeBlur = GAUSS_BLUR);
+int glow(cv::InputArray src, cv::OutputArray dst, int radius = 0, float intensity = 0.0f);
 
 int edgeBlur(cv::InputArray src, cv::OutputArray dst, 
 			int indentTop, int indentLeft);

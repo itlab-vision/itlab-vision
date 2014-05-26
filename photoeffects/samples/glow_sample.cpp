@@ -1,11 +1,5 @@
 #include "photoeffects.hpp"
-#include <stdlib.h>
 #include <iostream>
-
-#include <stdio.h>
-#define TIMER_START(name) int64 t_##name = getTickCount()
-#define TIMER_END(name) printf("TIMER_" #name ":\t%6.2fms\n", \
-            1000.f * ((getTickCount() - t_##name) / getTickFrequency()))
 
 using namespace cv;
 using namespace std;
@@ -18,7 +12,7 @@ const char *helper =
 \t<typeBlur> - type of blur for glow filter, 'g' - gaussian blur, 'b' - box filter\n\
 ";
 
-int processArguments(int argc, char **argv, Mat &img, int &radius, float &intensity, char &typeBlur);
+int processArguments(int argc, char **argv, Mat &img, int &radius, float &intensity);
 
 int main(int argc, char **argv)
 {
@@ -26,8 +20,7 @@ int main(int argc, char **argv)
     Mat img, dstImg;
     float intensity;
 	int radius;
-	char typeBlur;
-    if (processArguments(argc, argv, img, radius, intensity, typeBlur) != 0)
+    if (processArguments(argc, argv, img, radius, intensity) != 0)
     {
         cout << helper << endl;
         return 1;
@@ -36,13 +29,7 @@ int main(int argc, char **argv)
     int errorCode = 0;
     try
     {
-		TIMER_START(ALL);
-		if (typeBlur == 'g')
-			glow(img, dstImg, radius, intensity, GAUSS_BLUR);
-		else if (typeBlur == 'b')
-			glow(img, dstImg, radius, intensity, BOX_BLUR);
-
-		TIMER_END(ALL);
+		glow(img, dstImg, radius, intensity);
     }
     catch (cv::Exception &e)
     {
@@ -61,7 +48,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-int processArguments(int argc, char **argv, Mat &img, int &radius, float &intensity, char &typeBlur)
+int processArguments(int argc, char **argv, Mat &img, int &radius, float &intensity)
 {
     if (argc < 4)
     {
@@ -70,7 +57,6 @@ int processArguments(int argc, char **argv, Mat &img, int &radius, float &intens
     img = imread(argv[1], CV_LOAD_IMAGE_COLOR);
     radius = atoi(argv[2]);
     intensity = (float)atof(argv[3]);
-	typeBlur = argv[4][0];
-    
+
     return 0;
 }
