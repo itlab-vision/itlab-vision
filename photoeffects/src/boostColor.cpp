@@ -18,12 +18,12 @@ int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity)
 
     Mat srcHls;
     cvtColor(srcImg, srcHls, CV_BGR2HLS);
-	
+    
     int intensityInt = intensity * MAX_INTENSITY;
     srcHls += Scalar(0, 0, intensityInt);
-	
+    
     cvtColor(srcHls, dst, CV_HLS2BGR);
-	
+    
     dst.getMat().convertTo(dst, srcImg.type());
     return 0;
 }
