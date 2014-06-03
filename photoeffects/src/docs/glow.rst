@@ -3,7 +3,7 @@ Glow
 =======================================
 Applies glow effect to the initial image
 
-.. cpp:function:: int glow(cv::InputArray src, cv::OutputArray dst, float radius = 0, float intensity = 0.0f)
+.. cpp:function:: int glow(cv::InputArray src, cv::OutputArray dst, int radius = 0, float intensity = 0.0f)
 
    :param src: RGB image.
    :param dst: Destination image of the same size and the same type as **src**.
