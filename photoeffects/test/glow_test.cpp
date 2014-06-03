@@ -27,7 +27,6 @@ TEST(photoeffects, GlowTestRegression) {
 
     Mat dst;
     EXPECT_EQ(0, glow(image, dst, 33, 0.9f));
-	imwrite("glow_test_result.png", dst);
     Mat diff = abs(rightDst - dst);
     Mat mask = diff.reshape(1) > 1;
     EXPECT_EQ(0, countNonZero(mask));

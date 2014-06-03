@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     const char *srcImgWinName = "Initial image", *dstImgWinName = "Processed image";
     Mat img, dstImg;
     float intensity;
-	int radius;
+    int radius;
     if (processArguments(argc, argv, img, radius, intensity) != 0)
     {
         cout << helper << endl;
@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     int errorCode = 0;
     try
     {
-		glow(img, dstImg, radius, intensity);
+        glow(img, dstImg, radius, intensity);
     }
     catch (cv::Exception &e)
     {

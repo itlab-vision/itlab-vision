@@ -23,13 +23,13 @@ namespace
                 {
                     uchar intensFore = foreImg.at<Vec3b>(i, j)[k];
                     uchar intensBack = backImg.at<Vec3b>(i, j)[k];
-					int intensResult = (2 * intensFore * intensBack) / 255;
+                    int intensResult = (2 * intensFore * intensBack) / 255;
                     
                     if (intensBack > 127)
                     {
                         intensResult = cv::min(-intensResult - 255 + 2 * (intensFore + intensBack), 255);
                     }
-					resultImg.at<Vec3b>(i, j)[k] = intensResult;
+                    resultImg.at<Vec3b>(i, j)[k] = intensResult;
                 }
             }
         }
@@ -52,16 +52,16 @@ int glow(InputArray src, OutputArray dst, int radius, float intensity)
 
     Mat blurImg;
     Size size(radius, radius);
-	
-	boxFilter(srcImg, blurImg, -1, size);
-	
+    
+    boxFilter(srcImg, blurImg, -1, size);
+    
     Mat overlayImg;
     overlay(blurImg, srcImg, overlayImg);
 
-	uchar coeff = static_cast<uchar>(intensity * 255.0);
-	Mat dstImg = (coeff * overlayImg + (255 - coeff) * srcImg) / 255; 
+    uchar coeff = static_cast<uchar>(intensity * 255.0);
+    Mat dstImg = (coeff * overlayImg + (255 - coeff) * srcImg) / 255; 
 
     dstImg.convertTo(dst, srcImgType);
-	
+    
     return 0;
 }
