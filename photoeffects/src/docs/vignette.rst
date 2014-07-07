@@ -15,18 +15,28 @@ The algorithm.
 
 #. Create a new 3-channel image, which is interpreted as BGR image.
 
-#. For every channel calculate :math:`dist`, :math:`radius\_ellipse` and :math:`coefficient`, where
+#. For every channel calculate :math:`dist` and :math:`coefficient`, where
    :math:`dist` is a distance between the current pixel and the center of image;
-   :math:`radius\_ellipse` is a radius of ellipse in the this point which belongs the same line as a pixel;
+
+   The :math:`dist` is calculated by the following 
+   formula:
+
+   .. math::
+
+      dist = (y - centerRow) * (y - centerRow) / (a * a) +
+      (x - centerCol) * (x - centerCol) / (b * b),
+
+   where :math:`(x, y)` is a point of image, :math:`(centerCol, centerRow)` is a center of image, :math:`a` and :math:`b` are axis of the ellipse.
+
    :math:`coefficient` is a number which multiplies the intensity channel.
 
    The :math:`coefficient` is calculated by the following formula:
 
    .. math::
 
-      coefficient = 1 - ((dist - radius\_ellipse) / (max\_radius - radius\_ellipse)),
+      coefficient = 1 - ((dist - 1) / radiusMax),
    
-   where :math:`max\_radius` is a distance between the pixel (0, img_src.cols) and the center image.
+   where :math:`radiusMax` is a distance between the pixel (0, img_src.cols) and the center image.
 
 #. Convert image to a BGR format.
 
