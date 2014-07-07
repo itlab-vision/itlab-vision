@@ -3,18 +3,18 @@ Glow
 =======================================
 Applies glow effect to the initial image
 
-.. cpp:function:: int glow(cv::InputArray src, cv::OutputArray dst, float sigma = 1.0f, float intensity = 0.0f)
+.. cpp:function:: int glow(cv::InputArray src, cv::OutputArray dst, int radius = 0, float intensity = 0.0f)
 
    :param src: RGB image.
    :param dst: Destination image of the same size and the same type as **src**.
-   :param sigma: Gaussian kernel standard deviation, must be positive real number
+   :param radius: Radius of box filter kernel, must be positive integer number
    :param intensity:  Effect intensity, must be real number from 0.0 to 1.0
    :return: Error code.
 
 The algorithm.
 
 #. Create the copy of the source image
-#. Apply Gaussian blur for this copy with deviation equal **sigma**
+#. Apply box filter for this copy with deviation equal **sigma**
 #. Create new 3-channel image, each channel of the matrix calculates by the following formula:
 
     .. math::
