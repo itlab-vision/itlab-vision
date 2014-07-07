@@ -11,12 +11,12 @@ int filmGrain(cv::InputArray src, cv::OutputArray dst, int grainValue = 8, cv::R
 int fadeColor(cv::InputArray src, cv::OutputArray dst,cv::Point startPoint,cv::Point endPoint);
 
 int tint(cv::InputArray src, cv::OutputArray dst, 
-		const cv::Vec3b &colorTint, float density);
+        const cv::Vec3b &colorTint, float density);
 
-int glow(cv::InputArray src, cv::OutputArray dst, float sigma = 1.0f, float intensity = 0.0f);
+int glow(cv::InputArray src, cv::OutputArray dst, int radius = 0, float intensity = 0.0f);
 
 int edgeBlur(cv::InputArray src, cv::OutputArray dst, 
-			int indentTop, int indentLeft);
+            int indentTop, int indentLeft);
 
 int boostColor(cv::InputArray src, cv::OutputArray dst, float intensity = 0.0f);
 
