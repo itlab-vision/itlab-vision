@@ -1,7 +1,4 @@
 #include "photoeffects.hpp"
-#include <stdlib.h>
-
-#include "photoeffects.hpp"
 #include <iostream>
 
 using namespace cv;
@@ -25,26 +22,15 @@ int main(int argc, char **argv)
         cout << helper << endl;
         return 1;
     }
-    
-    int errorCode = 0;
-    try
-    {
-        boostColor(img, dstImg, intensity);
-    }
-    catch (cv::Exception &e)
-    {
-        errorCode = e.code;
-    }
 
-    if (errorCode == 0)
-    {
-        namedWindow(srcImgWinName);
-        namedWindow(dstImgWinName);
-        imshow(srcImgWinName, img);
-        imshow(dstImgWinName, dstImg);
-        waitKey();
-        destroyAllWindows();
-    }
+    boostColor(img, dstImg, intensity);
+
+    namedWindow(srcImgWinName);
+    namedWindow(dstImgWinName);
+    imshow(srcImgWinName, img);
+    imshow(dstImgWinName, dstImg);
+    waitKey();
+    destroyAllWindows();
 
     return 0;
 }
@@ -56,6 +42,6 @@ int processArguments(int argc, char **argv, Mat &img, float &intensity)
         return 1;
     }
     img = imread(argv[1], CV_LOAD_IMAGE_COLOR);
-    intensity = atof(argv[2]);
+    intensity = (float)atof(argv[2]);
     return 0;
 }
