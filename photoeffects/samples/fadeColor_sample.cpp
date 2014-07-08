@@ -1,6 +1,9 @@
 #include "photoeffects.hpp"
 #include <iostream>
-
+#include <stdio.h>
+  #define TIMER_START(name) int64 t_##name = getTickCount()
+  #define TIMER_END(name) printf("TIMER_" #name ":\t%6.2fms\n", \
+              1000.f * ((getTickCount() - t_##name) / getTickFrequency()))
 using namespace cv;
 using namespace std;
 
@@ -65,7 +68,9 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
             circle(srcCopy, startPoint, 5, CV_RGB(255,50,255), 4);
             circle(srcCopy, endPoint, 5, CV_RGB(255,50,255), 4);
             Mat dst;
+            TIMER_START(func);
             fadeColor(src, dst, startPoint, endPoint);
+            TIMER_END(func);
             imshow(ORIGINAL_IMAGE, srcCopy);
             namedWindow(FADED_IMAGE, CV_WINDOW_AUTOSIZE);
             imshow(FADED_IMAGE, dst);

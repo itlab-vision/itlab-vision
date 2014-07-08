@@ -5,39 +5,55 @@ using namespace cv;
 class FadeColorInvoker
 {
 public:
-    FadeColorInvoker(Mat& dst, int A,int B,int C,int mD)
-        : dst_(dst),
-          A_(A),B_(B),C_(C),maxDistance(mD),
+    FadeColorInvoker(Mat& src, Mat& dst, int A,int B,int C,int maxDistance)
+        : src_(src),
+          dst_(dst),
+          A_(A),B_(B),C_(C),maxDistance(maxDistance),
           cols_(dst.cols) {}
 
     void operator()(const BlockedRange& rowsRange) const
     {
+        Mat srcStripe = src_.rowRange(rowsRange.begin(), rowsRange.end());
         Mat dstStripe = dst_.rowRange(rowsRange.begin(), rowsRange.end());
-        int rows = dstStripe.rows;
-        int rowNum=rowsRange.begin();
-        for (int i = 0; i < rows; i++)
+        int numRows = srcStripe.rows;
+        int startRowNum=rowsRange.begin();
+        int nChannels=src_.channels();
+        for (int i = 0; i < numRows; i++)
         {
+            int distance=A_*(startRowNum+i)-B_+C_;
             uchar* dstRow = (uchar*)dstStripe.row(i).data;
+            uchar* srcRow = (uchar*)srcStripe.row(i).data;
             for (int j = 0; j < cols_; j ++)
             {
-                int distance=A_*(rowNum+i)+B_*j+C_;
+                distance+=B_;
                 //change pixels only in the direction of the perpendicular
                 if(distance>0)
                 {
-                    for(int n=0;n<dst_.channels();n++)
+                    for(int n=0;n<nChannels;n++)
                     {
-                        int channelValue=dstRow[dst_.channels()*j+n];
+                        int channelValue=*(srcRow+n);
                         channelValue*=(maxDistance-distance);
                         channelValue+=255*distance;
                         channelValue/=maxDistance;
-                        dstRow[dst_.channels()*j+n]=channelValue;
+                        *(dstRow+n)=channelValue;
                     }
                 }
+                else
+                {
+                    for(int n=0;n<nChannels;n++)
+                    {
+                        *(dstRow+n)=*(srcRow+n);
+                    }
+                }
+            srcRow+=nChannels;
+            dstRow+=nChannels;
             }
+
         }
     }
 
 private:
+    Mat& src_;
     Mat& dst_;
     int cols_;
     //line
@@ -94,9 +110,11 @@ int fadeColor(InputArray src, OutputArray dst,
     Point farthestPoint=findFarthestPoint(perpendicular, image);
 
     int maxDistance=abs(A*farthestPoint.y+B*farthestPoint.x+C);
+    dst.create(image.size(),image.type());
     Mat dstMat;
-    image.copyTo(dstMat);
-    parallel_for(BlockedRange(0, image.rows), FadeColorInvoker(dstMat, A,B,C,maxDistance));
-    dstMat.copyTo(dst);
+    dstMat=dst.getMat();
+    //image.copyTo(dstMat);
+    parallel_for(BlockedRange(0, image.rows), FadeColorInvoker(image,dstMat, A,B,C,maxDistance));
+    //dstMat.copyTo(dst);
     return 0;
 }
