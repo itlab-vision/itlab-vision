@@ -4,6 +4,7 @@ set(PROJECT_NAME photoeffects)
 project(${PROJECT_NAME})
 
 option(WITH_CODE_COVERAGE "Enable code coverage analysis" OFF)
+option(WITH_TBB "Include Intel TBB support" OFF)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
 if(NOT CMAKE_BUILD_TYPE)
@@ -20,11 +21,14 @@ set(PHOTOEFFECTS_TESTS "${PROJECT_NAME}_test")
 
 find_package(OpenCV REQUIRED)
 
-set(PHOTOEFFECTS_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-include_directories("${PHOTOEFFECTS_INCLUDE}")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/3rdparty")
 
 set(LIBRARY_DEPS ${OpenCV_LIBS})
+if (WITH_TBB)
+  include(cmake/DetectTBB.cmake)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHAVE_TBB")
+endif()
 
 if (WITH_CODE_COVERAGE)
   if (CMAKE_COMPILER_IS_GNUCXX)
@@ -49,4 +53,4 @@ message( STATUS "")
 message( STATUS "   Configuration:        ${CMAKE_BUILD_TYPE}")
 message( STATUS "   OpenCV build path:    ${OpenCV_DIR}")
 message( STATUS "   Enable code coverage: ${WITH_CODE_COVERAGE}")
-message( STATUS "")
+message( STATUS "   WITH_TBB:             ${WITH_TBB}")
