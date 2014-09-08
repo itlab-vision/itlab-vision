@@ -16,6 +16,7 @@ script:
   - ./photoeffects_test
 after_success:
   - cd ../
+  - pwd
   - coveralls --exclude photoeffects/3rdparty --exclude photoeffects/test --exclude photoeffects/samples --exclude photoeffects/testdata --exclude photoeffects/docs --exclude build/CMakeFiles --exclude build/samples --exclude build/3rdparty --exclude build/bin --exclude build/lib --root ../ --build-root ./
 notifications:
   email: false
